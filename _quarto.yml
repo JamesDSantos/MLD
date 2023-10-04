@@ -8,6 +8,7 @@ book:
   date: "28/09/2023"
   chapters:
     - index.qmd
+    - summary.qmd
     - intro.qmd
     - sinal.qmd
     - acf.qmd
