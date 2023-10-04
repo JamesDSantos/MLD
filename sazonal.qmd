@@ -21,26 +21,7 @@ mod$V <- mean(v_sim)
 mod$W <- diag( w_sim,q)
 return(mod)
 }
-dlmErros <- function(filtro, h = 1){
-  mod <- filtro$mod
-  V <- mod$V
-  FF <- mod$FF
-  GG <- mod$GG
-  y <- filtro$y
-  f <- filtro$f
-  n <- length(y)
-  z <- NULL
-  for(i in 1:n){
-    R <-  dlmSvd2var( filtro$U.R[[i]], filtro$D.R[i,])
-   z[i] <- (y[i] - f[i])/sqrt( V + drop(FF %*% R %*% t(FF)))     
-  }
-  qqnorm(z)
-  abline(0,1)
-  sp <- shapiro.test(z[h:n])
-  text(1.5,-2,paste0('Shapiro-Wilk normality test'))
-  text(1.5,-2.5,paste0('p-valor: ', round(sp$p.value,5)))
-  
-}
+
 sdSmooth <- function(suave){
   n <- nrow(suave$s)
   q <- ncol(suave$s)

@@ -1,9 +1,11 @@
 {
   "intro.qmd": {
-    "intro.html": "bfb6410b"
+    "intro.html": "bfb6410b",
+    "intro.tex": "587beaec"
   },
   "index.qmd": {
-    "index.html": "01408bc8"
+    "index.html": "01408bc8",
+    "index.tex": "85697669"
   },
   "summary.qmd": {
     "summary.html": "3faf2f69"
@@ -12,16 +14,19 @@
     "references.html": "2b65e838"
   },
   "acf.qmd": {
-    "acf.html": "71ffc97c"
+    "acf.html": "71ffc97c",
+    "acf.tex": "90d04312"
   },
   "sinal.qmd": {
     "sinal.html": "de8ed1f7"
   },
   "ferramentas.qmd": {
-    "ferramentas.html": "9588bd82"
+    "ferramentas.html": "9588bd82",
+    "ferramentas.tex": "538c9e93"
   },
   "mld.qmd": {
-    "mld.html": "e9898a87"
+    "mld.html": "e9898a87",
+    "mld.tex": "1611af35"
   },
   "polinomial.qmd": {
     "polinomial.html": "31a822d6"

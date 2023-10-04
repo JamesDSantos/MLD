@@ -1,8 +1,9 @@
 project:
-  type: book
+  type: website
+  output-dir: docs
 
 book:
-  title: "MLD"
+  title: "Introdução aos modelos lineares dinâmicos"
   author: "James D Santos"
   date: "28/09/2023"
   chapters:
