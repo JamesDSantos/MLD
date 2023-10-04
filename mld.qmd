@@ -1,6 +1,7 @@
 # O modelo linear dinâmico
 
 ## O modelo linear dinâmico
+
 Seja $y_1,\ldots,t$ uma série temporal. Seja $D_j={y_1,\ldots,y_j}$. Dizemos que $y_t$ é um modelo linear dinâmico se
 
 $$\begin{align}
@@ -14,8 +15,7 @@ $$\theta_0\sim\ N(m_0,C_0)$$ Escolhas diferentes para $\boldsymbol{F}_t$ e $\bol
 
 Pode-se mostrar que $y_{t+h}|D_t$ tem distribuição normal. Como $t+h$ é um tempo não observado, essa é a distribuição para previsões. Neste caso, a função de previsão para o horizonte $h$ é
 
-$$f_t(h)=E(Y_{t+h}|D_{t})$$
-onde $E(.)$ sempre deve ser lido como **média**.
+$$f_t(h)=E(Y_{t+h}|D_{t})$$ onde $E(.)$ sempre deve ser lido como **média**.
 
 O pacote para lidar com modelos lineares dinâmicos é o `dlm`. A função abaixo é utilizada para estimar as variâncias desconhecidas do modelo e deve sempre ser colocada no *environment* do `R`:
 
@@ -42,4 +42,3 @@ return(mod)
 ```
 
 Também pode-se mostrar que $\theta_{t-h}|D_t$ tem distribuição normal. Como se trata da distribuição dos estados após verificar toda a série temporal, esta é a distribuição para a suavização.
-
