@@ -1,0 +1,63 @@
+# Introdução
+
+## Definição de séries temporais
+
+Considere um fenômeno aleatório que será observado ao longo do tempo. A coleção de variáveis aleatórias indexadas no tempo associadas a este fenômeno será denominada série temporal. Neste caso, para cada instante de tempo $t$, há uma variável $X(t)$ associada.
+
+
+```{r figura1, dev = 'png',echo = F, fig.show = 'hide', }
+set.seed(123)
+x <- rnorm(10,1:10,.5)
+plot.new()
+plot.window(ylim=c(-2,12), xlim=c(0,11))
+lines(1:10, x , lwd = 2, type = 'o',pch = 16)
+for(i in 1:10){
+yy <- x[i]+seq(-2,2,.1)
+n <- length(yy)
+xx <- dnorm(yy,x[i],.5)
+polygon( (1:10)[i]+c(xx,rep(0,n)), c(yy,yy[n:1]))   
+}
+axis(1)
+axis(2)
+title(xlab = 'Tempo', ylab='Série temporal')
+
+```
+
+![Figure 1 - Ilustração de uma série temporal](`r knitr::fig_chunk('figura1','png')`)
+
+
+Alguns autores definem séries temporais simplesmente como uma os valores de uma variável registrados ao longo do tempo. Essa definição não é útil para nós, uma vez que o tempo não necessariamente possui influência na variável, ou seja, é possível que a distribuição de $X(t)$ não dependa de $t$.
+
+<div class = 'alert alert-success'>
+<strong>Importante</strong>: estamos interessados apenas em séries temporais nas quais o modelo de probabilidades depende do tempo $t$.
+</div>
+
+A partir deste momento, $X(t)$ será escrita como $X_t$ e representará a variável aleatória associada ao tempo $t$ e a versão minúscula $x_t$ representará o valor observado.
+
+## A função de autocorrelação
+
+Considere inicialmente uma amostra aleatória $X_1,\ldots,X_n$ (ou seja, todas as variáveis são independentes e possuem a mesma distribuição). Sejam
+$$A_h=\{X_1,\ldots,X_{n-h}\}$$
+e $$B_h=\{X_h,\ldots,X_n\}.$$ Então, 
+a correlação entre $A_h$ e $B_h$ é nula.
+
+Deste modo, um meio de verificar se a coleção observada é uma série temporal é observar a correlação amostral entre 
+$$a_h=\{x_1,\ldots,x_{n-h}\}$$
+e $$b_h=\{x_h,\ldots,x_n\},$$ para diferentes valores de $h$.
+
+A função $r(h)$ que representa a correlação amostral entre $a_h$ e $b_h$ é denominada **autocorrelação**. O valor $h$ é denominado **defasagem** (do inglês, *lag*).
+
+<div class='alert alert-success'>
+<strong>Propriedades</strong>
+
+* $r(0)=1$
+
+* $-1\leq r(h) \leq 1$
+</div>
+
+<div class='alert alert-success'>
+<strong>Correlograma</strong>
+O gráfico $(h,r(h))$ é denominado correlograma, ou gráfico da função de autocorrelação.
+</div>
+
+

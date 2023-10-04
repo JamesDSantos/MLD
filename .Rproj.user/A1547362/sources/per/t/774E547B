@@ -1,0 +1,32 @@
+{
+    "id": "774E547B",
+    "path": "~/0_Cursos_Online/MLD/sazonal.qmd",
+    "project_path": "sazonal.qmd",
+    "type": "quarto_markdown",
+    "hash": "3943757848",
+    "contents": "",
+    "dirty": false,
+    "created": 1696257692802.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "rmdVisualMode": "false",
+        "rmdVisualWrapConfigured": "true",
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "103,0",
+        "scrollLine": "100",
+        "docOutlineVisible": "1",
+        "rmdVisualCollapsedChunks": "",
+        "rmdVisualModeLocation": "2:0"
+    },
+    "folds": "2|15|53|0|\n88|6|93|0|\n97|6|99|0|\n103|6|105|0|\n108|6|110|0|\n",
+    "lastKnownWriteTime": 1696268069,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1696268069229,
+    "read_only": false,
+    "read_only_alternatives": []
+}

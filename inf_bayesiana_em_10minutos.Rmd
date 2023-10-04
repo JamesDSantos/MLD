@@ -1,0 +1,102 @@
+---
+title: "Untitled"
+author: "James D Santos"
+date: "2023-09-29"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Inferência bayesiana
+
+### {.tabset}
+
+#### Tab1
+
+Aqui não tem nada. Mas você deve pensar nos pontos verdes e vermelhos.
+
+Vamos supor que as possíveis probabilidades do ponto ser vermelho são
+
+$$\Theta=\{.1,.2,.3,.4,.5,.6,.7,.8,.9\}$$
+
+Considere uma amostra de tamanho 30. Vamos supor que o número de pontos vermelhos tem distribuição Binomial(30, $\theta$).
+
+```{r echo =F}
+textInput('textId01','Priori para theta=.1',value=0)
+textInput('textId02','Priori para theta=.2',value=0)
+textInput('textId03','Priori para theta=.3',value=0)
+textInput('textId04','Priori para theta=.4',value=0)
+textInput('textId05','Priori para theta=.5',value=0)
+textInput('textId06','Priori para theta=.6',value=0)
+textInput('textId07','Priori para theta=.7',value=0)
+textInput('textId08','Priori para theta=.8',value=0)
+textInput('textId09','Priori para theta=.9',value=0)
+
+textInput('textId2','Total de sucessos: ',value='')
+
+plotOutput('plotPost')
+verbatimTextOutput('verba')
+```
+
+```{r}
+
+#| context: server
+
+priori <- reactive({
+  a <- input$textId01
+  a <- c(a, input$textId02)
+  a <- c(a, input$textId03)
+  a <- c(a, input$textId04)
+  a <- c(a, input$textId05)
+  a <- c(a, input$textId06)
+  a <- c(a, input$textId07)
+  a <- c(a, input$textId08)
+  a <- c(a, input$textId09)
+  as.numeric(a)
+})
+
+sucesso <- reactive({
+  as.numeric(input$textId2)
+})
+output$plotPost <- renderPlot({
+  post <- sapply(1:9,function(x) dbinom(sucesso(),30,x/10)*priori()[x])
+
+post <- post/sum(post)
+
+plot( (1:9)/10, post, type='h', lwd = 5) 
+lines( (1:9)/10, priori(), lwd =2, lty = 2)
+
+})
+
+output$verba <- renderText({
+  post <- sapply(1:9,function(x) dbinom(sucesso(),30,x/10)*priori()[x])
+
+post <- post/sum(post)
+xb <- sum(post*(1:9)/10)
+x2 <- sum(post*((1:9)/10)^2)
+sd <- sqrt(x2 - xb^2)
+print(paste0('Media: ',xb, 'Desvio: ', sd))
+})
+```
+
+
+#### Tab2
+
+```{r echo = F}
+
+set.seed(123)
+
+x <- runif(500)
+
+y <- runif(500)
+
+z <- rbinom(500,1,.3)
+
+plot(x,y, pch = 21, col = 'black', bg = ifelse(z==1,'tomato','seagreen'))
+
+```
+
+

@@ -1,0 +1,32 @@
+{
+  "intro.qmd": {
+    "intro.html": "bfb6410b"
+  },
+  "index.qmd": {
+    "index.html": "01408bc8"
+  },
+  "summary.qmd": {
+    "summary.html": "3faf2f69"
+  },
+  "references.qmd": {
+    "references.html": "2b65e838"
+  },
+  "acf.qmd": {
+    "acf.html": "71ffc97c"
+  },
+  "sinal.qmd": {
+    "sinal.html": "de8ed1f7"
+  },
+  "ferramentas.qmd": {
+    "ferramentas.html": "9588bd82"
+  },
+  "mld.qmd": {
+    "mld.html": "e9898a87"
+  },
+  "polinomial.qmd": {
+    "polinomial.html": "31a822d6"
+  },
+  "sazonal.qmd": {
+    "sazonal.html": "6b0ef059"
+  }
+}

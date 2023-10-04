@@ -1,0 +1,14 @@
+{
+  "hash": "1c415f410d7aa4daa42bb72017846210",
+  "result": {
+    "markdown": "# O modelo linear dinâmico\n\n## O modelo linear dinâmico\nSeja $y_1,\\ldots,t$ uma série temporal. Seja $D_j={y_1,\\ldots,y_j}$. Dizemos que $y_t$ é um modelo linear dinâmico se\n\n$$\\begin{align}\ny_t|\\boldsymbol{\\theta}_t,D_{t-1}&\\sim\\hbox{Normal}(\\boldsymbol{F}_t'\\boldsymbol{\\theta}_t,V_t)\\\\\n\\boldsymbol{\\theta}_t|\\boldsymbol{\\theta}_{t-1},D_{t-1}&\\sim\\hbox{Normal}(\\boldsymbol{G}_t\\boldsymbol{\\theta}_{t-1},\\boldsymbol{W}_t)\n\\end{align}$$\n\nA expressão acima, os $\\theta$'s são denominados estados. Para a completa especificação do modelo, devemos informar valores iniciais $m_0$ e $C_0$ que representam nossa opinião sobre os estados antes do tempo $1$:\n\n$$\\theta_0\\sim\\ N(m_0,C_0)$$ Escolhas diferentes para $\\boldsymbol{F}_t$ e $\\boldsymbol{G}_t$ permitem acomodar sinais diferentes.\n\nPode-se mostrar que $y_{t+h}|D_t$ tem distribuição normal. Como $t+h$ é um tempo não observado, essa é a distribuição para previsões. Neste caso, a função de previsão para o horizonte $h$ é\n\n$$f_t(h)=E(Y_{t+h}|D_{t})$$\nonde $E(.)$ sempre deve ser lido como **média**.\n\nO pacote para lidar com modelos lineares dinâmicos é o `dlm`. A função abaixo é utilizada para estimar as variâncias desconhecidas do modelo e deve sempre ser colocada no *environment* do `R`:\n\n\n::: {.cell}\n::: {.cell-output .cell-output-stderr}\n```\nCarregando pacotes exigidos: dlm\n```\n:::\n\n::: {.cell-output .cell-output-stderr}\n```\nWarning: package 'dlm' was built under R version 4.3.1\n```\n:::\n:::\n\n\nTambém pode-se mostrar que $\\theta_{t-h}|D_t$ tem distribuição normal. Como se trata da distribuição dos estados após verificar toda a série temporal, esta é a distribuição para a suavização.\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

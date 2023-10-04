@@ -1,0 +1,67 @@
+url <- 'https://drive.google.com/uc?authuser=0&id=139h6x2g7PkAHNTzsbQKUl5G2MqoXYk6Y&export=download'
+detrend <- function(y){
+  n <- length(y)
+  tempo <- 1 : n
+  # aplicando o loess
+  lw <- loess( y ~ tempo)
+  # transformando o valor predito em uma série temporal
+  fit <- ts(lw$fitted, start = start(y), frequency = frequency(y) )
+  # gráfico da tendência estimada
+  resp <- list(fit,y-fit)
+  names(resp) <- c('trend','detrend')
+  return(resp)
+}
+
+sinasc <- fread(url)
+View(sinasc)
+
+x <- rnorm(12)
+for(i in 13:100)x[i] <- .8*x[i-12] + rnorm(1,0,.1)
+ts.plot(x)
+periodograma(x)
+plot(x[1:88],x[13:100])
+acf(x)
+
+# vaginal
+vaginal <- as.numeric(sinasc[[2]])
+dy <- detrend( vaginal )
+acf(dy$detrend, lag = 50)
+ts.plot(vaginal)
+lines(dy$trend)
+monthplot( ts(dy$detrend,frequency=12))
+ts.plot(ldeaths)
+lines(detrend(ldeaths)$trend)
+#cesario
+cesario <- as.numeric(sinasc[[3]])
+dy <- detrend( cesario )
+acf(dy$detrend, lag = 50)
+periodograma(dy$detrend)
+ts.plot(cesario)
+lines(dy$trend)
+monthplot( ts(dy$detrend,frequency=12))
+
+#total
+total <- as.numeric(sinasc[[6]])
+dy <- detrend( total )
+acf(dy$detrend, lag = 50)
+periodograma(dy$detrend)
+ts.plot(total)
+lines(dy$trend)
+monthplot( ts(dy$detrend,frequency=12))
+
+
+# óbitos maternos
+url <- 'https://drive.google.com/uc?authuser=0&id=1tYFFT9L2iopKmBDUI3P8qNIRaOnMYj7d&export=download'
+obtmat <- fread(url)
+View(obtmat)
+omat <- obtmat[,.N,by = .(year(`Data do obito`), month(`Data do obito`))]
+omat2 <- omat[order( year, month)]
+omatfim <- omat2[,'N',]
+ts.plot(omatfim)
+dy <- detrend(omatfim[[1]])
+ts.plot(omatfim)
+acf(dy$detrend, lag = 50)
+periodograma(dy$detrend)
+
+
+# desempredo

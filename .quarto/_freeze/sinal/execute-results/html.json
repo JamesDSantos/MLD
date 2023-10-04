@@ -1,0 +1,16 @@
+{
+  "hash": "d2656b96885c534054bcdee95130b08f",
+  "result": {
+    "markdown": "# Tipos de sinal\n\nEm geral, a série temporal possui componentes de dois tipos: sinal e ruído. O primeiro é uma função do tempo geralmente relacionado com a média da série, enquanto que o segundo está relacionado com a variância. Podemos assumir que essa relação é aditiva:\n\n$$X_t=\\hbox{sinal}(t)+\\varepsilon_t$$ onde $\\varepsilon_t$ é o ruído. Em alguns casos essa relação é multiplicativa, ou seja,\n\n$$X_t=\\exp\\{\\hbox{sinal}(t)+\\varepsilon_t\\},$$ e, nesses casos, aplicamos o logaritmo na série para que as componentes se tornem aditivas.\n\nOs sinais mais importantes são:\n\n-   Tendência: um comportamento de subida ou descida que pode ser observado no médio/longo prazo\n\n-   Sazonalidade: são componentes que surgem sistematicamente ao longo do tempo, como por exemplo: flutuações de temperatura entre estações, início e fim do semestre letivo, Natal, dias úteis, feriados flutuantes como a Páscoa e o Carnaval.\n\nO ruídos mais importantes são:\n\n-   Branco: possuem variância constante e não correlacionados.\n\n-   Média móvel de ordem $q$: possuem variância constante e são correlacionados com até $q$ ruídos anteriores.\n\nA série a seguir representa o número de vendas de passagens aéreas nos EUA. Note o comportamento da tendência e da sazonalidade.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nplot(AirPassengers)\n```\n\n::: {.cell-output-display}\n![](sinal_files/figure-html/unnamed-chunk-1-1.png){width=672}\n:::\n:::\n",
+    "supporting": [
+      "sinal_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

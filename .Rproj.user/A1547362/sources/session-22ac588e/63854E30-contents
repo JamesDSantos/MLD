@@ -1,0 +1,27 @@
+x <- c(
+  3043, 2902, 3166, 3014,
+  3095, 2955, 3087, 3141,
+  3129, 3096, 3191, 3222
+)
+
+x20192020 <- read.table('clipboard')
+
+y <- c(x20192020[,1],x)
+
+y <- ts(y, frequency = 12, start=c(2019,1))
+ts.plot(y)
+
+
+library(data.table)
+url <- 'https://drive.google.com/uc?authuser=0&id=1iYrnwXgmLK07x8b330aD73scOVruZEuz&export=download'
+
+aereo <-  fread(url, encoding = 'Latin-1')
+aereo$ocorrencia_dia <- as.Date(aereo$ocorrencia_dia, '%d/%m/%Y')
+
+
+
+x <- rnorm(100, -(1:100), 5)
+
+oo <- par( mfrow=c(1,2))
+ts.plot(x)
+acf(x, lag = 50)

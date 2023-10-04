@@ -1,0 +1,8 @@
+[2,"\n"]
+[1,"pandoc \n  to: html\n  output-file: mld.html\n  standalone: true\n  toc: true\n  number-sections: true\n  title-prefix: MLD\n  section-divs: true\n  html-math-method: mathjax\n  wrap: none\n  default-image-extension: png\n  number-offset:\n    - 5\n  \nmetadata\n  crossref:\n    chapters: true\n  document-css: false\n  link-citations: true\n  date-format: long\n  lang: en\n  bibliography:\n    - references.bib\n  server: shiny\n  editor: visual\n  theme: cosmo\n  hide-description: true\n  title: \"[5]{.chapter-number}\\_ [O modelo linear dinâmico]{.chapter-title}\"\n  \n"]
+[1,"Output created: _book\\mld.html\n\n"]
+[1,"Terminating existing preview server....DONE\n\nPreparing to preview\n"]
+[1,"\n"]
+[1,"Watching files for changes\nBrowse at http://localhost:3360/mld.html\n"]
+[1,"GET: /mld.html\n"]
+[1,"ERROR: Book chapter 'polinomial.qmd' not found\n\nError: Book chapter 'polinomial.qmd' not found\n    at throwInputNotFound (file:///C:/PROGRA~1/RStudio/RESOUR~1/app/bin/quarto/bin/quarto.js:98071:19)\n    at findInputs (file:///C:/PROGRA~1/RStudio/RESOUR~1/app/bin/quarto/bin/quarto.js:98102:17)\n    at async findChapters (file:///C:/PROGRA~1/RStudio/RESOUR~1/app/bin/quarto/bin/quarto.js:98114:13)\n    at async bookRenderItems (file:///C:/PROGRA~1/RStudio/RESOUR~1/app/bin/quarto/bin/quarto.js:98117:5)\n    at async Object.bookProjectConfig [as config] (file:///C:/PROGRA~1/RStudio/RESOUR~1/app/bin/quarto/bin/quarto.js:98023:25)\n    at async projectContext (file:///C:/PROGRA~1/RStudio/RESOUR~1/app/bin/quarto/bin/quarto.js:82787:37)\n    at async refreshProjectConfig (file:///C:/PROGRA~1/RStudio/RESOUR~1/app/bin/quarto/bin/quarto.js:102808:19)\n    at async file:///C:/PROGRA~1/RStudio/RESOUR~1/app/bin/quarto/bin/quarto.js:102928:17\n"]

@@ -1,0 +1,31 @@
+{
+    "id": "84E6AABA",
+    "path": "~/0 - Cursos Online/MLD/intro.qmd",
+    "project_path": "intro.qmd",
+    "type": "quarto_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1695564597730.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "rmdVisualMode": "false",
+        "rmdVisualWrapConfigured": "true",
+        "source_window_id": "",
+        "Source": "Source",
+        "docOutlineVisible": "1",
+        "rmdVisualCollapsedChunks": "",
+        "rmdVisualModeLocation": "2:0",
+        "cursorPosition": "55,6",
+        "scrollLine": "50"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1695569425,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1695569425449,
+    "read_only": false,
+    "read_only_alternatives": []
+}

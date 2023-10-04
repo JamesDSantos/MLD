@@ -1,0 +1,4 @@
+View(mtcars)
+plot(mtcars[,1:3])
+
+ldeaths

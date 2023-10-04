@@ -1,0 +1,93 @@
+#install.packages('ggrepel')
+library(readxl)
+library(geobr)
+library(tidyverse)
+library(sf)
+library(spData)
+library(ggrepel)
+library(ggplot2)
+library(colorspace)
+
+central_america<-
+  world %>%
+  filter(subregion == "Central America")
+
+
+data('world')
+southamerica <- world %>% filter( continent == 'South America') 
+central_america<-
+  world %>%
+  filter(subregion == "Central America")
+
+southamerica$lon<- sf::st_coordinates(sf::st_centroid(southamerica$geom))[,1]   
+southamerica$lat<- sf::st_coordinates(sf::st_centroid(southamerica$geom))[,2]
+estados$lon<- sf::st_coordinates(sf::st_centroid(estados$geom))[,1]   
+estados$lat<- sf::st_coordinates(sf::st_centroid(estados$geom))[,2]
+
+brasil<- geobr::read_country()
+estados<- geobr::read_state()
+amazonas <- estados %>% filter( name_state == 'Amazonas')
+amazonia_inter <- southamerica %>% filter(
+  name_long == 'Bolivia' |
+  name_long == 'Peru' |
+  name_long == 'Ecuador' |
+  name_long == 'Colombia' |
+  name_long == 'Venezuela' |
+  name_long == 'Guyana' |
+  name_long == 'Suriname' 
+)
+
+amazonia_brasil <- estados %>% filter(
+  name_state == 'Mato Grosso' |
+  name_state == 'Pará' |
+  name_state == 'Amazonas'|
+  name_state == 'Roraima'|
+  name_state == 'Rondônia' |
+  name_state == 'Acre'|
+  name_state == 'Tocantins' |
+  name_state == 'Maranhão'|
+  name_state == 'Amapá'  
+)  
+amazonia_inter$lat <- amazonia_inter$lon <- NULL
+for(i in 1:length(unique(amazonia_inter$name_long))){
+  id <- which(southamerica$name_long == unique(amazonia_inter$name_long)[i])
+  amazonia_inter$lat[i] <- southamerica$lat[id]
+  amazonia_inter$lon[i] <- southamerica$lon[id]
+  
+}
+amazonia_brasil$lat <- amazonia_brasil$lon <- NULL
+for(i in 1:length(unique(amazonia_brasil$name_state))){
+  id <- which(estados$name_state == unique(amazonia_brasil$name_state)[i])
+  amazonia_brasil$lat[i] <- estados$lat[id]
+  amazonia_brasil$lon[i] <- estados$lon[id]
+  
+}
+
+
+
+southamerica %>% filter( continent == 'South America') %>%
+  ggplot() +
+  geom_sf(aes())+
+  geom_sf(data=estados, lwd = 1)+
+  geom_sf(data=amazonia_inter, fill='green4', lwd = 1)+
+  geom_sf(data=amazonia_brasil, fill='yellow3', lwd = 1, color = 'tomato')+
+  geom_sf(data=amazonas,fill='yellow3',color ="blue", lwd=1.3)+
+  geom_sf(data= central_america,fill= "#808080")+theme_void() +
+ # geom_text_repel(data=amazonia_brasil, aes(x=lon, y=lat, label= abbrev_state), 
+#                  color = "black", 
+#                  fontface = "bold", 
+#                  size = 2) +
+#  geom_text_repel(data=amazonia_inter, aes(x=lon, y=lat, label= name_long), 
+#                  color = "black", 
+#                  fontface = "bold", 
+#                  size = 2) +
+  coord_sf(xlim = c(-82,-25), ylim=c(-60,15))+
+  scale_color_manual(breaks = c('Estados brasileiros da Amazônia Legal','Amazônia Internacional'),
+                     values = c('yellow','green'))+
+  theme(
+        legend.position = c(0,0))
+
+plot.new()
+plot.window(xlim=c(0,1),ylim=c(0,1))
+legend('bottomright',c('Estados Brasileiros da Amazônia Legal','Amazônia Internacional','Estado do Amazonas'),
+       fill = c('yellow3','green4','blue'),bty='n')

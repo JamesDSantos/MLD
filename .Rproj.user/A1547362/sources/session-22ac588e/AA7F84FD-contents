@@ -1,0 +1,487 @@
+require(data.table)
+require(dlm)
+require(mvtnorm)
+
+##### Organizando o banco de dados
+setwd('C:/Users/jam_d/Downloads')
+# preparando o banco de dados
+A <- fread('BD.csv',encoding = 'Latin-1')
+nrow(A)
+A <- A[is.na(A$Tipo_Agua2)==F,]
+nrow(A)
+
+length(unique(A$CD_MUN6))
+length(unique(A$DT_ANO))
+
+# construindo a matriz da série temporal
+Y <- array(NA_real_, c(17,50))
+X <- M <- NULL
+for(i in 1:17 ){
+  for(j in 1:50){
+    id <- A$DT_ANO==unique(A$DT_ANO)[i] & A$CD_MUN6 == unique(A$CD_MUN6)[j] 
+    if(sum(id) >0){
+      #Y[i,j] <- log(A$IPA_Total[id])
+      Y[i,j] <- log(A$IPA_Total[id])
+      X[j] <- A$Tipo_Agua2[id][1]
+      M[j] <- A$NM_MUN[id][1]
+    } else{
+      Y[i,j] <- Y[i-1,j]
+    }
+}}
+
+oo <- par()
+layout(matrix(1:3,ncol=1))
+ts.plot(Y[, X == 'Água Branca'], col =2, lwd = 2, ylim=c(-4,6),main='Branca')
+ts.plot(Y[, X == 'Água Mista'], col ='purple', lwd = 2, ylim=c(-4,6),main='Mista')
+ts.plot(Y[, X == 'Água Preta'], col ='blue', lwd = 2, ylim=c(-4,6), main='Preta')
+text(1,Y[1,X=='Água Preta'], 1:10)
+par(oo)
+
+plot(density(Y[4,X == 'Água Preta']))
+
+require(mixtools)
+
+# Água branca
+tag <- 'Água Branca'
+muBranca = NULL
+munB1 <- list()
+munB2 <- list()
+for(i in 1:17){
+  mix = normalmixEM(Y[i, X == tag], lambda = .3, mu = c(0,3), sigma = .1)
+  muBranca <- rbind(muBranca, mix$mu)
+  comp= sapply(1:sum(X == tag), function(i) which(mix$posterior[i,]==max(mix$posterior[i,])))
+  munB1[[i]] <- M[X == tag][comp == 1]
+  munB2[[i]] <- M[X == tag][comp == 2]
+}
+# Água preta
+tag <- 'Água Preta'
+muPreta = NULL
+munP1 <- list()
+munP2 <- list()
+for(i in 1:17){
+  mix = normalmixEM(Y[i, X == tag], lambda = .3, mu = c(0,3), sigma = .1)
+  muPreta <- rbind(muPreta, mix$mu)
+  comp= sapply(1:sum(X == tag), function(i) which(mix$posterior[i,]==max(mix$posterior[i,])))
+  munP1[[i]] <- M[X == tag][comp == 1]
+  munP2[[i]] <- M[X == tag][comp == 2]
+}
+
+
+plot.new()
+plot.window( xlim =c(2002,2019), ylim=c(-2,6))
+d <- lowess(muBranca[,1])
+lines(2003:2019, d$y,lwd = 2, col = 'gray')
+d <- lowess(muBranca[,2])
+lines(2003:2019, d$y, lwd = 2, col = 'gray')
+d <- lowess(muPreta[,1])
+lines(2003:2019, d$y,lwd = 2, col = 'black')
+d <- lowess(muPreta[,2])
+lines(2003:2019, d$y, lwd = 2, col = 'black')
+axis(2)
+axis(1, at = seq(2003,2019,2))
+title(ylab = 'Log IPA')
+title(xlab = 'Tempo')
+
+ts.plot(cbind(muBranca,muPreta), col = c(1,1,2,2), lwd = 2)
+
+
+mun1
+ts.plot(mu)
+
+plot(mix, density = T)
+
+q <- ncol(Ytag)
+
+mt <- array( NA_real_, c(18) )
+at <- array( NA_real_, c(17) )
+ft <- array( NA_real_,c(17,q))
+Ct <- array( NA_real_, c(18) )
+Rt <- array( NA_real_, c(17) )
+mt[1]=2
+Ct[1]=2
+
+tau = exp(param[1])
+v = exp(param[2])
+w = exp(param[3])
+
+#w=v=1
+mloglik <- 0
+for(i in 1:17){
+  #i=1
+   at[i] <- mt[i]
+   Rt[i] <- Ct[i] + w 
+   
+   ft[i,] <- matrix( at[i], q,1)
+   Ut <- diag( (1+tau)*v,q)
+   Qt <- Rt[i]*matrix(1,q,q) + Ut
+   
+   mloglik <- mloglik + sum(dmvnorm(Ytag[i,],ft[i,],Qt, log = T) ) 
+   
+   At <- Rt[i]*matrix( 1,1,q)%*%solve(Qt) 
+   mt[i+1] <- at[i] + At %*% (Ytag[i,] - ft[i,])
+   Ct[i+1] <- Rt[i] - At %*% Qt %*% t(At)
+   
+   #ret <- list(at, Rt, mt ,Ct)
+   #names(ret) <- c('at','Rt','mt','Ct')
+   #return(ret)
+   
+}
+mloglik
+}
+
+optim( c(0,1,0), mleFilter)
+exp(c(243.45966, 466.32306, -96.88054))
+c=cor(Y[, X == 'Água Branca'])
+dim(c)
+round(c,1)
+?cor
+a=5
+oo <- par()
+plot.new()
+plot.window(xlim=c(-2,6),ylim=c(1,18)/a)
+for(i in 1:17){
+ds <- density(Y[i,X=='Água Branca'], na.rm=T)
+lines(ds$x,ds$y+i/a)
+abline(h=i/a, lty = 2)
+axis(1)
+}
+
+
+?acf
+# construindo Ft e Gt
+q <- 103 # número de parâmetros
+TipoAgua <- array(NA_real_,c(50,3)) 
+Pol2 <- array(0,c(50,100))
+mt <- array(0,c(18,q))
+Gta <- matrix(c(1,0,1,1),2,2)
+Gt <- Gta
+GI <- diag(1,3)
+for(j in 1:50){
+  if(j!=2){
+    Gt <- bdiag(Gt,Gta)
+  }
+  Pol2[j,2*j-1] <- 1
+  mt[1,2*j-1] <- Y[1,j]   
+  tipo <- (A$Tipo_Agua2[A$CD_MUN6 == unique(A$CD_MUN6)[j]])[1]
+  if( tipo == 'Água Branca' ){ 
+    TipoAgua[j,] <- c(0,0,1)
+  }
+  if( tipo == 'Água Mista' ){ 
+    TipoAgua[j,] <- c(0,1,0)
+  }
+  if( tipo == 'Água Preta' ){ 
+    TipoAgua[j,] <- c(1,0,0)
+  }
+}  
+Gt <- as.matrix(bdiag(Gt,GI))
+
+Ft <- cbind(Pol2,TipoAgua)
+
+param = rep(0,2)
+filtroUnko <- function(delta){
+  at <- array(0, c(17,q))
+  Ct <- array(0, c(18,q,q))
+  Rt <- array(0, c(17,q,q))
+  Qt <- array(0, c(17,50,50))
+  Ct[1,,] <- diag(1,q)
+  loglik <- 0
+  ft <- array(NA_real_,c(17,50))
+  St <- 1
+  nt <- 1
+  for(t in 1:17){
+    #t=1
+    at[t,] <- Gt %*% mt[t,]
+    Pt <- Gt %*% Ct[t,,] %*% t(Gt)
+    for(j in 1:50){ Pt[ (2*j-1):(2*j),(2*j-1):(2*j)] <-Pt[ (2*j-1):(2*j),(2*j-1):(2*j)]/delta[1] }
+    Pt[51:53,51:53] <- Pt[51:53,51:53]/delta[2]
+    Rt[t,,] <- Pt
+    
+    ft[t,] <- Ft %*% at[t,]
+    Qt[t,,] <- Ft %*% Rt[t,,] %*% t(Ft)  + diag(St[t],50)
+    
+    loglik <- loglik + dmvnorm(Y[t,],ft[t,],Qt[t,,],log = T)
+    
+    At <- Rt[t,,] %*% t(Ft) %*% solve(Qt[t,,])
+    
+    for(j in 1:50){
+      if( is.na(Y[t,j]) == T){
+        Y[t,j]  <- at[t,j]
+      }
+    }
+    et <- ( Y[t,] - ft[t,])
+    nt[t + 1] <- nt[t] + 1
+    St[t+1] <- St[t] + St[t] * (drop(t(et) %*% solve(Qt[t,,]) %*% et) -1)/nt[t+1]
+    mt[t+1,]  <- at[t,] + At %*% et
+    Ct[t+1,,] <- (Rt[t,,] - At %*% Qt[t,,] %*% t(At))*St[t+1]/St[t]
+  }
+  
+  loglik
+}
+filtroDelta(c(.9,.9))
+zz <- NULL
+#for(sq1 in seq(.8,.99,.01)){
+#  for(sq2 in seq(.8,.99,.01)){
+#    zz <- rbind(zz, c(sq1,sq2,filtroDelta(c(sq1,sq2))))  
+#  }
+#}
+#which(zz[,3] == max(zz[,3]))
+#zz[10,]      
+
+# Ajustando a série
+at <- array(0, c(17,q))
+Ct <- array(0, c(18,q,q))
+Rt <- array(0, c(17,q,q))
+Qt <- array(0, c(17,50,50))
+Ct[1,,] <- diag(1,q)
+loglik <- 0
+ft <- array(NA_real_,c(17,50))
+St <- 1
+nt <- 1
+delta <- c(.81,.99)
+for(t in 1:17){
+  #t=1
+  at[t,] <- Gt %*% mt[t,]
+  Pt <- Gt %*% Ct[t,,] %*% t(Gt)
+  for(j in 1:50){ Pt[ (2*j-1):(2*j),(2*j-1):(2*j)] <-Pt[ (2*j-1):(2*j),(2*j-1):(2*j)]/delta[1] }
+  Pt[51:53,51:53] <- Pt[51:53,51:53]/delta[2]
+  Rt[t,,] <- Pt
+  
+  ft[t,] <- Ft %*% at[t,]
+  Qt[t,,] <- Ft %*% Rt[t,,] %*% t(Ft)  + diag(St[t],50)
+  
+  loglik <- loglik + dmvnorm(Y[t,],ft[t,],Qt[t,,],log = T)
+  
+  At <- Rt[t,,] %*% t(Ft) %*% solve(Qt[t,,])
+  
+  for(j in 1:50){
+    if( is.na(Y[t,j]) == T){
+      Y[t,j]  <- at[t,j]
+    }
+  }
+  et <- ( Y[t,] - ft[t,])
+  nt[t + 1] <- nt[t] + 1
+  St[t+1] <- St[t] + St[t] * (drop(t(et) %*% solve(Qt[t,,]) %*% et) -1)/nt[t+1]
+  mt[t+1,]  <- at[t,] + At %*% et
+  Ct[t+1,,] <- (Rt[t,,] - At %*% Qt[t,,] %*% t(At))*St[t+1]/St[t]
+}
+St
+
+
+as <- mt
+Rs <- Ct
+for(t in 17:1){
+  B <- Ct[t,,]%*%t(Gt)%*%solve(Rt[t,,])
+  as[t,] <- mt[t,] + B %*%( as[t+1,] - at[t,])
+  Rs[t,,] <- Ct[t,,] + B %*%( Rs[t+1,,] - Rt[t,,]) %*% t(B)
+}
+
+rr <- NULL
+for(t in 1:17) rr <- rbind(rr, sqrt(diag(Rs[t,,])))
+ts.plot(ts((as[,(q-2):q]),start=2002),col=1:3)
+legend('topright',c('P','M','B'),col=1:3,lty=1)
+
+
+plot.new()
+r <- array(0, c(17,103))
+for(t in 1:17) r[t,] <- sqrt(diag(Rs[t,,]))
+
+
+plot.window(xlim=c(2003,2019), ylim=c(1,3))
+
+lines( 2003:2019,exp(as[-1,][,(q-2)]),lwd = 2)
+lines( 2003:2019,exp(as[-1,][,(q-1)]), lwd = 2)
+lines( 2003:2019,exp(as[-1,][,(q)]), lwd = 2)
+
+
+
+r[,q]
+
+##### Lowess da média do Log API por tipo de água
+ano <- unique(A$DT_ANO)
+x <- NULL
+d <- NULL
+for(i in ano){
+  id <- A$DT_ANO == i
+  x <- aggregate(A$IPA_Total[id], list(A$Tipo_Agua2[id]), function(x)mean(log(x)))
+  aux <- cbind(x,i)
+  d <- rbind(d, aux)
+}
+
+plot.new()
+#plot.window(xlim = c(2003,2019),ylim=c(15,250))
+plot.window(xlim = c(2003,2019),ylim=c(1,5))
+lines(lowess(2003:2019,d[d$Group.1 == 'Água Branca',2]),col='black', lwd = 2, lty = 2)
+lines(lowess(2003:2019, d[d$Group.1 == 'Água Mista',2]), col='black', lwd = 2, lty = 3)
+lines(lowess(2003:2019, d[d$Group.1 == 'Água Preta',2]), col='black', lwd = 2)
+axis(1, at = 2003:2019, labels = 2003:2019)
+axis(2)
+title(xlab='Year',ylab='log-API')
+legend('bottomleft', c('black water','mixed water','white water'),col = c('black','black','black'), lty = c(1,3,2),bty = 'n', lwd = 2)
+
+##### Tendências dos município
+k = 1
+plot.new()
+plot.window(xlim = c(2003,2019),ylim=c(-10,10))
+for(i in unique(A$CD_MUN6)){
+  lines(lowess(A$DT_ANO[A$CD_MUN6== i], log(A$IPA_Total[A$CD_MUN6==i])),col=k )
+k<- k+1
+}
+axis(1)
+axis(2)
+
+##### Tendências dos município 
+k = 1
+plot.new()
+plot.window(xlim = c(2003,2019),ylim=c(-10,10))
+for(i in unique(A$CD_MUN6)){
+  lines(lowess(A$DT_ANO[A$CD_MUN6== i], log(A$IPA_Total[A$CD_MUN6==i])),col=k )
+  k<- k+1
+}
+axis(1)
+axis(2)
+
+
+#### Modelo de regressão
+##### Organizando o banco de dados
+setwd('C:/Users/jam_d/Downloads')
+# preparando o banco de dados
+A <- fread('BD.csv',encoding = 'Latin-1')
+nrow(A)
+A <- A[is.na(A$Tipo_Agua2)==F,]
+nrow(A)
+
+A$DT_ANO <- A$DT_ANO -2002
+A$Tipo_Agua2
+
+A <- A[is.na(A$Tipo_Agua2) == F,]
+
+Mista2Clara <- ifelse(A$Tipo_Agua2 == 'Água Mista',1,0)
+Preta2Clara <- ifelse(A$Tipo_Agua2 == 'Água Preta',1,0)
+p = 5
+#y <- log(A$IPA_Total)
+y <- log(A$IPA_Total)
+ft <- function(t) t^(1:p)
+
+i <- unique(A$CD_MUN6)[1]
+require(Matrix)
+
+id <- A$CD_MUN6 == A$CD_MUN6[1]
+aux <- NULL
+for(j in A$DT_ANO[id]){
+  aux <- rbind(aux, c(0,ft(j)))
+}  
+x <- as.matrix(aux)
+dim(x)
+for(i in unique(A$CD_MUN6)[-1]){
+  id <- A$CD_MUN6 == i
+  aux <- NULL
+  for(j in A$DT_ANO[id]){
+    aux <- rbind(aux, c(1,ft(j)))
+  }
+  x <- bdiag(x,aux)
+  print(i)
+}
+
+dim(x)
+length(Mista2Clara)
+X <- cbind(x, Mista2Clara,Preta2Clara) 
+# modelo mais simples
+mod0 <- lm(y ~ X)
+AIC(mod0)
+summary(mod0)
+AIC(mod0)
+shapiro.test(rstandard(mod0))
+plot(mod0)
+
+plot(mod0$fitted.values,rstandard(mod0),
+     col = ifelse(A$Tipo_Agua2=='Água Branca',1,
+                  ifelse(A$Tipo_Agua2=='Água Mista',2,3)),pch = 16)
+
+acf(rstandard(mod0))
+
+plot(mod0$fitted.values, y)
+abline(0,1)
+# tentando resolver o problema de heterocedasticidade
+beta <- coefficients(mod0)
+m <- length(beta)
+
+fobj <- function(param){
+  beta <- param[1:m]
+  s1 <- exp(param[m+1])
+  s2 <- exp(param[m+2])
+  s3 <- exp(param[m+3])
+  V <- diag(0,length(y))
+  for(i in 1:length(y)){
+    V[i,i] <- ifelse(A$Tipo_Agua2[i] == 'Água Branca',s1, 
+              ifelse(A$Tipo_Agua2[i] == 'Água Mista',s2,s3))
+  }
+    z <- y -cbind(1,X)%*%matrix(beta,ncol=1)
+    obj <- drop(t(z)%*%solve(V)%*%z) + sum(log(diag(V)))
+    obj
+}
+param <- c(beta, log(.7^2),log(.7^2),log(.7^2))
+opt <- optim(param, fobj)
+  
+hist(rstandard(mod))
+plot(density(mod$residuals))
+plot(mod$fitted.values,mod$residuals, col = ifelse(A$Tipo_Agua2=='Água Branca',1,ifelse(A$Tipo_Agua2=='Água Mista',2,3)), pch = 16)
+
+plot(ecdf( mod$residuals), main ='', xlab='')
+curve(pnorm(x,0,.5889), lwd = 3, col = 'darkgray', add = T)
+
+qqnorm(studres(mod))
+library(car)
+qqPlot(residuals(mod))
+shapiro.test(studres(mod))
+
+s <- summary(mod)$sigma
+ep <- s*sqrt(diag(summary(mod)$cov.unscaled))
+
+
+cbind(round(coefficients(mod),4),round( sapply( coefficients(mod)/ep,  function(x) 2*min(pnorm(x),1-pnorm(x))),4)
+)
+
+tail(coefficients(mod)-ep*1.96,2)
+tail(coefficients(mod)+ep*1.96,2)
+
+cbind(round(coefficients(mod),4),round( sapply( coefficients(mod)/ep,  function(x) 2*min(pnorm(x),1-pnorm(x))),4)
+)
+require(MASS)
+
+mod$fitted.values
+
+d <- NULL
+for(i in unique(A$CD_MUN6)){
+  id <- A$CD_MUN6 == i
+  x <- diff(A$IPA_Total[id])
+  aux <- cbind(x,i,A$Tipo_Agua2[id][1])
+  d <- rbind(d, aux)
+}
+
+aggregate( as.numeric(d[,1]), list(d[,3]), mean)
+d <- data.frame(as.numeric(d[,1]),as.factor(d[,2]),as.factor(d[,3]))
+names(d) <- c('Diff','Mun','Agua')
+d <- d[is.na(d$Agua) == F,]
+
+mod0 <- lm(Diff~Agua,data = d)
+summary(mod0)
+
+d <- NULL
+for(i in ano){
+  id <- A$DT_ANO == i
+  x <- aggregate(mod$fitted.values[id], list(A$Tipo_Agua2[id]), function(x)mean(log(x)))
+  aux <- cbind(x,i)
+  d <- rbind(d, aux)
+}
+
+summary(d[,2])
+plot.new()
+#plot.window(xlim = c(2003,2019),ylim=c(15,250))
+plot.window(xlim = c(2003,2019),ylim=c(1,5))
+lines(lowess(2003:2019,d[d$Group.1 == 'Água Branca',2]),col='black', lwd = 2, lty = 2)
+lines(lowess(2003:2019, d[d$Group.1 == 'Água Mista',2]), col='black', lwd = 2, lty = 3)
+lines(lowess(2003:2019, d[d$Group.1 == 'Água Preta',2]), col='black', lwd = 2)
+axis(1, at = 2003:2019, labels = 2003:2019)
+axis(2)
+title(xlab='Year',ylab='log-API')
+legend('bottomleft', c('black water','mixed water','white water'),col = c('black','black','black'), lty = c(1,3,2),bty = 'n', lwd = 2)
