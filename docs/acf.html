@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>acf</title>
+<title>Introdução aos modelos lineares dinâmicos - 4&nbsp; A função de autocorrelação</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,11 +58,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./ferramentas.html" rel="next">
+<link href="./sinal.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -97,23 +100,138 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body>
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./acf.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A função de autocorrelação</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Introdução aos modelos lineares dinâmicos</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sinal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tipos de sinal</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acf.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A função de autocorrelação</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ferramentas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Mais ferramentas exploratórias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mld.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./polinomial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Modelo linear dinâmico polinomial</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sazonal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="acf.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="acf.epub"><i class="bi bi-file"></i>ePub</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#o-correlograma-de-uma-amostra-aleatória" id="toc-o-correlograma-de-uma-amostra-aleatória" class="nav-link active" data-scroll-target="#o-correlograma-de-uma-amostra-aleatória"><span class="header-section-number">4.1</span> O correlograma de uma amostra aleatória</a></li>
+  <li><a href="#o-correlograma-com-a-componente-de-tendência" id="toc-o-correlograma-com-a-componente-de-tendência" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-tendência"><span class="header-section-number">4.2</span> O correlograma com a componente de tendência</a></li>
+  <li><a href="#o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" id="toc-o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico"><span class="header-section-number">4.3</span> O correlograma com a componente de sazonalidade - sinal harmônico</a></li>
+  <li><a href="#o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" id="toc-o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo"><span class="header-section-number">4.4</span> O correlograma com a componente de sazonalidade - sinal autorregressivo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">4.5</span> Exercícios</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A função de autocorrelação</span></h1>
+</div>
 
 
-<section id="a-função-de-autocorrelação" class="level2">
-<h2 class="anchored" data-anchor-id="a-função-de-autocorrelação">A função de autocorrelação</h2>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
 <p>Considere inicialmente uma amostra aleatória <span class="math inline">\(X_1,\ldots,X_n\)</span> (ou seja, todas as variáveis são independentes e possuem a mesma distribuição). Sejam <span class="math display">\[A_h=\{X_1,\ldots,X_{n-h}\}\]</span> e <span class="math display">\[B_h=\{X_h,\ldots,X_n\}.\]</span> Então, a correlação entre <span class="math inline">\(A_h\)</span> e <span class="math inline">\(B_h\)</span> é nula.</p>
 <p>Deste modo, um meio de verificar se a coleção observada é uma série temporal é observar a correlação amostral entre <span class="math display">\[a_h=\{x_1,\ldots,x_{n-h}\}\]</span> e <span class="math display">\[b_h=\{x_h,\ldots,x_n\},\]</span> para diferentes valores de <span class="math inline">\(h\)</span>.</p>
 <p>A função <span class="math inline">\(r(h)\)</span> que representa a correlação amostral entre <span class="math inline">\(a_h\)</span> e <span class="math inline">\(b_h\)</span> é denominada <strong>autocorrelação</strong>. O valor <span class="math inline">\(h\)</span> é denominado <strong>defasagem</strong> (do inglês, <em>lag</em>).</p>
@@ -127,9 +245,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="alert alert-success">
 <p><strong>Correlograma</strong> O gráfico <span class="math inline">\((h,r(h))\)</span> é denominado correlograma, ou gráfico da função de autocorrelação.</p>
 </div>
-</section>
-<section id="o-correlograma-de-uma-amostra-aleatória" class="level2">
-<h2 class="anchored" data-anchor-id="o-correlograma-de-uma-amostra-aleatória">O correlograma de uma amostra aleatória</h2>
+<section id="o-correlograma-de-uma-amostra-aleatória" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="o-correlograma-de-uma-amostra-aleatória"><span class="header-section-number">4.1</span> O correlograma de uma amostra aleatória</h2>
 <p>Quando a amostra é aleatória, a função de autocorrelação é nula para qualquer defasagem diferente de 0. Deste modo, o correlograma deve apresentar valores próximos de zero.</p>
 <p>Para entender o que próximo de zero significa, o limites do intervalo de confiança para o coeficiente de correlação sobre a hipótese de que esta é nula são colocados no gráfico.</p>
 <p>Abaixo ilustramos um correlograma para uma amostra de variáveis aleatórias independentes com distribuição normal padrão.</p>
@@ -148,8 +265,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="o-correlograma-com-a-componente-de-tendência" class="level2">
-<h2 class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-tendência">O correlograma com a componente de tendência</h2>
+<section id="o-correlograma-com-a-componente-de-tendência" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-tendência"><span class="header-section-number">4.2</span> O correlograma com a componente de tendência</h2>
 <p>Quando uma série exibe tendência, o correlograma exibe um descaimento lento e persistente.</p>
 <p>Considere, por exemplo, a série</p>
 <p><span class="math display">\[x_t= t + \varepsilon_t,\]</span> onde <span class="math inline">\(\varepsilon_t\sim\hbox{Normal}(0,5^2)\)</span>. Abaixo simulamos essa série e apresentamos o respectivo correlograma</p>
@@ -175,8 +292,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" class="level2">
-<h2 class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico">O correlograma com a componente de sazonalidade - sinal harmônico</h2>
+<section id="o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico"><span class="header-section-number">4.3</span> O correlograma com a componente de sazonalidade - sinal harmônico</h2>
 <p>O sinal sazonal é caracterizado por um comportamento periódico. Existem dois comportamentos sazonais típicos. O primeiro é baseado na função harmônica:</p>
 <p><span class="math display">\[\hbox{sinal}(t)=A\cos\left(\frac{2\pi}{p}t + \phi\right)\]</span> Neste tipo de sinal, há um comportamento em forma de onda já estabelecido. Eis algumas informações importantes:</p>
 <ul>
@@ -229,8 +346,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oo)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" class="level2">
-<h2 class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo">O correlograma com a componente de sazonalidade - sinal autorregressivo</h2>
+<section id="o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo"><span class="header-section-number">4.4</span> O correlograma com a componente de sazonalidade - sinal autorregressivo</h2>
 <p>Nesse tipo de sazonalidade, ainda há um período <span class="math inline">\(p\)</span>, mas não há um sinal harmônico. O valor da série no tempo <span class="math inline">\(t\)</span> é baseado no valor observado no tempo <span class="math inline">\(t-p\)</span>.</p>
 <p>Quando a sazonalidade possue essa característica, há uma autocorrelação marcante nos múltiplos de <span class="math inline">\(p\)</span>. Observe a série simulada abaixo, com um período <span class="math inline">\(p=12\)</span></p>
 <div class="cell">
@@ -246,8 +363,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="exercícios" class="level2">
-<h2 class="anchored" data-anchor-id="exercícios">Exercícios</h2>
+<section id="exercícios" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">4.5</span> Exercícios</h2>
 <div class="alert alert-warning">
 <p><strong>Exercício 1</strong> Estude o comportamento da série <code>ldeaths</code>, que conta o número mensal de óbitos por doenças pulmonares no Reino Unido.</p>
 </div>
@@ -498,6 +615,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./sinal.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tipos de sinal</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ferramentas.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Mais ferramentas exploratórias</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

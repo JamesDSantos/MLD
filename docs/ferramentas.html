@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ferramentas</title>
+<title>Introdução aos modelos lineares dinâmicos - 5&nbsp; Mais ferramentas exploratórias</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,11 +58,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./mld.html" rel="next">
+<link href="./acf.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -97,25 +100,150 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body>
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ferramentas.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Mais ferramentas exploratórias</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Introdução aos modelos lineares dinâmicos</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sinal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tipos de sinal</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./acf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A função de autocorrelação</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ferramentas.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Mais ferramentas exploratórias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mld.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./polinomial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Modelo linear dinâmico polinomial</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sazonal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ferramentas.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="ferramentas.epub"><i class="bi bi-file"></i>ePub</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#estudo-da-tendência-utilizando-o-loess" id="toc-estudo-da-tendência-utilizando-o-loess" class="nav-link active" data-scroll-target="#estudo-da-tendência-utilizando-o-loess"><span class="header-section-number">5.1</span> Estudo da tendência utilizando o <code>loess</code></a>
+  <ul class="collapse">
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">5.1.1</span> Exercícios</a></li>
+  </ul></li>
+  <li><a href="#o-periodograma" id="toc-o-periodograma" class="nav-link" data-scroll-target="#o-periodograma"><span class="header-section-number">5.2</span> O periodograma</a>
+  <ul class="collapse">
+  <li><a href="#introdução" id="toc-introdução" class="nav-link" data-scroll-target="#introdução"><span class="header-section-number">5.2.1</span> Introdução</a></li>
+  <li><a href="#periodograma-para-amostras-aleatórias" id="toc-periodograma-para-amostras-aleatórias" class="nav-link" data-scroll-target="#periodograma-para-amostras-aleatórias"><span class="header-section-number">5.2.2</span> Periodograma para amostras aleatórias</a></li>
+  <li><a href="#periodograma-na-presença-de-tendência" id="toc-periodograma-na-presença-de-tendência" class="nav-link" data-scroll-target="#periodograma-na-presença-de-tendência"><span class="header-section-number">5.2.3</span> Periodograma na presença de tendência</a></li>
+  <li><a href="#exercícios-1" id="toc-exercícios-1" class="nav-link" data-scroll-target="#exercícios-1"><span class="header-section-number">5.2.4</span> Exercícios</a></li>
+  </ul></li>
+  <li><a href="#ajuste-por-fatores-sazonais" id="toc-ajuste-por-fatores-sazonais" class="nav-link" data-scroll-target="#ajuste-por-fatores-sazonais"><span class="header-section-number">5.3</span> Ajuste por fatores sazonais</a>
+  <ul class="collapse">
+  <li><a href="#exercícios-2" id="toc-exercícios-2" class="nav-link" data-scroll-target="#exercícios-2"><span class="header-section-number">5.3.1</span> Exercícios</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Mais ferramentas exploratórias</span></h1>
+</div>
 
 
-<section id="mais-ferramentas-exploratórias" class="level1">
-<h1>Mais ferramentas exploratórias</h1>
-<section id="estudo-da-tendência-utilizando-o-loess" class="level2">
-<h2 class="anchored" data-anchor-id="estudo-da-tendência-utilizando-o-loess">Estudo da tendência utilizando o <code>loess</code></h2>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="estudo-da-tendência-utilizando-o-loess" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="estudo-da-tendência-utilizando-o-loess"><span class="header-section-number">5.1</span> Estudo da tendência utilizando o <code>loess</code></h2>
 <p><em>Loes</em> é um modelo de regressão não linear não paramétrico. Abaixo mostramos como utilizá-lo considerando um banco de dados com diversas marcas de veículos e a relação entre a variável milhas por galão (mpg) e deslocamento (disp)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>( mtcars<span class="sc">$</span>disp, mtcars<span class="sc">$</span>mpg )</span>
@@ -221,8 +349,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Fica claro o comportamento sazonal. Note que o período não parece ser anual, mas sim de 3 em 3 anos. Vamos avaliar esse aspecto com mais detalhes na próxima seção.</p>
-<section id="exercícios" class="level3">
-<h3 class="anchored" data-anchor-id="exercícios">Exercícios</h3>
+<section id="exercícios" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">5.1.1</span> Exercícios</h3>
 <div class="alert alert-warning">
 <p><strong>Exercício 1</strong> Considerando o banco de dados sobre suicídios no Mato Grosso do Sul:</p>
 <ol type="1">
@@ -255,10 +383,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="o-periodograma" class="level2">
-<h2 class="anchored" data-anchor-id="o-periodograma">O periodograma</h2>
-<section id="introdução" class="level3">
-<h3 class="anchored" data-anchor-id="introdução">Introdução</h3>
+<section id="o-periodograma" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="o-periodograma"><span class="header-section-number">5.2</span> O periodograma</h2>
+<section id="introdução" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">5.2.1</span> Introdução</h3>
 <p>Todo padrão sazonal possui um período - a quantidade de tempo necessária para que o padrão se repita. O inverso desse período é denominado frequência fundamental, que é a fração de um ciclo por unidade de tempo.</p>
 <div class="alert alert-info">
 <p><strong>Exemplo:</strong> Considere o período de 12 meses. Então, a frequência fundamental é 1/12 (ou seja, cada mês representa um doze ávos do período de 1 ano).</p>
@@ -312,8 +440,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="periodograma-para-amostras-aleatórias" class="level3">
-<h3 class="anchored" data-anchor-id="periodograma-para-amostras-aleatórias">Periodograma para amostras aleatórias</h3>
+<section id="periodograma-para-amostras-aleatórias" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="periodograma-para-amostras-aleatórias"><span class="header-section-number">5.2.2</span> Periodograma para amostras aleatórias</h3>
 <p>É importante notar que a frequência fundamental é um pico expressivo em relação aos demais. Abaixo mostramos o periodograma para uma amostra aleatória - note como há vários picos, evidenciando a falta de uma frequência fundamental.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">periodograma</span>(<span class="fu">rnorm</span>(<span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -321,12 +449,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="ferramentas_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Período:  6.666667 </code></pre>
+<pre><code>Período:  7.692308 </code></pre>
 </div>
 </div>
 </section>
-<section id="periodograma-na-presença-de-tendência" class="level3">
-<h3 class="anchored" data-anchor-id="periodograma-na-presença-de-tendência">Periodograma na presença de tendência</h3>
+<section id="periodograma-na-presença-de-tendência" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="periodograma-na-presença-de-tendência"><span class="header-section-number">5.2.3</span> Periodograma na presença de tendência</h3>
 <p>É importante remover a tendência antes de aplicar o periodo. Por exemplo, considere novamente a série <code>AirPassengers</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(AirPassengers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -365,8 +493,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="exercícios-1" class="level3">
-<h3 class="anchored" data-anchor-id="exercícios-1">Exercícios</h3>
+<section id="exercícios-1" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="exercícios-1"><span class="header-section-number">5.2.4</span> Exercícios</h3>
 <div class="alert alert-warning">
 <p><strong>Exercício 1.</strong> Determine o período da série <code>ldeaths</code> - número de óbito mensais por doenças pulmonares no Reino Unido.</p>
 </div>
@@ -384,8 +512,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="ajuste-por-fatores-sazonais" class="level2">
-<h2 class="anchored" data-anchor-id="ajuste-por-fatores-sazonais">Ajuste por fatores sazonais</h2>
+<section id="ajuste-por-fatores-sazonais" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="ajuste-por-fatores-sazonais"><span class="header-section-number">5.3</span> Ajuste por fatores sazonais</h2>
 <p>Considere novamente o harmônico</p>
 <p><span class="math display">\[\hbox{sinal}(t)=A\cos\left(\frac{2\pi}{p}t+\phi\right)\]</span></p>
 <p>O sinal no tempo <span class="math inline">\(t=1+p\)</span> é equivalente ao sinal no tempo 1:</p>
@@ -461,8 +589,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="ferramentas_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<section id="exercícios-2" class="level3">
-<h3 class="anchored" data-anchor-id="exercícios-2">Exercícios</h3>
+<section id="exercícios-2" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="exercícios-2"><span class="header-section-number">5.3.1</span> Exercícios</h3>
 <div class="='alert" alert-warning'="">
 <strong>Exercício 1
 Separe os sinais dos ruídos nas seguintes séries temporais:
@@ -475,7 +603,6 @@ Separe os sinais dos ruídos nas seguintes séries temporais:
 </strong></div><strong>
 
 
-</strong></section><strong>
 </strong></section><strong>
 </strong></section><strong>
 
@@ -713,6 +840,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./acf.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A função de autocorrelação</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./mld.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </strong></div><strong> <!-- /content -->
 
 
