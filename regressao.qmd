@@ -1,0 +1,85 @@
+# Regressão dinâmica
+
+Seja $y_t$ uma série temporal e sejam $x_{1,t},\ldots,x_{q,t}$ variáveis regressoras observadas ao longo do tempo. No modelo de regressão tradicional, temos 
+
+$$y_t=\beta_0+\sum_{j=1}^q \beta_j x_{j,t}+\nu_t$$
+
+No modelo dinâmico, o parâmetros da regressão evoluem  segundo um modelo polinomial de ordem 1, ou seja 
+$$\beta_{t}|\beta_{t-1}\sim\hbox{Normal}(\beta_{t-1},W_t).$$
+
+Relembre que o intercepto $\beta_{0,t}$ representa o nível da série no tempo $t$ na ausência de outros fatores. Deste modo, é importante que todas as regressoras sejam escaladas para ter média zero - deste modo, se todas as variáveis envolvidas estiverem apresentando seus valores típicos, a média será representada unicamente pelo nível, evitando assim o problema de identificabilidade.
+
+## Exemplo: modelando o BOVA11 através do IPCA
+
+Quando uma empresa precisa capitanear recursos, ela pode entrar no mercado de ações. Neste caso, o valor da empresa é estimado e então decide-se a fatia que vai ser vendida no mercado. Essa fatia é dividida em pedaços, chamados ações. Cada ação representa um pedaço da empresa.
+
+Um modo simples de começar a operar na bolsa é comprando ETF's - um fundo composto de ações, proporcionais a algum índice (você compra vários pedaços de ações). O BOVA11 é um fundo que imita do Índice BOVESPA, que por sua vez é composto pelas empresas com maior volume de negociação na Bolsa de Valores de São Paulo. Assim, se essas empresas se valorizam, o valor de mercado do ETF aumenta.
+Aqueles que possuem uma ação podem vendê-la no mercado de ações. Em geral, se a empresa entregou lucro (ou seja, aumentou de tamanho), o valor da ação deveria aumentar. Por outro lado, entregando prejuízo, o valor diminui. 
+
+Pessoas vendem as ações para obter lucro (vender por um valor maior do que comprou) ou por acreditar que o valor de mercado da empresa vai diminuir. Entretanto, não é apenas o desempenho da empresa que determina o valor da ação, mas a dinâmica do mercado, que tenta se antecipar a possíveis perdas. Se muitas pessoas vendem suas ações, o preço cai. Mas se muitas pessoas querem comprar, o preço sobe. Esse movimento é explicado pela Lei da Oferta e da Procura.
+		
+O pessimismo da economia tende a diminuir o ânimo dos investidores, fazendo com que eles se desfaçam de suas ações antes que elas desvalorizem mais.
+Um dos indicadores de que a economia vai mal é o IPCA (Índice Nacional de Preços ao Consumidor Amplo), nosso principal índice de inflação.
+		
+Quando a economia está ruim, é usual ver um movimento de saída da bolsa, fazendo com que o índice BOVESPA caia, e, por consequência, o BOVA11. Portanto, é esperado uma relação negativa entre a série do IPCA com o BOVA11. Contudo, o próximo gráfico mostra que essa relação não é tão evidente.
+
+
+```{r}
+url <- 'https://drive.google.com/uc?authuser=0&id=1d1dp1q7_Jdp8yOMlcsLxdZZcCMmwjZ04&export=download'
+
+dados <- read.csv(url)
+dados$Data <- as.Date(dados$Data, '%d.%m.%Y') 
+dados0 <- dados[order(dados$Data),]
+dados0$IPCA[141] <- 3.1352
+
+bova11 <- ts(dados0$Último, frequency=12, start=c(2009,1))
+
+ipca <- ts(as.numeric(dados0$IPCA), frequency=12, start=c(2009,1))
+
+plot.ts( cbind(bova11,ipca), lwd = 2)
+
+plot(ipca,bova11,  ylab = 'Preço de fechamento', xlab = 'IPCA')
+```
+O gráfico acima deixa claro que não há independências entre as duas variáveis. Vamos ajustar um modelo de regressão dinâmica.
+
+```{r}
+mod <- dlmModReg( ipca - mean(ipca))
+mod$m0[1] <- bova11[1]
+mod <- modFim(bova11, mod)
+filtro <- dlmFilter( bova11, mod)
+erro <- bova11- filtro$f
+ts.plot(erro)
+acf(erro)
+```
+
+Os erros de previsão revelam um modelo satisfatório. Abaixo mostramos a série prevista um passo à frente.
+
+```{r}
+plot(bova11, ylab = 'Preço de fechamento do BOVA11',lwd = 2)
+lines(filtro$f, lwd = 2, col = 'brown')
+legend('topleft', c('Série original', 'Série prevista'), bty = 'n', fill = c(1,'tomato'))
+```
+Vamos analisar os componentes suavizados da série.
+
+```{r}
+suave <- dlmSmooth(filtro)
+sd <- sdSmooth(suave)
+
+nível <- suave$s[,1]
+`efeito do IPCA` <- suave$s[,2]
+
+plot.ts( nível , main = 'Nível suavizado')
+lines(nível - 1.96*sd[,1], lty = 2)
+lines(nível + 1.96*sd[,1], lty = 2)
+
+plot.ts( `efeito do IPCA` , main = 'Coeficiente do IPCA', ylim = c(-6,4))
+lines(`efeito do IPCA` - 1.96*sd[,2], lty = 2)
+lines(`efeito do IPCA` + 1.96*sd[,2], lty = 2)
+
+```
+
+O gráfico acima mostra uma influência negativa, em média, do IPCA no BOVA11.
+
+## Exercício
+
+Faça um modelo de regressão dinâmica utilizando o número mensal de nascidos vivos via parto vaginal como série de interesse e o total de partos como regressora.

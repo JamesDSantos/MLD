@@ -1,6 +1,0 @@
-"0","for(i in 1:10){"
-"0","yy <- x[i]+seq(-2,2,.1)"
-"0","n <- length(yy)"
-"0","xx <- dnorm(yy,x[i],.5)"
-"0","polygon( (1:10)[i]+c(xx,rep(0,n)), c(yy,yy[n:1]))   "
-"0","}"
