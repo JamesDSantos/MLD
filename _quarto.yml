@@ -16,6 +16,7 @@ book:
     - mld.qmd
     - polinomial.qmd
     - sazonal.qmd
+    - regressao.qmd
     - references.qmd
 
 bibliography: references.bib
