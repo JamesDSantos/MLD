@@ -10,7 +10,6 @@ book:
     - index.qmd
     - intro.qmd
     - sinal.qmd
-    - mld.qmd
     - references.qmd
 
 bibliography: references.bib
