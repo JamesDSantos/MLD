@@ -1,4 +1,0 @@
-"0","x <- rnorm(120)"
-"0",""
-"0","# correlograma"
-"0","acf(x)"

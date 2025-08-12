@@ -43,14 +43,28 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
+\makeatletter
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
 \fi
 \ifx\subparagraph\undefined\else
   \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
+\makeatother
 
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -70,7 +84,7 @@
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
 \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
 \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
@@ -80,7 +94,7 @@
 \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
 \newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
 \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
 \newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
 \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
@@ -117,33 +131,41 @@
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
 \newlength{\csllabelwidth}
 \setlength{\csllabelwidth}{3em}
-\newlength{\cslentryspacingunit} % times entry-spacing
-\setlength{\cslentryspacingunit}{\parskip}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
   % turn on hanging indent if param 1 is 1
   \ifodd #1
-  \let\oldpar\par
-  \def\par{\hangindent=\cslhangindent\oldpar}
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
   \fi
   % set entry spacing
-  \setlength{\parskip}{#2\cslentryspacingunit}
- }%
- {}
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
 \usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \KOMAoption{captions}{tableheading}
-\makeatletter
-\makeatother
 \makeatletter
 \@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
 \makeatother
@@ -183,23 +205,17 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \makeatother
 \makeatletter
+\makeatother
+\makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
-\makeatletter
-\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
-\makeatother
-\makeatletter
-\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
-\makeatother
+
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\usepackage{bookmark}
+
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
@@ -212,13 +228,13 @@
   urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
 
+
 \title{Introdução aos modelos lineares dinâmicos}
 \author{James D Santos}
 \date{2025-04-09}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, boxrule=0pt, frame hidden, borderline west={3pt}{0pt}{shadecolor}, sharp corners, interior hidden, enhanced]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -226,46 +242,29 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
+
 \bookmarksetup{startatroot}
 
-\hypertarget{prefuxe1cio}{%
-\chapter*{Prefácio}\label{prefuxe1cio}}
+\chapter*{Prefácio}\label{prefuxe1cio}
 \addcontentsline{toc}{chapter}{Prefácio}
 
 \markboth{Prefácio}{Prefácio}
 
 \bookmarksetup{startatroot}
 
-\hypertarget{summary}{%
-\chapter{Summary}\label{summary}}
+\chapter{\texorpdfstring{Manipulação de séries temporais univariadas no
+software
+\texttt{R}}{Manipulação de séries temporais univariadas no software R}}\label{manipulauxe7uxe3o-de-suxe9ries-temporais-univariadas-no-software-r}
 
-In summary, this book has no content whatsoever.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DecValTok{1} \SpecialCharTok{+} \DecValTok{1}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 2
-\end{verbatim}
-
-\bookmarksetup{startatroot}
-
-\hypertarget{introduuxe7uxe3o}{%
-\chapter{Introdução}\label{introduuxe7uxe3o}}
-
-\hypertarget{definiuxe7uxe3o-de-suxe9ries-temporais}{%
 \section{Definição de séries
-temporais}\label{definiuxe7uxe3o-de-suxe9ries-temporais}}
+temporais}\label{definiuxe7uxe3o-de-suxe9ries-temporais}
 
-Considere um fenômeno aleatório que será observado ao longo do tempo. A
-coleção de variáveis aleatórias indexadas no tempo associadas a este
-fenômeno será denominada série temporal. Neste caso, para cada instante
-de tempo \(t\), há uma variável \(X(t)\) associada.
+Considere um fenômeno aleatório que é observado ao longo do tempo. A
+coleção de variáveis aleatórias indexadas no tempo, associadas a este
+fenômeno, é denominada série temporal. Neste caso, para cada instante de
+tempo \(t\), há uma variável \(X(t)\) associada.
 
-\begin{figure}
+\begin{figure}[H]
 
 {\centering \includegraphics{intro_files/figure-pdf/figura1-1.png}
 
@@ -273,11 +272,11 @@ de tempo \(t\), há uma variável \(X(t)\) associada.
 
 \caption{Figure 1 - Ilustração de uma série temporal}
 
-\end{figure}
+\end{figure}%
 
-Alguns autores definem séries temporais simplesmente como uma os valores
-de uma variável registrados ao longo do tempo. Essa definição não é útil
-para nós, uma vez que o tempo não necessariamente possui influência na
+Alguns autores definem séries temporais simplesmente como valores
+observados ao longo do tempo.No entanto, essa definição não é útil para
+nós, uma vez que o tempo não necessariamente possui influência na
 variável, ou seja, é possível que a distribuição de \(X(t)\) não dependa
 de \(t\).
 
@@ -288,12 +287,56 @@ A partir deste momento, \(X(t)\) será escrita como \(X_t\) e
 representará a variável aleatória associada ao tempo \(t\) e a versão
 minúscula \(x_t\) representará o valor observado.
 
-\hypertarget{a-classe-ts}{%
-\section{\texorpdfstring{A classe
-\texttt{ts}}{A classe ts}}\label{a-classe-ts}}
+\section{\texorpdfstring{A classe \texttt{ts} e a função
+\texttt{window}}{A classe ts e a função window}}\label{a-classe-ts-e-a-funuxe7uxe3o-window}
 
-A tabela aabeixo apresenta o número de nascidos vivos por mês na cidade
-de Manaus em 2021.
+Nessa seção vamos distutir a classe \texttt{ts} do \texttt{R}. Ela é
+particularmente útil para fazer gráficos de séries temporais. A função
+\texttt{ts} possui vários argumentos importantes:
+
+\begin{itemize}
+\item
+  \texttt{data}: vetor ou matriz da série observada
+\item
+  \texttt{frequency}: esse valor representa o número de observações por
+  período. Vamos discutir essa particularidade em outro momento, mas
+  para a maioria das séries, o período é representado por um ano e o
+  valor de \texttt{frequency} está relacionado com quantas observações
+  são necessárias para completar um ano. Por exemplo, se os dados são
+  registrados mensalmente, temos \texttt{frequency=12}. Em caso de
+  trimestres, \texttt{frequency=4}. O valor padrão é
+  \texttt{frequency=1}.
+\item
+  \texttt{deltat}: é o inverso do número de observações por período.
+  Apenas um entre \texttt{frequency} e \texttt{deltat} deve ser dado.
+\item
+  \texttt{start}: representa o tempo no qual a série começa. Pode ser
+  representado por um único número ou por um vetor de dois números, com
+  o segundo representando o momento dentro do período. Por exemplo:
+
+  \begin{itemize}
+  \item
+    se \texttt{frequancy=12} (meses em um ano) então
+    \texttt{start=c(1996,2)} implica que a primeira observação data de
+    fevereiro de 1996.
+  \item
+    se \texttt{frequancy=4} (trimestres em um ano) então
+    \texttt{start=c(1996,2)} implica que a primeira observação data do
+    segundo trimestre dede 1996.
+  \end{itemize}
+\item
+  \texttt{end}: representa o tempo no qual a série termina. A sintaxe é
+  a mesma do \texttt{start}
+\item
+  \texttt{names}: é um vetor com o nomes das séries. É utilizado apenas
+  quando há mais de uma série temporal.
+\end{itemize}
+
+\textbf{Exemplo}
+
+Vamos ilustrar a construção de um objeto ts`` utilizando a tabela
+abaixo, que apresenta o número de nascidos vivos por mês na cidade de
+Manaus em 2021.
 
 \begin{longtable}[]{@{}ll@{}}
 \toprule\noalign{}
@@ -316,7 +359,8 @@ Novembro & 3191 \\
 Dezembro & 3222 \\
 \end{longtable}
 
-Para todos os efeitos, uma série temporal é um vetor numérico.
+Vamos guarda a série no vetor \texttt{x} e construir o objeto \texttt{y}
+na classe \texttt{ts}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -326,37 +370,6 @@ Para todos os efeitos, uma série temporal é um vetor numérico.
 \DecValTok{3129}\NormalTok{, }\DecValTok{3096}\NormalTok{, }\DecValTok{3191}\NormalTok{, }\DecValTok{3222}
 
 \NormalTok{)}
-
-\FunctionTok{plot}\NormalTok{(x, }\AttributeTok{type =} \StringTok{\textquotesingle{}l\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{intro_files/figure-pdf/unnamed-chunk-1-1.pdf}
-
-}
-
-\end{figure}
-
-Contudo, é útil construir a série temporal como um objeto da classe
-\texttt{ts}. Tal função possui dois argumentos importantes:
-
-\begin{itemize}
-\item
-  \texttt{frequency}: representa o número de observações por unidade de
-  tempo. Por exemplo, se o tempo está sendo registrado em anos, mas o
-  dados são mensais, então \texttt{frequency=12}.
-\item
-  \texttt{start}: representa o momento que a série começa. Pode ser
-  representado um único número ou por um vetor de dois números, com o
-  segundo representando o momento dentro do período. Por exemplo
-  \texttt{start=c(1996,2)} implica que a primeira observação data de
-  fevereiro de 1996.
-\end{itemize}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{( x, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{2021}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
 \NormalTok{y}
 \end{Highlighting}
@@ -367,138 +380,262 @@ Contudo, é útil construir a série temporal como um objeto da classe
 2021 3043 2902 3166 3014 3095 2955 3087 3141 3129 3096 3191 3222
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ts.plot}\NormalTok{(y)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{intro_files/figure-pdf/unnamed-chunk-2-1.pdf}
-
-}
-
-\end{figure}
-
-No gráfico acima, a parte decimal no eixo \(x\) representa a fração do
-tempo entre de um ano (começando em 0 e acumulando 1/12 para cada mês
-subsequente).
-
-Também podemos customizar o gráfico.
+A função \texttt{plot} reconhece um objeto na classe \texttt{ts} e
+constrói um gráfico com o tempo devidamente marcado no eixo as
+abscissas.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(y, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}No. nascidos vivos mensal\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}seagreen\textquotesingle{}}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(y)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
+\includegraphics{intro_files/figure-pdf/unnamed-chunk-2-1.pdf}
 
-{\centering \includegraphics{intro_files/figure-pdf/unnamed-chunk-3-1.pdf}
+Outros detalhes gráficos da função \texttt{plot} podem ser utilizados.
 
-}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(y, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}No. nascidos vivos\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}seagreen\textquotesingle{}}\NormalTok{, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}Ano\textquotesingle{}}\NormalTok{, }\AttributeTok{main =} \StringTok{\textquotesingle{}Série mensal de nascidos vivos em Manaus\textquotesingle{}}\NormalTok{, }\AttributeTok{sub=}\StringTok{\textquotesingle{}Fonte: Sistema de Informação sobre Nascidos Vivos/SUS\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-\end{figure}
+\includegraphics{intro_files/figure-pdf/unnamed-chunk-3-1.pdf}
 
-A função \texttt{window} seleciona um subconjunto da série temporal.
-Abaixo selecionamos apenas os nascimentos entre Junho e Agosto e
-marcamos estes valores no gráfico.
+É possível extrair os argumentos de um \texttt{ts} já criado utilizando
+funções com os mesmos nomes dos respectivos argumentos. No exemplo
+acima, criamos o objeto denominado \texttt{y}. Abaixo, extraímos os
+argumentos deste objeto.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{start}\NormalTok{(y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 2021    1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{end}\NormalTok{(y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 2021   12
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{frequency}\NormalTok{(y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 12
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{deltat}\NormalTok{(y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 0.08333333
+\end{verbatim}
+
+A função \texttt{window} é particularmente útil para selecionar um
+subconjunto da série temporal. Seus argumentos são os mesmos da função
+\texttt{ts}.
+
+\textbf{Exemplo} Utilizando o mesmo conjunto de dados do exemplo
+anterior, vamos usar a função \texttt{window} para extrair apenas os
+nascimentos entre junho e agosto.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{z }\OtherTok{\textless{}{-}} \FunctionTok{window}\NormalTok{(y, }\AttributeTok{start=}\FunctionTok{c}\NormalTok{(}\DecValTok{2021}\NormalTok{,}\DecValTok{6}\NormalTok{), }\AttributeTok{end =} \FunctionTok{c}\NormalTok{(}\DecValTok{2021}\NormalTok{,}\DecValTok{8}\NormalTok{))}
-
-\FunctionTok{plot}\NormalTok{(y, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}No. nascidos vivos mensal\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}seagreen\textquotesingle{}}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(z, }\AttributeTok{col =} \StringTok{\textquotesingle{}brown\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd=} \DecValTok{2}\NormalTok{)}
+\NormalTok{z}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
+\begin{verbatim}
+      Jun  Jul  Aug
+2021 2955 3087 3141
+\end{verbatim}
 
-{\centering \includegraphics{intro_files/figure-pdf/unnamed-chunk-4-1.pdf}
+Acima, \texttt{z} é um novo objeto \texttt{ts}. Podemos usar a função
+\texttt{lines} destacar a parte selecionada da série em um gráfico já
+existente. Abaixo, descatamos os dados selecionados em \texttt{z}.
 
-}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(y, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}No. nascidos vivos\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}seagreen\textquotesingle{}}\NormalTok{, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}Ano\textquotesingle{}}\NormalTok{, }\AttributeTok{main =} \StringTok{\textquotesingle{}Série }
+\StringTok{mensal de nascidos vivos em Manaus\textquotesingle{}}\NormalTok{, }\AttributeTok{sub=}\StringTok{\textquotesingle{}Fonte: Sistema de Informação sobre Nascidos Vivos/SUS\textquotesingle{}}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(z, }\AttributeTok{col =}\StringTok{\textquotesingle{}brown\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{4}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
 
-\end{figure}
+\includegraphics{intro_files/figure-pdf/unnamed-chunk-6-1.pdf}
 
-Exercício 1 Considere o total mensal de nascidos vivos na cidade de
-Manaus entre 2019 e 2020:
+Exercício 1
 
-\begin{longtable}[]{@{}lll@{}}
-\toprule\noalign{}
-Ano & Mês & No.~nascidos vivos \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-2019 & 1 & 3.199 \\
-& 2 & 2.963 \\
-& 3 & 3.146 \\
-& 4 & 2.966 \\
-& 5 & 3.074 \\
-& 6 & 2.919 \\
-& 7 & 3.129 \\
-& 8 & 3.230 \\
-& 9 & 3.456 \\
-& 10 & 3.486 \\
-& 11 & 3.220 \\
-& 12 & 3.151 \\
-2020 & 1 & 3.185 \\
-& 2 & 3.131 \\
-& 3 & 3.256 \\
-& 4 & 3.008 \\
-& 5 & 3.080 \\
-& 6 & 2.919 \\
-& 7 & 3.208 \\
-& 8 & 3.126 \\
-& 9 & 3.126 \\
-& 10 & 3.210 \\
-& 11 & 2.957 \\
-& 12 & 3.068 \\
-\end{longtable}
+A série abaixo representa o número de homicídios mensais no Amazonas,
+segundo causa básica de óbito, entre os anos 2000 e 2023.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{require}\NormalTok{(gsheet)}
+\NormalTok{url }\OtherTok{=} \StringTok{\textquotesingle{}https://docs.google.com/spreadsheets/d/1rtiyOZ1W3SRIWZJTR1RyBmxmnGO11x005GNGrgLBr5A/edit?usp=sharing\textquotesingle{}}
+
+\NormalTok{hom }\OtherTok{=} \FunctionTok{gsheet2tbl}\NormalTok{(url)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Construa um único vetor com os três anos apresentados
-\item
-  A partir do vetor criado, construa um objeto do tipo \texttt{ts}
+  Construa um objeto do tipo \texttt{ts}
 \item
   Faça um gráfico da série.
 \item
-  Crie um janela para ver apenas o ano de 2020.
+  Crie um janela para marcar o período entre o início da pandemia de
+  COVID-19 (março de 2020) e o primeiro dia sem mortes por COVID-19
+  (julho de 2021)
 \item
-  Represente a janela acima no gráfico anterior.
+  Represente a janela acima no gráfico anterior. O que esse gráfico
+  revela?
 \end{enumerate}
 
-\hypertarget{o-pacote-data.table}{%
-\section{\texorpdfstring{O pacote
-\texttt{data.table}}{O pacote data.table}}\label{o-pacote-data.table}}
+\section{\texorpdfstring{A classe \texttt{Date} e o pacote
+\texttt{lubridate}}{A classe Date e o pacote lubridate}}\label{a-classe-date-e-o-pacote-lubridate}
 
-Assim como números e textos possuem classes específicas, as datas no
-ambiente \texttt{R} também possuem sua \texttt{Date}.
+Nessa seção discutimos a classe \texttt{Date}, responsável por operações
+com datas no \texttt{R}. São apresentadas as principais funções do
+pacote \texttt{base}. Em seguida, apresentamos o pacote
+\texttt{lubridate}, que oferece funções adicionais e uma sintaxe mais
+fluida.
+
+No pacote \texttt{base}, as datas são objeto da classe \texttt{Date}.
+Abaixo, transformamos o texto que representa 3 de agosto de 1998 nessa
+classe.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# 3 de agosto de 1998 (formato americano)}
 \NormalTok{x }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}1998/8/3\textquotesingle{}}
-\FunctionTok{as.Date}\NormalTok{(x)}
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+Existem diversas funções que interagem com objetos nessa classe:
+
+\begin{itemize}
+\item
+  \texttt{weekdays}: Retorna o dia da semana.
+\item
+  \texttt{months}: Retorna o nome do mês.
+\item
+  \texttt{quarters}: Retorna o trimestre do ano (Q1,Q2,Q3 ou Q4).
+\end{itemize}
+
+Abaixo, ilustramos o uso dessas funções com a data 3 de agosto de 1998.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{weekdays}\NormalTok{(y)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-[1] "1998-08-03"
+[1] "segunda-feira"
 \end{verbatim}
-
-Para que o \texttt{R} entenda uma data no formato nacional, é necessário
-mudar o formato:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\FunctionTok{months}\NormalTok{(y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "agosto"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{quarters}\NormalTok{(y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] "Q3"
+\end{verbatim}
+
+Outra vantagem desta classe é a possibilidade de calcular a diferença em
+dias entre duas datas, utilizando a função \texttt{-}. Abaixo mostramos
+a diferença entre 3 de agosto de 1998 e 3 de agosto de 1999.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{z }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(}\StringTok{\textquotesingle{}1999{-}08{-}03\textquotesingle{}}\NormalTok{)}
+\NormalTok{z}\SpecialCharTok{{-}}\NormalTok{y}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Time difference of 365 days
+\end{verbatim}
+
+Em certas aplicações, é necessário criar um vetor contendo datas em
+sequência. A função \texttt{seq} interage com objetos da classe
+\texttt{Date}, permitindo que o argumento \texttt{by} receba as strings
+\texttt{day}, \texttt{week},\texttt{month}, \texttt{quarter} e
+\texttt{year}. Abaixo, criamos um vetor mensal que começa em 3 de agosto
+de 1998 e terminando e 3 de agosto de 1999.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{inicio }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(}\StringTok{\textquotesingle{}1998{-}08{-}03\textquotesingle{}}\NormalTok{)}
+\NormalTok{fim }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(}\StringTok{\textquotesingle{}1999{-}08{-}03\textquotesingle{}}\NormalTok{)}
+\FunctionTok{seq}\NormalTok{(inicio, fim, }\AttributeTok{by=}\StringTok{\textquotesingle{}month\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "1998-08-03" "1998-09-03" "1998-10-03" "1998-11-03" "1998-12-03"
+ [6] "1999-01-03" "1999-02-03" "1999-03-03" "1999-04-03" "1999-05-03"
+[11] "1999-06-03" "1999-07-03" "1999-08-03"
+\end{verbatim}
+
+Observe que a conversão da \texttt{string} para \texttt{Date} é
+realizada considerando o formato americano por padrão. É possível usar a
+função \texttt{as.Date} para ler qualquer formato, modificando o
+argumento \texttt{format}. No entanto, o pacote \texttt{lubridate}
+oferece funções mais simples para essa conversão:
+
+\begin{itemize}
+\item
+  \texttt{ymd}: Converte \texttt{strings} no formato ``ano, mês, dia'',
+  como ``2023-10-26''.
+\item
+  \texttt{mdy}: Converte \texttt{strings} no formato ``mês, dia, ano'',
+  como ``10-26-2023''.
+\item
+  \texttt{dmy}: Converte \texttt{strings} no formato ``dia, mês, ano'',
+  como ``26-10-2023''.
+\end{itemize}
+
+Abaixo, transformamos a data 3/8/1998 para o formato americano.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{require}\NormalTok{(lubridate)}
 \CommentTok{\# 3 de agosto de 1998 (formato nacional)}
 \NormalTok{x }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}3/8/1998\textquotesingle{}}
-\FunctionTok{as.Date}\NormalTok{(x, }\AttributeTok{format =} \StringTok{\textquotesingle{}\%d/\%m/\%Y\textquotesingle{}}\NormalTok{)}
+\FunctionTok{dmy}\NormalTok{(x)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -506,130 +643,170 @@ mudar o formato:
 [1] "1998-08-03"
 \end{verbatim}
 
-Lidamos com datas quando temos uma fonte de dados bruta, mas em geral
-nosso objetivo é determinar a quantidade de eventos dentro de dias,
-semanas, meses ou anos. O pacote \texttt{data.table} permite lidar com
-esse problema de modo rápido. Podemos criar um objeto deste tipo
-utilizando a função \texttt{fread}. A seguir, vamos baixar uma base de
-dados de acidentes com aeronaves, mantida pela Força Aérea Brasileira e
-transformar a data de formato nacional para a classe \texttt{Date}.
+O \texttt{lubridate} também ofere a possibilidade de trabalhar com
+informações de tempo dentro de um dia, como horas, minutos e segundos.
+Por exemplo, a informação 15h30 de 3 de agosto de 1998 é lida como
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(data.table)}
-\NormalTok{url }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}https://drive.google.com/uc?authuser=0\&id=1iYrnwXgmLK07x8b330aD73scOVruZEuz\&export=download\textquotesingle{}}
-
-\NormalTok{aereo }\OtherTok{\textless{}{-}}  \FunctionTok{fread}\NormalTok{(url, }\AttributeTok{encoding =} \StringTok{\textquotesingle{}Latin{-}1\textquotesingle{}}\NormalTok{)}
-\NormalTok{aereo}\SpecialCharTok{$}\NormalTok{ocorrencia\_dia }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(aereo}\SpecialCharTok{$}\NormalTok{ocorrencia\_dia, }\StringTok{\textquotesingle{}\%d/\%m/\%Y\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-Um objeto do tipo \texttt{data.table} permite uma série de consultas. Em
-geral, pode-se fazer \texttt{aereo{[}a,b,c{]}}, onde \texttt{a} é uma
-consulta/função nas linhas, \texttt{b} nas colunas e \texttt{c} é um
-agrupador. Uma excelente introdução pode ser vista em
-\href{https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html}{Introduction
-to data.table}.
-
-Abaixo, selecionamos apenas a coluna de interesse.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{fab\_dia }\OtherTok{\textless{}{-}}\NormalTok{ aereo[,}\StringTok{\textquotesingle{}ocorrencia\_dia\textquotesingle{}}\NormalTok{,]}
-\FunctionTok{head}\NormalTok{(fab\_dia)}
+\NormalTok{x }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}3/8/1998 15:30:00\textquotesingle{}}
+\FunctionTok{dmy\_hms}\NormalTok{(x)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-   ocorrencia_dia
-1:     2023-04-05
-2:     2023-06-24
-3:     2023-06-27
-4:     2023-06-30
-5:     2023-06-25
-6:     2023-06-23
+[1] "1998-08-03 15:30:00 UTC"
 \end{verbatim}
 
-Ao utilizar o operador \texttt{.N} em \texttt{{[},.N,c{]}}, é retornado
-o número de linhas que possuem o agrupamento em \texttt{c}. Vamos
-agrupar as datas do nosso banco por ano.
+O \texttt{lubridate} possui as funções \texttt{month} e \texttt{wday},
+que funcionam de modo análgo às funções \texttt{months} e
+\texttt{weekdays}. Além disso, o \texttt{lubridate} traz uma série de
+funções adicionais como:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{year}: retorna o ano de uma data
+\item
+  \texttt{day}: retornam o dia de uma data (útil para o formado
+  xxx-xx-xx 00:00:00)
+\item
+  \texttt{hour}, \texttt{minute}, \texttt{second}: Retornam a hora,
+  minuto e segundo de um objeto de data e tempo.
+\end{itemize}
+
+As funções de arredondamento de data também são úteis, especialmente
+para obter contagens mensais, anuais, etc. Elas são \texttt{floor\_date}
+e \texttt{ceiling\_date} e são responsáveis por arredondar uma data para
+o início ou o fim de um período, respectivamente. Abaixo, arredondamos a
+data 3 de agosto de 1998 para o começo do mês.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{fab\_ano }\OtherTok{\textless{}{-}}\NormalTok{ fab\_dia[, .N, by}\OtherTok{=}\NormalTok{.(}\FunctionTok{year}\NormalTok{(ocorrencia\_dia))]}
-\NormalTok{fab\_ano }\OtherTok{\textless{}{-}}\NormalTok{fab\_ano[ }\FunctionTok{order}\NormalTok{(year) ]}
-\FunctionTok{head}\NormalTok{(fab\_ano)}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{dmy}\NormalTok{(}\StringTok{\textquotesingle{}03/08/1998\textquotesingle{}}\NormalTok{)}
+\FunctionTok{floor\_date}\NormalTok{(x, }\StringTok{\textquotesingle{}month\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-   year   N
-1: 2013 654
-2: 2014 569
-3: 2015 471
-4: 2016 403
-5: 2017 432
-6: 2018 444
+[1] "1998-08-01"
 \end{verbatim}
 
-Agora, podemos fazer o gráfico da série
+\textbf{Exemplo}
+
+A Força Aérea Brasileira (FAB), por meio do Centro de Investigação e
+Prevenção de Acidentes Aeronáuticos (CENIPA), possui um
+\texttt{dashboard} para explorar dados sobre incidentes e acidentes
+aéreos no Brasil. Um acidente é definido como uma ocorrência grave
+associada à operação de uma aeronave que resulta em lesões ou morte,
+dano estrutural da aeronave ou aeronave desaparecida. Os demais casos
+são classificados como incidentes. Os dados, atualizados em 11/08/2025,
+estão disponíveis para esse curso na \texttt{url} abaixo:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{fab\_ano }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{( fab\_ano, }\AttributeTok{start =} \DecValTok{2013}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(fab\_ano[,}\DecValTok{2}\NormalTok{], }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}No. acidentes/ano\textquotesingle{}}\NormalTok{, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}Ano\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+\NormalTok{url }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}https://docs.google.com/spreadsheets/d/1BjTXFMmTpcxKdRHCr5IIDJde9yr0s3oAAfyj2vdVuX8/edit?usp=sharing\textquotesingle{}}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{intro_files/figure-pdf/unnamed-chunk-10-1.pdf}
-
-}
-
-\end{figure}
-
-Também podemos fazer uma série mensal:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{fab\_mes }\OtherTok{\textless{}{-}}\NormalTok{ fab\_dia[, .N, by}\OtherTok{=}\NormalTok{.(}\FunctionTok{year}\NormalTok{(ocorrencia\_dia), }\FunctionTok{month}\NormalTok{(ocorrencia\_dia))]}
-
-\NormalTok{fab\_mes }\OtherTok{\textless{}{-}}\NormalTok{fab\_mes[ }\FunctionTok{order}\NormalTok{(year, month ) ]}
-\FunctionTok{head}\NormalTok{(fab\_mes)}
+\NormalTok{aereo }\OtherTok{\textless{}{-}}  \FunctionTok{gsheet2tbl}\NormalTok{(url)}
+\FunctionTok{head}\NormalTok{(aereo)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-   year month  N
-1: 2013     1 58
-2: 2013     2 60
-3: 2013     3 64
-4: 2013     4 60
-5: 2013     5 60
-6: 2013     6 49
+# A tibble: 6 x 10
+  Link   Data  Matrícula Classificação Tipo  Localidade UF    Aeródromo Operação
+  <chr>  <chr> <chr>     <chr>         <chr> <chr>      <chr> <chr>     <chr>   
+1 https~ 05/0~ ****      INCIDENTE     FALH~ RIO DE JA~ RJ    FAER      TÁXI AÉ~
+2 https~ 04/0~ ****      INCIDENTE     FALH~ MARICÁ     RJ    NCAD      TÁXI AÉ~
+3 https~ 01/0~ ****      INCIDENTE     FALH~ RIO DE JA~ RJ    SBJR      TÁXI AÉ~
+4 https~ 31/0~ ****      INCIDENTE     FALH~ PALMAS     TO    SBPJ      REGULAR 
+5 https~ 29/0~ ****      INCIDENTE     FALH~ BOA VISTA  RR    FAER      TÁXI AÉ~
+6 https~ 29/0~ ****      INCIDENTE     COLI~ RECIFE     PE    SBRF      REGULAR 
+# i 1 more variable: Status <chr>
 \end{verbatim}
 
-O gráfico dessa nova série é:
+A unidade amostral é o acidente/indicente. Estamos interessados em criar
+uma série temporal com o número de acidentes mensais. Abaixo, filtramos
+apenas os acidentes (coluna \texttt{Classificção}) e, em seguida,
+transformamos as datas em objetos do tipo \texttt{Date}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{fab\_mes }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{( fab\_mes[,}\DecValTok{3}\NormalTok{], }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{2013}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(fab\_mes, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}No. acidentes/mês\textquotesingle{}}\NormalTok{, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}Ano\textquotesingle{}}\NormalTok{)}
+\NormalTok{acidentes }\OtherTok{\textless{}{-}}\NormalTok{ aereo[ aereo}\SpecialCharTok{$}\NormalTok{Classificação}\SpecialCharTok{==}\StringTok{\textquotesingle{}ACIDENTE\textquotesingle{}}\NormalTok{, ]}
+\NormalTok{datas }\OtherTok{\textless{}{-}} \FunctionTok{dmy}\NormalTok{(acidentes}\SpecialCharTok{$}\NormalTok{Data)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
+Agora, vamos arredondar todas as datas para o primeiro dia do mês. Em
+seguida, contaremos as frequências para cada mês/ano
 
-{\centering \includegraphics{intro_files/figure-pdf/unnamed-chunk-12-1.pdf}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mes\_ano }\OtherTok{\textless{}{-}} \FunctionTok{floor\_date}\NormalTok{(datas, }\StringTok{\textquotesingle{}month\textquotesingle{}}\NormalTok{)}
+\NormalTok{contagem }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(mes\_ano)}
+\NormalTok{contagem}
+\end{Highlighting}
+\end{Shaded}
 
-}
+\begin{verbatim}
+mes_ano
+2015-01-01 2015-02-01 2015-03-01 2015-04-01 2015-05-01 2015-06-01 2015-07-01 
+        12         14         15         19         16         14         16 
+2015-08-01 2015-09-01 2015-10-01 2015-11-01 2015-12-01 2016-01-01 2016-02-01 
+        13         17          9         14         13         20         16 
+2016-03-01 2016-04-01 2016-05-01 2016-06-01 2016-07-01 2016-08-01 2016-09-01 
+        20         19          8          5         11          4         17 
+2016-10-01 2016-11-01 2016-12-01 2017-01-01 2017-02-01 2017-03-01 2017-04-01 
+        20          9         15         17         16         11         16 
+2017-05-01 2017-06-01 2017-07-01 2017-08-01 2017-09-01 2017-10-01 2017-11-01 
+         8          6         12          6         14         15         16 
+2017-12-01 2018-01-01 2018-02-01 2018-03-01 2018-04-01 2018-05-01 2018-06-01 
+         9         18         19         18         18         15         13 
+2018-07-01 2018-08-01 2018-09-01 2018-10-01 2018-11-01 2018-12-01 2019-01-01 
+        15          8         11          8         14         10         20 
+2019-02-01 2019-03-01 2019-04-01 2019-05-01 2019-06-01 2019-07-01 2019-08-01 
+        10         17         14         12         13         15          8 
+2019-09-01 2019-10-01 2019-11-01 2019-12-01 2020-01-01 2020-02-01 2020-03-01 
+        14          6         11         11         11         17         12 
+2020-04-01 2020-05-01 2020-06-01 2020-07-01 2020-08-01 2020-09-01 2020-10-01 
+        14          9          6         16          9         15         18 
+2020-11-01 2020-12-01 2021-01-01 2021-02-01 2021-03-01 2021-04-01 2021-05-01 
+         7         16         13         16         17          7         17 
+2021-06-01 2021-07-01 2021-08-01 2021-09-01 2021-10-01 2021-11-01 2021-12-01 
+         5          8          8         12          7         13         18 
+2022-01-01 2022-02-01 2022-03-01 2022-04-01 2022-05-01 2022-06-01 2022-07-01 
+        15         12         13         13          9         13          8 
+2022-08-01 2022-09-01 2022-10-01 2022-11-01 2022-12-01 2023-01-01 2023-02-01 
+         8         12         10         13         12         21         21 
+2023-03-01 2023-04-01 2023-05-01 2023-06-01 2023-07-01 2023-08-01 2023-09-01 
+        18         12         17         15          7          6          5 
+2023-10-01 2023-11-01 2023-12-01 2024-01-01 2024-02-01 2024-03-01 2024-04-01 
+         8         14         11         17         21         12         22 
+2024-05-01 2024-06-01 2024-07-01 2024-08-01 2024-09-01 2024-10-01 2024-11-01 
+         7         15         13          9         13         12         14 
+2024-12-01 2025-01-01 2025-02-01 2025-03-01 2025-04-01 2025-05-01 2025-06-01 
+        20         22         11         13         20         10          5 
+2025-07-01 
+        11 
+\end{verbatim}
 
-\end{figure}
+É sempre importante checar o resultado em \texttt{contagem}, para
+verificar se não há algum mês ausente. Como não o caso aqui, vamos
+construir um objeto do tipo \texttt{ts} e fazer o gráfico da série
+temporal.
 
-Exercício 1
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{serie }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(contagem, }\AttributeTok{start=}\FunctionTok{c}\NormalTok{(}\DecValTok{2015}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{ )}
+\FunctionTok{plot}\NormalTok{(serie, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}No. de acidentes aéreos\textquotesingle{}}\NormalTok{, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}Ano\textquotesingle{}}\NormalTok{, }\AttributeTok{sub=} \StringTok{\textquotesingle{}Fonte: CENIPA\textquotesingle{}}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
 
-A série abaixo contém a data dos óbitos maternos no Brasil a partir de
+\includegraphics{intro_files/figure-pdf/unnamed-chunk-18-1.pdf}
+
+Exercício 2
+
+A série abaixo contém as datas dos óbitos maternos no Brasil a partir de
 2010.
 
 \begin{Shaded}
@@ -639,20 +816,23 @@ A série abaixo contém a data dos óbitos maternos no Brasil a partir de
 \end{Shaded}
 
 Crie uma série temporal com o número de óbitos mensal e faça um gráfico.
-Crie uma janela para colocar no gráfico o período da pandemia de
-COVID-19.
+Crie uma janela para destacar no gráfico o período da pandemia de
+COVID-19 (março de 2020 até julhode 2021).
 
 \bookmarksetup{startatroot}
 
-\hypertarget{tipos-de-sinal}{%
-\chapter{Tipos de sinal}\label{tipos-de-sinal}}
+\chapter{Sinal, ruído e
+correlograma}\label{sinal-ruuxeddo-e-correlograma}
+
+\section{Sinal e ruído}\label{sinal-e-ruuxeddo}
 
 Em geral, a série temporal possui componentes de dois tipos: sinal e
 ruído. O primeiro é uma função do tempo geralmente relacionado com a
-média da série, enquanto que o segundo está relacionado com a variância.
-Podemos assumir que essa relação é aditiva:
+média da série em dado instante de tempo, enquanto que o segundo está
+relacionado com a variância. Podemos assumir que essa relação é aditiva:
 
 \[X_t=\hbox{sinal}(t)+\varepsilon_t\] onde \(\varepsilon_t\) é o ruído.
+
 Em alguns casos essa relação é multiplicativa, ou seja,
 
 \[X_t=\exp\{\hbox{sinal}(t)+\varepsilon_t\},\] e, nesses casos,
@@ -664,46 +844,124 @@ Os sinais mais importantes são:
 \begin{itemize}
 \item
   Tendência: um comportamento de subida ou descida que pode ser
-  observado no médio/longo prazo
+  observado no médio/longo prazo. Uma série temporal com tendência
+  costuma ser bem representada por polinômios, ou seja
+  \[x_t= \sum_{j=0}^q\beta_j t^j +\varepsilon_t.\]
 \item
-  Sazonalidade: são componentes que surgem sistematicamente ao longo do
-  tempo, como por exemplo: flutuações de temperatura entre estações,
-  início e fim do semestre letivo, Natal, dias úteis, feriados
-  flutuantes como a Páscoa e o Carnaval.
+  Sazonalidade: é um padrão de oscilação que ocorre em um período fixo e
+  conhecido. Cheias de rios e quantidade de chuva são exemplos de
+  padrões sazonais. Em termos gerais, o padrão sazonal pode ser
+  representado por um harmônico, ou seja,
 \end{itemize}
 
-O ruídos mais importantes são:
+\[x_t=A\cos\left(\phi+\frac{2\pi}{p}t\right)+\varepsilon_t\] onde \(p\)
+é o período sazonal, \(A\) é amplitude da onda e \(\phi\) a fase.
+
+\begin{itemize}
+\tightlist
+\item
+  Ciclos: é um padrão oscilatório sem período fixo, como o ciclo de
+  recessão de uma economia. Modelar ciclos é um pouco mais complexo, mas
+  veremos posteriormente que é possível escrever séries deste tipo como
+  \[x_t=A_t\cos\left(\phi_t+2\pi\lambda t\right)+\varepsilon_t,\] onde a
+  amplitude e a fase variam no tempo e o período \(1/\lambda\) é
+  desconhecido.
+\end{itemize}
+
+Os padrões oscilatórios (sazonalidade e ciclos) descritos acima variam
+em torno de zero. Caso seja necessário, um parâmetro \(\mu\) constante
+pode ser adicionado para caracterizar uma oscilação em torno de uma
+média.
+
+É possível que uma série possua todos os sinais acima, sendo escrita
+como
+
+\[x_t=\sum_{j=0}^q \beta_j t^j+A\cos\left(\phi+2\pi\lambda t\right)+A_t\cos\left(\phi_t+2\pi\lambda t\right)+\varepsilon_t\]
+
+O ruído é a parte aleatória da composição e possui média zero. Isso
+implica que, para uma série com sinal \(f(t)\), teremos
+
+\[E(x_t)=E(f(t))+E(\varepsilon_t)=f(t)\] e
+\[Var(x_t)=Var(f(t)+\varepsilon_t)=Var(\varepsilon_t)\] Os ruídos mais
+importantes são:
 
 \begin{itemize}
 \item
-  Branco: possuem variância constante e não correlacionados.
+  Ruído branco: possuem variância constante e são não correlacionados,
+  ou seja \(Cov(\varepsilon_t,\varepsilon_s)=0\) para todo \(t\neq s\).
 \item
-  Média móvel de ordem \(q\): possuem variância constante e são
-  correlacionados com até \(q\) ruídos anteriores.
+  Média móvel de ordem \(q\): sejam
+  \(\ldots,\varepsilon_{-2},\varepsilon_{-1},\varepsilon_{0},\varepsilon_{1},\ldots\)
+  ruídos brancos. O ruído de média móvel de ordem \(q\) é dado por
+  \[\eta_t=\varepsilon_{t}+\sum_{j=1}^q \theta_j\varepsilon_{t-j}.\]
 \end{itemize}
 
-A série a seguir representa o número de vendas de passagens aéreas nos
-EUA. Note o comportamento da tendência e da sazonalidade.
+A série a seguir representa uma série mensal de concentração de
+\(\hbox{CO}_2\) na atmosfera em Mauna Loa, expressa em partes por
+milhão. Note o comportamento da tendência e da sazonalidade.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(AirPassengers)}
+\FunctionTok{plot}\NormalTok{(co2)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-1-1.pdf}
 
-{\centering \includegraphics{sinal_files/figure-pdf/unnamed-chunk-1-1.pdf}
+Existem diversas ferramentas que estimam a tendência e a sazonalidade.
+Dentre estas, detaca-se o STL, por sua robustez. Abaixo, ilustramos a
+decomposição da série \texttt{co2}. O termo \texttt{remainder}, também
+conhecido como resíduo, é calculado como
 
-}
+\[e_t=x_t-\hat{f}(t),\] onde \(\hat{f}(t)\) é o sinal
+(tendência+sazonalidade) ajustado. Se não houver qualquer outro sinal a
+ser ajustado, então \(e_t\) é uma estimativa para \(\varepsilon_t\).
 
-\end{figure}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# p é o período do padrão sazonal}
+\NormalTok{p }\OtherTok{=} \DecValTok{12}
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{stl}\NormalTok{(co2,p))}
+\end{Highlighting}
+\end{Shaded}
 
-\bookmarksetup{startatroot}
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-2-1.pdf}
 
-\hypertarget{a-funuxe7uxe3o-de-autocorrelauxe7uxe3o}{%
-\chapter{A função de
-autocorrelação}\label{a-funuxe7uxe3o-de-autocorrelauxe7uxe3o}}
+\textbf{Exercício.} Considere a série \texttt{AirPassengers}, disponível
+no pacote \texttt{datasets}.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Faça um gráfico da série temporal e procure determinar suas
+  componentes.
+\item
+  A função \texttt{decompose} estima a sazonalidade assumindo a média
+  das observações correspodentes ao mesmo fator sazonal (por exemplo,
+  todos os janeiros). Faça um gráfico do resultado do \texttt{decompose}
+  para esta série e discuta os resultados (em especial o termo
+  \texttt{random}, que é o resíduo da decomposição).
+\item
+  Repita o item 2, mas utilizando a função \texttt{stl}. Quais são as
+  principais diferenças?
+\item
+  Aplique o logaritmo da série e verifique o seu gráfico. Quais são as
+  semelhanças e diferenças deste gráfico com o obtido no item 1?
+\end{enumerate}
+
+\textbf{Exercício.} Na série abaixo temos a taxa de desemprego mensal no
+Brasil entre março de 2002 e dezembro de 2015. Analise as componentes
+desta série.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{url }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}https://www.dropbox.com/s/rmgymzsic99qawd/desemprego.csv?dl=1\textquotesingle{}}
+\NormalTok{banco }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(url, }\AttributeTok{sep =} \StringTok{\textquotesingle{};\textquotesingle{}}\NormalTok{, }\AttributeTok{h =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{A função de
+aucorrelação}\label{a-funuxe7uxe3o-de-aucorrelauxe7uxe3o}
 
 Considere inicialmente uma amostra aleatória \(X_1,\ldots,X_n\) (ou
 seja, todas as variáveis são independentes e possuem a mesma
@@ -732,9 +990,8 @@ Propriedades
 Correlograma O gráfico \((h,r(h))\) é denominado correlograma, ou
 gráfico da função de autocorrelação.
 
-\hypertarget{o-correlograma-de-uma-amostra-aleatuxf3ria}{%
-\section{O correlograma de uma amostra
-aleatória}\label{o-correlograma-de-uma-amostra-aleatuxf3ria}}
+\subsection{O correlograma de uma amostra
+aleatória}\label{o-correlograma-de-uma-amostra-aleatuxf3ria}
 
 Quando a amostra é aleatória, a função de autocorrelação é nula para
 qualquer defasagem diferente de 0. Deste modo, o correlograma deve
@@ -756,13 +1013,7 @@ aleatórias independentes com distribuição normal padrão.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{acf_files/figure-pdf/unnamed-chunk-1-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-4-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -771,17 +1022,10 @@ aleatórias independentes com distribuição normal padrão.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-4-2.pdf}
 
-{\centering \includegraphics{acf_files/figure-pdf/unnamed-chunk-1-2.pdf}
-
-}
-
-\end{figure}
-
-\hypertarget{o-correlograma-com-a-componente-de-tenduxeancia}{%
-\section{O correlograma com a componente de
-tendência}\label{o-correlograma-com-a-componente-de-tenduxeancia}}
+\subsection{O correlograma com a componente de
+tendência}\label{o-correlograma-com-a-componente-de-tenduxeancia}
 
 Quando uma série exibe tendência, o correlograma exibe um descaimento
 lento e persistente.
@@ -802,13 +1046,7 @@ apresentamos o respectivo correlograma
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{acf_files/figure-pdf/unnamed-chunk-2-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-5-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -827,13 +1065,7 @@ série de acidentes aéreos mensais vista anteriormente.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{acf_files/figure-pdf/unnamed-chunk-4-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-7-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -841,9 +1073,8 @@ série de acidentes aéreos mensais vista anteriormente.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{o-correlograma-com-a-componente-de-sazonalidade---sinal-harmuxf4nico}{%
-\section{O correlograma com a componente de sazonalidade - sinal
-harmônico}\label{o-correlograma-com-a-componente-de-sazonalidade---sinal-harmuxf4nico}}
+\subsection{O correlograma com a componente de sazonalidade - sinal
+harmônico}\label{o-correlograma-com-a-componente-de-sazonalidade---sinal-harmuxf4nico}
 
 O sinal sazonal é caracterizado por um comportamento periódico. Existem
 dois comportamentos sazonais típicos. O primeiro é baseado na função
@@ -876,13 +1107,7 @@ Abaixo seguem alguns exemplos de harmônicos, todos com período 12:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{acf_files/figure-pdf/unnamed-chunk-5-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-8-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -892,13 +1117,7 @@ Abaixo seguem alguns exemplos de harmônicos, todos com período 12:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{acf_files/figure-pdf/unnamed-chunk-5-2.pdf}
-
-}
-
-\end{figure}
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-8-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -908,13 +1127,7 @@ Abaixo seguem alguns exemplos de harmônicos, todos com período 12:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{acf_files/figure-pdf/unnamed-chunk-5-3.pdf}
-
-}
-
-\end{figure}
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-8-3.pdf}
 
 Abaixo simulamos uma série temporal com um sinal do tipo harmônico.
 Observe que o comportamento em forma de onda é aparente na função de
@@ -930,13 +1143,7 @@ autocorrelação.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{acf_files/figure-pdf/unnamed-chunk-6-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-9-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -956,13 +1163,7 @@ acima.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{acf_files/figure-pdf/unnamed-chunk-7-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-10-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -970,9 +1171,8 @@ acima.
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo}{%
-\section{O correlograma com a componente de sazonalidade - sinal
-autorregressivo}\label{o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo}}
+\subsection{O correlograma com a componente de sazonalidade - sinal
+autorregressivo}\label{o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo}
 
 Nesse tipo de sazonalidade, ainda há um período \(p\), mas não há um
 sinal harmônico. O valor da série no tempo \(t\) é baseado no valor
@@ -993,13 +1193,7 @@ período \(p=12\)
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{acf_files/figure-pdf/unnamed-chunk-8-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{sinal_files/figure-pdf/unnamed-chunk-11-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1007,8 +1201,7 @@ período \(p=12\)
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{exercuxedcios}{%
-\section{Exercícios}\label{exercuxedcios}}
+\section{Exercícios}\label{exercuxedcios}
 
 Exercício 1 Estude o comportamento da série \texttt{ldeaths}, que conta
 o número mensal de óbitos por doenças pulmonares no Reino Unido.
@@ -1028,666 +1221,9 @@ seguir. Construa uma série mensal e estude seu comportamento
 
 \bookmarksetup{startatroot}
 
-\hypertarget{mais-ferramentas-exploratuxf3rias}{%
-\chapter{Mais ferramentas
-exploratórias}\label{mais-ferramentas-exploratuxf3rias}}
+\chapter{O modelo linear dinâmico}\label{o-modelo-linear-dinuxe2mico}
 
-\hypertarget{estudo-da-tenduxeancia-utilizando-o-loess}{%
-\section{\texorpdfstring{Estudo da tendência utilizando o
-\texttt{loess}}{Estudo da tendência utilizando o loess}}\label{estudo-da-tenduxeancia-utilizando-o-loess}}
-
-\emph{Loes} é um modelo de regressão não linear não paramétrico. Abaixo
-mostramos como utilizá-lo considerando um banco de dados com diversas
-marcas de veículos e a relação entre a variável milhas por galão (mpg) e
-deslocamento (disp)
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{( mtcars}\SpecialCharTok{$}\NormalTok{disp, mtcars}\SpecialCharTok{$}\NormalTok{mpg )}
-\NormalTok{lw }\OtherTok{\textless{}{-}} \FunctionTok{loess}\NormalTok{( mpg }\SpecialCharTok{\textasciitilde{}}\NormalTok{ disp, }\AttributeTok{data =}\NormalTok{ mtcars )}
-\FunctionTok{points}\NormalTok{(mtcars}\SpecialCharTok{$}\NormalTok{disp, lw}\SpecialCharTok{$}\NormalTok{fitted, }\AttributeTok{col =} \StringTok{\textquotesingle{}tomato\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{\textquotesingle{}topright\textquotesingle{}}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Observado\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}Ajustado\textquotesingle{}}\NormalTok{),}\AttributeTok{fill=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\StringTok{\textquotesingle{}tomato\textquotesingle{}}\NormalTok{), }\AttributeTok{bty=}\StringTok{\textquotesingle{}n\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-1-1.pdf}
-
-}
-
-\end{figure}
-
-Podemos estimar a tendência utilizando o loess, imaginando uma regressão
-do tipo:
-
-\[E(X_t)=g(t),\] ou seja, utilizando o tempo como regressora. Vamos
-ilustrar a ideia utilizando a série de acidentes aéreos mensais da FAB.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# criando a variável regressora}
-\NormalTok{tempo }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{:} \FunctionTok{length}\NormalTok{(fab\_mes)}
-
-\CommentTok{\# aplicando o loess}
-\NormalTok{lw }\OtherTok{\textless{}{-}} \FunctionTok{loess}\NormalTok{( fab\_mes }\SpecialCharTok{\textasciitilde{}}\NormalTok{ tempo)}
-
-\CommentTok{\# transformando o valor predito em uma série temporal}
-
-\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(lw}\SpecialCharTok{$}\NormalTok{fitted, }\AttributeTok{start =} \FunctionTok{start}\NormalTok{(fab\_mes), }\AttributeTok{frequency =} \FunctionTok{frequency}\NormalTok{(fab\_mes) )}
-
-\CommentTok{\# gráfico da tendência estimada}
-
-\FunctionTok{ts.plot}\NormalTok{( fab\_mes, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}No. acidentes/mês\textquotesingle{}}\NormalTok{ , }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(fit, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}tomato\textquotesingle{}}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{\textquotesingle{}bottomright\textquotesingle{}}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Observado\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}Ajustado\textquotesingle{}}\NormalTok{),}\AttributeTok{fill=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\StringTok{\textquotesingle{}tomato\textquotesingle{}}\NormalTok{), }\AttributeTok{bty=}\StringTok{\textquotesingle{}n\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-3-1.pdf}
-
-}
-
-\end{figure}
-
-Acima estimamos a tendência. Denomine este sinal estimado por
-\(\hat{g}(t)\). Agora, considere a série
-
-\[y_t=x_t-\hat{g}(t).\] Ao analisar esta série, duas coisas podem
-acontecer:
-
-\begin{itemize}
-\item
-  Vamos encontrar um comportamento semelhante a um ruído (correlograma
-  com barras praticamente nulas)
-\item
-  Vamos encontrar algum outro sinal ainda não ajustado.
-\end{itemize}
-
-Os gráficos abaixo mostram que não há mais sinais para procurar
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{yt }\OtherTok{\textless{}{-}}\NormalTok{ fab\_mes }\SpecialCharTok{{-}}\NormalTok{ fit}
-
-\FunctionTok{ts.plot}\NormalTok{(yt)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-4-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{acf}\NormalTok{(yt, }\AttributeTok{lag =} \DecValTok{30}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-4-2.pdf}
-
-}
-
-\end{figure}
-
-Portanto, esta série pode ser escrita como
-
-\[x_t = \hbox{tendência}_t+\varepsilon_t,\] onde \(\varepsilon_t\) é um
-ruído branco.
-
-Abaixo, vamos analisar a série de taxa de desemprego mensal, entre março
-de 2002 e dezembro de 2015.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{url }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}https://www.dropbox.com/s/rmgymzsic99qawd/desemprego.csv?dl=1\textquotesingle{}}
-
-\NormalTok{banco }\OtherTok{\textless{}{-}} \FunctionTok{fread}\NormalTok{(url)}
-
-\NormalTok{desemprego}\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{( banco[,}\StringTok{\textquotesingle{}V2\textquotesingle{}}\NormalTok{,], }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{2002}\NormalTok{,}\DecValTok{3}\NormalTok{), }\AttributeTok{frequency=}\DecValTok{12}\NormalTok{)}
-
-\FunctionTok{ts.plot}\NormalTok{(desemprego, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}Taxa de desemprego\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-5-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{acf}\NormalTok{(desemprego, }\AttributeTok{lag =} \DecValTok{30}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-5-2.pdf}
-
-}
-
-\end{figure}
-
-É possível verificar que há tendência e sazonalidade na série. Vamos
-estimar a componente de tendência primeiro.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# criando a variável regressora}
-\NormalTok{tempo }\OtherTok{\textless{}{-}} \DecValTok{1} \SpecialCharTok{:} \FunctionTok{length}\NormalTok{(desemprego)}
-
-\CommentTok{\# aplicando o loess}
-\NormalTok{lw }\OtherTok{\textless{}{-}} \FunctionTok{loess}\NormalTok{( desemprego }\SpecialCharTok{\textasciitilde{}}\NormalTok{ tempo)}
-
-\CommentTok{\# transformando o valor predito em uma série temporal}
-
-\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(lw}\SpecialCharTok{$}\NormalTok{fitted, }\AttributeTok{start =} \FunctionTok{start}\NormalTok{(desemprego), }\AttributeTok{frequency =} \FunctionTok{frequency}\NormalTok{(desemprego) )}
-
-\CommentTok{\# gráfico da tendência estimada}
-
-\FunctionTok{ts.plot}\NormalTok{( desemprego, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}Taxa de desemprego\textquotesingle{}}\NormalTok{ , }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(fit, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}tomato\textquotesingle{}}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{\textquotesingle{}topright\textquotesingle{}}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Observado\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}Ajustado\textquotesingle{}}\NormalTok{),}\AttributeTok{fill=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\StringTok{\textquotesingle{}tomato\textquotesingle{}}\NormalTok{), }\AttributeTok{bty=}\StringTok{\textquotesingle{}n\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-6-1.pdf}
-
-}
-
-\end{figure}
-
-Vamos eliminar a tendência estiamada e avaliar o restante.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{yt }\OtherTok{\textless{}{-}}\NormalTok{ desemprego }\SpecialCharTok{{-}}\NormalTok{ fit}
-
-\FunctionTok{ts.plot}\NormalTok{(yt)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-7-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{acf}\NormalTok{(yt, }\AttributeTok{lag =} \DecValTok{50}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-7-2.pdf}
-
-}
-
-\end{figure}
-
-Fica claro o comportamento sazonal. Note que o período não parece ser
-anual, mas sim de 3 em 3 anos. Vamos avaliar esse aspecto com mais
-detalhes na próxima seção.
-
-\hypertarget{exercuxedcios-1}{%
-\subsection{Exercícios}\label{exercuxedcios-1}}
-
-Exercício 1 Considerando o banco de dados sobre suicídios no Mato Grosso
-do Sul:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  Estime a tendência
-\item
-  Remova a tendência estimada e verifique se o resultado é um ruído
-  branco
-\end{enumerate}
-
-Exercício 2 Verifique se há tendência na série \texttt{ldeaths}.
-
-Exercício 3 Verifique se há tendência na série de óbitos maternos, cuja
-url é
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{url }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}https://drive.google.com/uc?authuser=0\&id=1tYFFT9L2iopKmBDUI3P8qNIRaOnMYj7d\&export=download\textquotesingle{}}
-\end{Highlighting}
-\end{Shaded}
-
-Faça duas análises, uma com a série inteira e outra eliminando os dados
-a partir de 2020.
-
-Exercício 4. O banco de dados abaixo apresenta algumas séries temporais
-mensais com o número de nascidos vivos em Manaus
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{url }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}https://drive.google.com/uc?authuser=0\&id=139h6x2g7PkAHNTzsbQKUl5G2MqoXYk6Y\&export=download\textquotesingle{}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  Estime a tendência dos nascimentos considerando duas séries: partos
-  vaginais e cesários. Coloque as duas informações no mesmo gráfico.
-\item
-  Elimine a tendência de cada série e verifique se há outro sinal a ser
-  estimado.
-\end{enumerate}
-
-Exercício 1
-
-\hypertarget{o-periodograma}{%
-\section{O periodograma}\label{o-periodograma}}
-
-\hypertarget{introduuxe7uxe3o-1}{%
-\subsection{Introdução}\label{introduuxe7uxe3o-1}}
-
-Todo padrão sazonal possui um período - a quantidade de tempo necessária
-para que o padrão se repita. O inverso desse período é denominado
-frequência fundamental, que é a fração de um ciclo por unidade de tempo.
-
-\textbf{Exemplo:} Considere o período de 12 meses. Então, a frequência
-fundamental é 1/12 (ou seja, cada mês representa um doze ávos do período
-de 1 ano).
-
-Lembremos que o sinal harmônico é igual a
-\[\hbox{sinal}(t)=A\sin\left(2\pi\omega t+\phi\right),\] onde
-\(\omega=1/p\) é a frequência. Com um pouco de trigonometria, podemos
-mostrar que
-
-\[\hbox{sinal}(t)=\beta_1\cos\left(2\pi\omega t\right)+ \beta_2\sin\left(2\pi\omega t\right)\]
-onde \(\beta_1=A\cos(\phi)\) e \(\beta_2=-A\sin(\phi)\). É possível
-mostrar também que \(A=\sqrt{\beta_1+\beta_2}\) e
-\(\phi=\cos^{-1}(\beta_1/A)\). A vantagem dessa nova forma é que o sinal
-pode ser escrito como um modelo linear e pode ser estimado facilmente. A
-soma de quadrados explicada pela regressão é proporcional à
-
-\[I(\omega)=\hat{A}(\omega)^2 \] e podemos mostrar que a estimativa de
-máxima verossimilhança para \(\omega\) é o valor que maximiza
-\(I(\omega)\).
-
-Periodograma O gráfico de \(I(\omega)\) é denominado periodograma.
-
-Vamos criar a função periodograma
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{Iw }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y,w)\{}
-
-  \CommentTok{\# matriz de planetamento}
-\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(y)}
-\NormalTok{  t }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n}
-\NormalTok{  x }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(}\FunctionTok{cos}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{pi}\SpecialCharTok{*}\NormalTok{w}\SpecialCharTok{*}\NormalTok{t), }\FunctionTok{sin}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{pi}\SpecialCharTok{*}\NormalTok{w}\SpecialCharTok{*}\NormalTok{t))}
-  
-  \CommentTok{\# coeficientes do modelo linear}
-\NormalTok{  beta }\OtherTok{\textless{}{-}} \FunctionTok{coefficients}\NormalTok{(}\FunctionTok{lm}\NormalTok{(y }\SpecialCharTok{\textasciitilde{}}\NormalTok{x}\DecValTok{{-}1}\NormalTok{))}
-  
-  \CommentTok{\# amplitude}
-\NormalTok{  A }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{sum}\NormalTok{(beta}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
-  
-  \CommentTok{\# Iw}
-\NormalTok{  .}\DecValTok{5}\SpecialCharTok{*}\NormalTok{n}\SpecialCharTok{*}\NormalTok{A}\SpecialCharTok{\^{}}\DecValTok{2}
-\NormalTok{\}}
-
-\NormalTok{periodograma }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y)\{}
-  \CommentTok{\# gráfico}
-\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(y)}
-\NormalTok{  w\_detec }\OtherTok{\textless{}{-}}\NormalTok{ ( }\DecValTok{1} \SpecialCharTok{:} \FunctionTok{floor}\NormalTok{(  (n}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{/} \DecValTok{2}\NormalTok{) ) }\SpecialCharTok{/}\NormalTok{ n}
-\NormalTok{  I\_w }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{( w\_detec, }\ControlFlowTok{function}\NormalTok{(w) }\FunctionTok{Iw}\NormalTok{(y , w) )}
-  \FunctionTok{plot}\NormalTok{( }\DecValTok{1} \SpecialCharTok{/}\NormalTok{ w\_detec , I\_w, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}Período\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab =}     \FunctionTok{expression}\NormalTok{(}\FunctionTok{I}\NormalTok{(w)), }\AttributeTok{type =} \StringTok{\textquotesingle{}h\textquotesingle{}}\NormalTok{ , }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
-  
-  \CommentTok{\# encontrando o periodo}
-\NormalTok{  fund }\OtherTok{\textless{}{-}}\NormalTok{  w\_detec[ }\FunctionTok{which}\NormalTok{( I\_w }\SpecialCharTok{==} \FunctionTok{max}\NormalTok{(I\_w))]}
-  \FunctionTok{cat}\NormalTok{(}\StringTok{\textquotesingle{}Período: \textquotesingle{}}\NormalTok{,}\DecValTok{1}\SpecialCharTok{/}\NormalTok{fund,}\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
-
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-Na função acima \texttt{y} é a série temporal. Vamos aplicar essa função
-para a série de temperaturas no Castelo de Nottingham.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{periodograma}\NormalTok{(nottem)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-11-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{verbatim}
-Período:  12 
-\end{verbatim}
-
-\hypertarget{periodograma-para-amostras-aleatuxf3rias}{%
-\subsection{Periodograma para amostras
-aleatórias}\label{periodograma-para-amostras-aleatuxf3rias}}
-
-É importante notar que a frequência fundamental é um pico expressivo em
-relação aos demais. Abaixo mostramos o periodograma para uma amostra
-aleatória - note como há vários picos, evidenciando a falta de uma
-frequência fundamental.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{periodograma}\NormalTok{(}\FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-12-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{verbatim}
-Período:  2.12766 
-\end{verbatim}
-
-\hypertarget{periodograma-na-presenuxe7a-de-tenduxeancia}{%
-\subsection{Periodograma na presença de
-tendência}\label{periodograma-na-presenuxe7a-de-tenduxeancia}}
-
-É importante remover a tendência antes de aplicar o periodo. Por
-exemplo, considere novamente a série \texttt{AirPassengers}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ts.plot}\NormalTok{(AirPassengers)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-13-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{periodograma}\NormalTok{(AirPassengers)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-13-2.pdf}
-
-}
-
-\end{figure}
-
-\begin{verbatim}
-Período:  144 
-\end{verbatim}
-
-Embor exista uma sazonalidade clara, o periodograma retorna um período
-de 12 anos, algo irreal. Vamos remover a tendência.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# criando o loess}
-\NormalTok{y }\OtherTok{\textless{}{-}}\NormalTok{ AirPassengers}
-\NormalTok{tempo }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(y)}
-\NormalTok{lw }\OtherTok{\textless{}{-}} \FunctionTok{loess}\NormalTok{( y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ tempo )}
-\NormalTok{fit }\OtherTok{\textless{}{-}}\NormalTok{ lw}\SpecialCharTok{$}\NormalTok{fitted}
-
-\CommentTok{\# criando a série livre de tendência}
-\NormalTok{y\_detrend }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{( y}\SpecialCharTok{{-}}\NormalTok{fit, }\AttributeTok{start =} \FunctionTok{start}\NormalTok{(y), }\AttributeTok{frequency =} \FunctionTok{frequency}\NormalTok{(y))}
-
-\FunctionTok{ts.plot}\NormalTok{( y\_detrend )}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-14-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{periodograma}\NormalTok{( y\_detrend )}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-14-2.pdf}
-
-}
-
-\end{figure}
-
-\begin{verbatim}
-Período:  12 
-\end{verbatim}
-
-\hypertarget{exercuxedcios-2}{%
-\subsection{Exercícios}\label{exercuxedcios-2}}
-
-Exercício 1. Determine o período da série \texttt{ldeaths} - número de
-óbito mensais por doenças pulmonares no Reino Unido.
-
-Exercício 2. Determine o período da série de óbitos maternos, cuja url
-é:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{url }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}https://drive.google.com/uc?authuser=0\&id=1tYFFT9L2iopKmBDUI3P8qNIRaOnMYj7d\&export=download\textquotesingle{}}
-\end{Highlighting}
-\end{Shaded}
-
-Exercício 3. A série \texttt{co2} representa a concentração de CO\(_2\)
-na atmosfera medida em Mauna Loa. Analise a tendência da série e estime
-o período.
-
-Exercício 4. Determine a tendência e o período da série mensal do número
-de nascidos vivos em Manaus, independente do tipo de parto.
-
-\hypertarget{ajuste-por-fatores-sazonais}{%
-\section{Ajuste por fatores
-sazonais}\label{ajuste-por-fatores-sazonais}}
-
-Considere novamente o harmônico
-
-\[\hbox{sinal}(t)=A\cos\left(\frac{2\pi}{p}t+\phi\right)\]
-
-O sinal no tempo \(t=1+p\) é equivalente ao sinal no tempo 1:
-
-\[\hbox{sinal}(1+p)=A\cos\left(\frac{2\pi}{p}+2\pi+\phi\right)=A\cos\left(\frac{2\pi}{p}+\phi\right)=\hbox{sinal}(1)\]
-
-Isso é verdade para todo \(t=1+kp\), onde \(k=1,2,\ldots.\) Isto implica
-que, na prática, a imagem de \(\hbox{sinal}(t)\) só pode ser \(p\)
-valores:
-
-\[\hbox{sinal}(t)=\left\{\begin{array}{ll}\hbox{sinal}(1),&t=1,1+p,1+2p,\ldots,\\
-\hbox{sinal}(2),&t=2,2+p,2+2p\ldots,\\
-\vdots,&\vdots\\
-\hbox{sinal}(p),&t=p,2p,3p\ldots,\end{array}\right.\]
-
-Então \[x_t=\hbox{sinal}(t)+\varepsilon_t\] pode ser considerado uma
-ANOVA com um fator.
-
-Considere a série \texttt{ldeths}, que já sabemos ter uma leve tendência
-decrescente e sazonalidade com período 12. Primeiro, vamos encontrar a
-série livre de tendência:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{tempo }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(ldeaths)}
-\NormalTok{lw }\OtherTok{\textless{}{-}} \FunctionTok{loess}\NormalTok{( ldeaths }\SpecialCharTok{\textasciitilde{}}\NormalTok{ tempo)}
-\NormalTok{tend }\OtherTok{\textless{}{-}}\NormalTok{ lw}\SpecialCharTok{$}\NormalTok{fitted}
-
-\NormalTok{tend }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{( tend, }\AttributeTok{start =} \FunctionTok{start}\NormalTok{(ldeaths), }\AttributeTok{frequency =} \FunctionTok{frequency}\NormalTok{(ldeaths))}
-
-\CommentTok{\#  série sem tendência}
-\NormalTok{d\_ldeaths }\OtherTok{\textless{}{-}}\NormalTok{ ldeaths }\SpecialCharTok{{-}}\NormalTok{ tend}
-\end{Highlighting}
-\end{Shaded}
-
-Em seguida, encontramos o período.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{periodograma}\NormalTok{(d\_ldeaths)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-17-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{verbatim}
-Período:  12 
-\end{verbatim}
-
-Nesse momento, devemos atribuir o período para o objeto \texttt{ts},
-fazendo
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{d\_ldeaths }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{( d\_ldeaths, }\AttributeTok{frequency=} \DecValTok{12}\NormalTok{) }
-\end{Highlighting}
-\end{Shaded}
-
-Note que o código acima foi inócuo porque o objeto \texttt{ldeaths} já
-tinha o período 12.
-
-Antes de fazer o ajuste sazonal, é possível fazer um gráfico com doze
-séries temporais, uma para cada fator sazonal (no nosso exemplo, uma
-série só de janeiros, de fevereiros, etc). Mostramos isso a seguir:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{monthplot}\NormalTok{(d\_ldeaths)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-19-1.pdf}
-
-}
-
-\end{figure}
-
-No gráfico acima, a linha horizontal em cada mês representa a média.
-
-Agora, vamos estimar os 12 fatores sazonais. Para isso, vamos utilizar a
-função \texttt{cycle}, que mostra a posição de cada observação dentro do
-ciclo sazonal. Eis um exemplo de seu funcionamento:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{head}\NormalTok{(}\FunctionTok{cycle}\NormalTok{(d\_ldeaths), }\DecValTok{14}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
- [1]  1  2  3  4  5  6  7  8  9 10 11 12  1  2
-\end{verbatim}
-
-Vamos transformar o resultado do \texttt{cycle} em um fator e ajustar
-uma ANOVA:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ciclo }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{cycle}\NormalTok{(d\_ldeaths))}
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{( d\_ldeaths }\SpecialCharTok{\textasciitilde{}}\NormalTok{ciclo}\DecValTok{{-}1}\NormalTok{)}
-
-\FunctionTok{plot}\NormalTok{(}\FunctionTok{coefficients}\NormalTok{(mod))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-21-1.pdf}
-
-}
-
-\end{figure}
-
-Por último, vamos dessazonalizar a série:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{saz\_fit }\OtherTok{\textless{}{-}}\NormalTok{ mod}\SpecialCharTok{$}\NormalTok{fitted.values}
-\NormalTok{residuo }\OtherTok{\textless{}{-}}\NormalTok{ d\_ldeaths }\SpecialCharTok{{-}}\NormalTok{ saz\_fit}
-
-\FunctionTok{plot}\NormalTok{(residuo)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-22-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{acf}\NormalTok{(residuo, }\AttributeTok{lag =} \DecValTok{30}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{ferramentas_files/figure-pdf/unnamed-chunk-22-2.pdf}
-
-}
-
-\end{figure}
-
-\hypertarget{exercuxedcios-3}{%
-\subsection{Exercícios}\label{exercuxedcios-3}}
-
-\bookmarksetup{startatroot}
-
-\hypertarget{o-modelo-linear-dinuxe2mico}{%
-\chapter{O modelo linear dinâmico}\label{o-modelo-linear-dinuxe2mico}}
-
-\hypertarget{o-modelo-linear-dinuxe2mico-1}{%
-\section{O modelo linear dinâmico}\label{o-modelo-linear-dinuxe2mico-1}}
+\section{O modelo linear dinâmico}\label{o-modelo-linear-dinuxe2mico-1}
 
 Seja \(y_1,\ldots,t\) uma série temporal. Seja \(D_j={y_1,\ldots,y_j}\).
 Dizemos que \(y_t\) é um modelo linear dinâmico se
@@ -1727,10 +1263,6 @@ modelo e deve sempre ser colocada no \emph{environment} do \texttt{R}:
 Carregando pacotes exigidos: dlm
 \end{verbatim}
 
-\begin{verbatim}
-Warning: package 'dlm' was built under R version 4.3.1
-\end{verbatim}
-
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{modFim }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y,mod)\{}
@@ -1759,9 +1291,8 @@ temporal, esta é a distribuição para a suavização.
 
 \bookmarksetup{startatroot}
 
-\hypertarget{modelo-linear-dinuxe2mico-polinomial}{%
 \chapter{Modelo linear dinâmico
-polinomial}\label{modelo-linear-dinuxe2mico-polinomial}}
+polinomial}\label{modelo-linear-dinuxe2mico-polinomial}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1771,10 +1302,6 @@ polinomial}\label{modelo-linear-dinuxe2mico-polinomial}}
 
 \begin{verbatim}
 Carregando pacotes exigidos: dlm
-\end{verbatim}
-
-\begin{verbatim}
-Warning: package 'dlm' was built under R version 4.3.1
 \end{verbatim}
 
 \begin{Shaded}
@@ -1806,8 +1333,7 @@ polinomial.
 Os podemos mais utilizados na prática são os de ordem 1 e 2, também
 conhecidos como modelo de nível e de tendência linear, respectivamente.
 
-\hypertarget{o-modelo-de-nuxedvel}{%
-\section{O modelo de nível}\label{o-modelo-de-nuxedvel}}
+\section{O modelo de nível}\label{o-modelo-de-nuxedvel}
 
 O modelo de ordem 1, também conhecido como modelo de nível, possui
 função de previsão da forma
@@ -1826,13 +1352,7 @@ Nilo entre 1871 e 1970.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-2-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-2-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1840,13 +1360,7 @@ Nilo entre 1871 e 1970.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-2-2.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-2-2.pdf}
 
 É possível notar que há autocorrelação na série, mas o correlograma não
 revela uma tendência forte. Abaixo mostramos a tendência estimada via
@@ -1863,13 +1377,7 @@ revela uma tendência forte. Abaixo mostramos a tendência estimada via
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-3-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-3-1.pdf}
 
 A tendência estimada via \texttt{loess} parece revelar um comportamento
 inicial de queda e depois meio século de valores oscilando em torno de
@@ -1930,13 +1438,7 @@ de \(f_t\) está no objeto \texttt{filtro}.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-8-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-8-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1944,13 +1446,7 @@ de \(f_t\) está no objeto \texttt{filtro}.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-8-2.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-8-2.pdf}
 
 Agora, vamos reaplicar o Teorema de Bayes, considerando a amostra toda,
 para obter a estimativa suavizada do nível.
@@ -1964,13 +1460,7 @@ para obter a estimativa suavizada do nível.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-9-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-9-1.pdf}
 
 Também podemos fazer um intervalo de credibidade para o nível suavizado.
 
@@ -1988,13 +1478,7 @@ Também podemos fazer um intervalo de credibidade para o nível suavizado.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-10-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-10-1.pdf}
 
 Podemos fazer previsões com a função
 
@@ -2011,13 +1495,12 @@ Start = 2000
 End = 2002 
 Frequency = 1 
      Series 1
-[1,]  792.942
-[2,]  792.942
-[3,]  792.942
+[1,] 782.6798
+[2,] 782.6798
+[3,] 782.6798
 \end{verbatim}
 
-\hypertarget{o-modelo-de-tenduxeancia}{%
-\section{O modelo de tendência}\label{o-modelo-de-tenduxeancia}}
+\section{O modelo de tendência}\label{o-modelo-de-tenduxeancia}
 
 O modelo linear dinâmico polinomial de segunda ordem é um modelo de
 tendência, uma vez que sua função de previsão é
@@ -2047,13 +1530,7 @@ Voltemos à série de acidentes aéreos mensais. `
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-13-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-13-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2061,13 +1538,7 @@ Voltemos à série de acidentes aéreos mensais. `
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-13-2.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-13-2.pdf}
 
 Vamos construir um modelo linear para a tendência:
 
@@ -2115,13 +1586,7 @@ Vamos analisar os erros de previsão.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-18-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-18-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2129,13 +1594,7 @@ Vamos analisar os erros de previsão.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-18-2.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-18-2.pdf}
 
 Ambos os gráficos acima mostram um comportamento de ruído branco.
 
@@ -2151,10 +1610,10 @@ o número de acidentes para os próximos 12 meses.
 
 \begin{verbatim}
           Jan      Feb      Mar      Apr      May      Jun      Jul      Aug
-2023                                                       51.47025 51.52054
-2024 51.77204 51.82234 51.87264 51.92294 51.97324 52.02354                  
+2023                                                       51.70796 51.72957
+2024 51.83762 51.85924 51.88085 51.90246 51.92407 51.94568                  
           Sep      Oct      Nov      Dec
-2023 51.57084 51.62114 51.67144 51.72174
+2023 51.75118 51.77279 51.79440 51.81601
 2024                                    
 \end{verbatim}
 
@@ -2188,13 +1647,7 @@ geral são grandes demais)
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-20-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-20-1.pdf}
 
 Agora vamos estudar os estados suavizados. `
 
@@ -2258,13 +1711,7 @@ devemos selecionar a coluna 1.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-24-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-24-1.pdf}
 
 Por último, vamos analisar a inclinação da tendência. Como a média da
 série já foi modelada pelo nível, os gráficos das demais componentes não
@@ -2293,13 +1740,7 @@ inclinação, com seu respectivo intervalo.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{figure}[H]
-
-{\centering \includegraphics{polinomial_files/figure-pdf/unnamed-chunk-25-1.pdf}
-
-}
-
-\end{figure}
+\includegraphics{polinomial_files/figure-pdf/unnamed-chunk-25-1.pdf}
 
 Com o gráfico acima, identificamos muitas características interessantes.
 
@@ -2316,8 +1757,7 @@ Com o gráfico acima, identificamos muitas características interessantes.
   quando começou a desacelar.
 \end{itemize}
 
-\hypertarget{exercuxedcios-4}{%
-\section{Exercícios}\label{exercuxedcios-4}}
+\section{Exercícios}\label{exercuxedcios-1}
 
 Abaixo, mostramos o número de homicídios mensais em Manaus entre Janeiro
 de 1979 e Dezembro de 2009.
@@ -2349,592 +1789,15 @@ série e a inclinação da tendência.
 
 \bookmarksetup{startatroot}
 
-\hypertarget{modelos-lineares-dinuxe2micos-sazonais}{%
-\chapter{Modelos lineares dinâmicos
-sazonais}\label{modelos-lineares-dinuxe2micos-sazonais}}
-
-\begin{verbatim}
-Carregando pacotes exigidos: dlm
-\end{verbatim}
-
-\begin{verbatim}
-Warning: package 'dlm' was built under R version 4.3.1
-\end{verbatim}
-
-\hypertarget{a-soma-de-um-ciclo-sazonal}{%
-\section{A soma de um ciclo sazonal}\label{a-soma-de-um-ciclo-sazonal}}
-
-Como ilustração, considere um efeito sazonal trimestral (período 4).
-Considere os seguintes fatores sazonais:
-
-\[\beta_t=\left\{\begin{array}{ll}1,& t=1,5,9,\ldots \\
-2,& t=2,6,10,\ldots\\
-3,&t=3,7,11,\ldots \\
-4,&t=4,8,12,\ldots\end{array}\right.\]
-
-Note que \[\beta_1+\beta_2+\beta_3+\beta_4=10\]
-
-Também note que \[\beta_2+\beta_3+\beta_4+\beta_5=10\] e que o mesmo é
-verdade para a soma de 4 quaiquer fatores sazonais consecutivos. Pode-se
-provar que, para qualquer sinal sazonal, a soma de seu efeito
-considerando um intervalo de tempo igual ao período é constante.
-
-Considere então que uma série com período 4, fatores sazonais
-desconhecidos e e uma uma tendência, do tipo
-\[\hbox{tendência}(t)=\alpha+\gamma t.\] Então, para qualquer
-\(k=0,1,2,\ldots,\)
-
-\[y_{k+1}+y_{k+2}+y_{k+3}+y_{k+4}=4\alpha+\gamma(10+4k)+\beta_1+\beta_2+\beta_3+\beta_4\]
-
-Portanto, se os dados forem agregados para construir uma série anual, é
-impossível estimar \(\alpha\) e \(\beta_1+\beta_2+\beta_3+\beta_4\) em
-separado. Por isso, assuminos que a soma dos fatores sazonais deve ser
-nula. Intuitivamente, estamos dizendo que o nível da série não pode ser
-modelado pela tendência.
-
-\hypertarget{o-modelo-linear-dinuxe2mico-para-fatores-sazonais}{%
-\section{O modelo linear dinâmico para fatores
-sazonais}\label{o-modelo-linear-dinuxe2mico-para-fatores-sazonais}}
-
-Considere uma série sazonal com período \(p\). No modelo linear dinâmico
-para fatores sazonais, assumimos que existem \(p-1\) fatores sazonais,
-
-\[\psi_1,\ldots,\psi_{p-1},\] sendo que o \(p\)-ésimo fator é,
-necessariamente \(-(\psi_1-\psi_2-\cdots-\psi_{p-1}\). Além disso,
-permitimos que cada fator evolua no tempo, o que implica na notação
-\(\psi_t\). Contudo, neste modelo consideramos apenas uma evolução de
-nível para os fatores (em um problema mensal, todos os janeiros estariam
-flutuando em torno de um nível, por exemplo). Por este motivo, a
-previsão para cada fator dentro dentro de uma determinada posição do
-ciclo sazonal será constante.
-
-A função \texttt{dlmModSeas} constrói as matrizes \(F_t\) e \(G_t\) para
-o modelo com fatores sazonais dinâmicos. Vamos ilustrar o uso deste
-modelo utilizando a série \texttt{nottem} - por didática, vamos remover
-a tendência da série via \texttt{loess}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{tempo }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(nottem)}
-\NormalTok{dnottem }\OtherTok{\textless{}{-}}\NormalTok{ nottem }\SpecialCharTok{{-}} \FunctionTok{loess}\NormalTok{( nottem }\SpecialCharTok{\textasciitilde{}}\NormalTok{ tempo)}\SpecialCharTok{$}\NormalTok{fit}
-\FunctionTok{ts.plot}\NormalTok{(dnottem)}
-\FunctionTok{abline}\NormalTok{(}\AttributeTok{h=}\DecValTok{0}\NormalTok{,}\AttributeTok{lty =}\DecValTok{2}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-2-1.pdf}
-
-}
-
-\end{figure}
-
-Já identificamos, em outro momento, que o período desta série é 12, logo
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{dlmModSeas}\NormalTok{(}\DecValTok{12}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-Precisamos colocar uma informação sobre os fatores sazonais. Vamos
-simplesmente assumir que todos valem zero.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{mod}\SpecialCharTok{$}\NormalTok{m0 }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{11}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-Vamos estimar as variâncias:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{modFim}\NormalTok{(dnottem, mod)}
-\end{Highlighting}
-\end{Shaded}
-
-Em seguida, aplicamos o filtro de Kalman e verificamos os erros de
-previsão:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{filtro }\OtherTok{\textless{}{-}} \FunctionTok{dlmFilter}\NormalTok{(dnottem, mod)}
-
-\NormalTok{erro }\OtherTok{\textless{}{-}}\NormalTok{ dnottem }\SpecialCharTok{{-}}\NormalTok{ filtro}\SpecialCharTok{$}\NormalTok{f}
-\FunctionTok{ts.plot}\NormalTok{(erro)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-6-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{acf}\NormalTok{(erro)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-6-2.pdf}
-
-}
-
-\end{figure}
-
-Podemos notar que os erros foram altos no começo da série. Em geral,
-precisamos de pelos menos dois ciclos sazonais para ter uma previsão
-melhor. Já no correlograma, sobraram alguns elementos para serem
-explicados, como uma relação da série com as defasagens 1 e 2 e uma
-sazonalidade autoregressiva. Contudo, o comportamento sazonal, que era
-nosso objetivo, foi bem explicado.
-
-As previsões vão se repetir após \(12\) unidades de tempo. Abaixo,
-fazemos a previsão para 2 anos.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{previsao24 }\OtherTok{\textless{}{-}} \FunctionTok{dlmForecast}\NormalTok{(filtro,}\DecValTok{24}\NormalTok{)}
-\NormalTok{previsao24}\SpecialCharTok{$}\NormalTok{f}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-             Jan         Feb         Mar         Apr         May         Jun
-1940  -9.5599534  -9.4117424  -6.5582862  -2.6193510   3.1149236   9.1773226
-1941  -9.5599534  -9.4117424  -6.5582862  -2.6193510   3.1149236   9.1773226
-             Jul         Aug         Sep         Oct         Nov         Dec
-1940  11.7987868  12.0533401   7.9628435  -0.4311855  -4.7737810 -10.7529171
-1941  11.7987868  12.0533401   7.9628435  -0.4311855  -4.7737810 -10.7529171
-\end{verbatim}
-
-Vamos colocar essas informações em um gráfico.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ts.plot}\NormalTok{(dnottem,}\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{1920}\NormalTok{,}\DecValTok{1942}\NormalTok{), }\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{20}\NormalTok{,}\DecValTok{20}\NormalTok{))}
-\FunctionTok{lines}\NormalTok{( }\FunctionTok{window}\NormalTok{(filtro}\SpecialCharTok{$}\NormalTok{f,}\AttributeTok{start=}\FunctionTok{c}\NormalTok{(}\DecValTok{1920}\NormalTok{,}\DecValTok{12}\NormalTok{)), }\AttributeTok{lty=}\DecValTok{2}\NormalTok{,}\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
-
-\CommentTok{\# medidas para o intervalo de previsão}
-\NormalTok{media\_prev }\OtherTok{\textless{}{-}}\NormalTok{ previsao24}\SpecialCharTok{$}\NormalTok{f}
-\NormalTok{media\_prev }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(media\_prev, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{1940}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
-
-\NormalTok{desv\_prev }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{( }\FunctionTok{unlist}\NormalTok{( previsao24}\SpecialCharTok{$}\NormalTok{Q))}
-\NormalTok{desv\_prev }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(desv\_prev, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{1940}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
-
-\CommentTok{\# intervalo de 90\% para as previsões}
-\FunctionTok{lines}\NormalTok{(media\_prev, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(media\_prev }\SpecialCharTok{{-}}\FloatTok{1.64}\SpecialCharTok{*}\NormalTok{desv\_prev, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(media\_prev}\FloatTok{+1.64}\SpecialCharTok{*}\NormalTok{desv\_prev, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
-
-\CommentTok{\# legenda}
-\FunctionTok{legend}\NormalTok{(}\StringTok{\textquotesingle{}bottomleft\textquotesingle{}}\NormalTok{,}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Série observada\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}Previsão 1 passo à frente\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Previsão de 24 meses\textquotesingle{}}\NormalTok{), }\AttributeTok{lty=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{col =}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{), }\AttributeTok{bty =} \StringTok{\textquotesingle{}n\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-8-1.pdf}
-
-}
-
-\end{figure}
-
-Agora vamos estudar os estados suavizados. `
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{suave }\OtherTok{\textless{}{-}} \FunctionTok{dlmSmooth}\NormalTok{(filtro)}
-\NormalTok{sd }\OtherTok{\textless{}{-}} \FunctionTok{sdSmooth}\NormalTok{(suave)}
-\end{Highlighting}
-\end{Shaded}
-
-Como o período é 12, existem \(p-1=11\) estados nesse modelo. Contudo, a
-matriz \(G_t\) é construída de modo que o primeiro estado sempre contém
-o fator sazonal da vez. Portanto, para poder analizar os fatores
-sazonais suavizados, basta selecionar a primeira coluna de \texttt{s}
-dentro do objeto \texttt{suave}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{nivel\_medio }\OtherTok{\textless{}{-}}\NormalTok{ suave}\SpecialCharTok{$}\NormalTok{s[,}\DecValTok{1}\NormalTok{]}
-\NormalTok{sd\_nivel }\OtherTok{\textless{}{-}}\NormalTok{ sd[,}\DecValTok{1}\NormalTok{]}
-
-\FunctionTok{ts.plot}\NormalTok{(dnottem)}
-\FunctionTok{lines}\NormalTok{(nivel\_medio, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}seagreen\textquotesingle{}}\NormalTok{)}
-
-\CommentTok{\# intervalor de credibilidade (95\%) para o nível}
-\FunctionTok{lines}\NormalTok{(nivel\_medio }\SpecialCharTok{{-}} \FloatTok{1.96}\SpecialCharTok{*}\NormalTok{sd\_nivel, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}seagreen\textquotesingle{}}\NormalTok{, }\AttributeTok{lty=} \DecValTok{2}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(nivel\_medio }\SpecialCharTok{+} \FloatTok{1.96}\SpecialCharTok{*}\NormalTok{sd\_nivel, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}seagreen\textquotesingle{}}\NormalTok{, }\AttributeTok{lty=}\DecValTok{2}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-10-1.pdf}
-
-}
-
-\end{figure}
-
-\hypertarget{regressuxe3o-harmuxf4nica-dinuxe2mica}{%
-\section{Regressão harmônica
-dinâmica}\label{regressuxe3o-harmuxf4nica-dinuxe2mica}}
-
-Vimos anteriormente que uma onda, de período \(p\), pode ser
-representada pela função harmônica
-
-\[g_1(t)=A_1\cos\left(\frac{2\pi}{p}t+\phi_1\right).\] Acontece que é
-possível que existam outros ciclos dentro do de duração \(p\).
-
-Para ilustrar, vamos imaginar o caso no qual \(p=12\). Então, temos uma
-onda se reinicia a cada \(12\) meses, isto é,
-
-\[g_1(t)=A_1\cos\left(\frac{2\pi}{12}t+\phi_1\right).\] Acontece que é
-possível que existam Porém podemos ter um outro efeito, que se renova a
-cada semestre. Nesse caso, teríamos outro harmônico para esse
-comportamento
-
-\[g_2(t)=A_2\cos\left(\frac{2\pi}{6}t+\phi_2\right)\]
-
-Também podemos ter um ciclo se repetindo a cada quatrimestre
-
-\[g_3(t)=A_3\cos\left(\frac{2\pi}{4}t+\phi_3\right),\] e outro a cada
-trimestre
-
-\[g_4(t)=A_4\cos\left(\frac{2\pi}{3}t+\phi_4\right).\]
-
-Então, o nosso padrão sazonal seria a soma desses harmônicos:
-
-\[g(t)=\sum_{j=1}^4 g_{j}(t)=\sum_{j=1}^4 A_j\cos\left(\frac{2\pi}{p}jt+\phi_j\right).\]
-A função \(g_j(t)\) é denominada \(j\)-ésimo harmônico e é possível ter
-\(q\) harmônicos, onde \(q\) é a parte inteira de \(p/2\).
-
-A figura abaixo ilustra essa ideia.
-
-\includegraphics{sazonal_files/figure-pdf/unnamed-chunk-11-1.pdf}
-
-No caso geral, para um período \(p\), podemos converter o modelo acima
-em um modelo linear
-
-\[g(t)=\sum_{j=1}^{q} \beta_{1,j}\cos\left(\frac{2\pi}{p}jt\right)+\beta_{2,j}\sin\left(\frac{2\pi}{p}jt\right).\]
-De fato, existe \(\boldsymbol{F}_t'\) tal que
-
-\[g(t)=\boldsymbol{F}_t'\boldsymbol{\beta},\] onde
-\(\boldsymbol{\beta}\) é um vetor contendo
-\(\beta_{1,1},\beta_{1,2},\ldots,\beta_{1,q},\beta_{2,q}\). O modelo
-
-\[y_t= \boldsymbol{F}_t'\boldsymbol{\beta}+\varepsilon_t\] é denominado
-regressão harmônica. Assumindo que o vetor de parâmetros pode evoluir no
-tempo \(t\), considerando uma estrutura de nível, teremos o modelo de
-regressão harmônica dinâmico.
-
-Vamos analisar a série \texttt{dnottem} utilizando esse modelo com
-apenas um harmônico. A função \texttt{dlmModTrig(p,q)} cria as matrizes
-necessárias para o modelo de regressão harmônica com período \(p\) e
-\(q\) harmônicos (se omitido, serão utilizados \(p/2\) harmônicos).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{dlmModTrig}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{1}\NormalTok{)}
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{modFim}\NormalTok{( dnottem, mod)}
-\end{Highlighting}
-\end{Shaded}
-
-Vamos aplicar o filtro de Kalman:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{filtro }\OtherTok{\textless{}{-}} \FunctionTok{dlmFilter}\NormalTok{(dnottem,mod)}
-\end{Highlighting}
-\end{Shaded}
-
-A previsão é semelhante ao que já fizemos, então vamos apenas analisar
-os erros de previsão.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{erros }\OtherTok{\textless{}{-}}\NormalTok{ dnottem }\SpecialCharTok{{-}}\NormalTok{ filtro}\SpecialCharTok{$}\NormalTok{f}
-\FunctionTok{ts.plot}\NormalTok{(erros)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-14-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{acf}\NormalTok{(erros)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-14-2.pdf}
-
-}
-
-\end{figure}
-
-Note que o padrão sazonal não foi todo explicado. Abaixo utilizamos a
-função periodograma nos erros de previsão.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{periodograma}\NormalTok{(erros)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-15-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{verbatim}
-Período:  6 
-\end{verbatim}
-
-Note que o período encontrado é 6 - isso corresponde ao harmônico 2, uma
-vez que 12/2=6. Vamos reescrever nosso modelo colocando os dois
-primeiros harmônicos.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{dlmModTrig}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{2}\NormalTok{)}
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{modFim}\NormalTok{( dnottem, mod)}
-\NormalTok{filtro }\OtherTok{\textless{}{-}} \FunctionTok{dlmFilter}\NormalTok{(dnottem,mod)}
-\NormalTok{erros }\OtherTok{\textless{}{-}}\NormalTok{ dnottem }\SpecialCharTok{{-}}\NormalTok{ filtro}\SpecialCharTok{$}\NormalTok{f}
-\FunctionTok{ts.plot}\NormalTok{(erros)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-16-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{acf}\NormalTok{(erros)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-16-2.pdf}
-
-}
-
-\end{figure}
-
-Agora toda a parte sazonal foi explicada. Isso implica que existem dois
-comportamentos: um ciclo sazonal com duração de 12 meses e outro com
-duração de 6 meses.
-
-A amplitude é sem dúvidas uma medida importante, uma vez que ela mede a
-magnitude do harmônico. Vamos obter as estimativas suavizadas das duas
-amplitudes.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{suave }\OtherTok{\textless{}{-}} \FunctionTok{dlmSmooth}\NormalTok{(filtro)}
-\end{Highlighting}
-\end{Shaded}
-
-Em \texttt{suave\$s}, obtemos as estimativas suavizadas para os estados
-da regressão harmônica. São quatro colunas, sendo que as duas primeiras
-são referentes ao harmônico 1 e as duas seguinda ao 2. Vamos recuperar
-as amplitudes:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{A1 }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{( suave}\SpecialCharTok{$}\NormalTok{s[,}\DecValTok{1}\NormalTok{]}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ suave}\SpecialCharTok{$}\NormalTok{s[,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{ )}
-\NormalTok{A2 }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{( suave}\SpecialCharTok{$}\NormalTok{s[,}\DecValTok{3}\NormalTok{]}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ suave}\SpecialCharTok{$}\NormalTok{s[,}\DecValTok{4}\NormalTok{]}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{ )}
-
-\FunctionTok{plot.ts}\NormalTok{( }\FunctionTok{cbind}\NormalTok{(A1, A2), }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-18-1.pdf}
-
-}
-
-\end{figure}
-
-Podemos perceber que houve um leve aumento do nível da amplitude do
-efeito sazonal anual, indo de 10 para 12 unidades, entre 1920 e 1934
-(série A1). Já o efeito semestral, com influência bem menor, apresentou
-padrões de tendência crescente e decrescente ao longo do tempo.
-
-\hypertarget{a-superposiuxe7uxe3o-de-modelos-lineares-dinuxe2micos}{%
-\section{A superposição de modelos lineares
-dinâmicos}\label{a-superposiuxe7uxe3o-de-modelos-lineares-dinuxe2micos}}
-
-Podemos imaginar que uma série temporal \(y_t\) é a soma de várias
-séries ocultas. Por exemplo, considere que
-
-\(y_t=x_t+u_t\)
-
-onde \(x_t\) é uma série que possui apenas a tendência da série e
-\(u_t\) a parte sazonal.
-
-Teorema. Se \(x_t\) e \(u_t\) são modelos lineares dinâmicos, então
-\(y_t\) também é um modelo linear dinâmico.
-
-Deste modo, podemos somar modelos lineares dinâmicos para analizar
-diferentes tipos de sinal.
-
-Considere a série \texttt{ldeaths}, que já sabemos possuir uma leve
-tendência linear de decrescimento e um forte sinal sazonal de período
-12. Podemos ajustar um modelo linear dinâmico com essas duas
-características.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{dlmModPoly}\NormalTok{(}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{dlmModSeas}\NormalTok{(}\DecValTok{12}\NormalTok{)}
-\NormalTok{mod}\SpecialCharTok{$}\NormalTok{m0[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ ldeaths[}\DecValTok{1}\NormalTok{]}
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{modFim}\NormalTok{(ldeaths, mod)}
-
-\NormalTok{filtro }\OtherTok{\textless{}{-}} \FunctionTok{dlmFilter}\NormalTok{(ldeaths, mod)}
-\NormalTok{erro }\OtherTok{\textless{}{-}}\NormalTok{ ldeaths }\SpecialCharTok{{-}}\NormalTok{ filtro}\SpecialCharTok{$}\NormalTok{f}
-
-\FunctionTok{ts.plot}\NormalTok{(erro)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-19-1.pdf}
-
-}
-
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{acf}\NormalTok{(erro)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-19-2.pdf}
-
-}
-
-\end{figure}
-
-Os gráficos acima apontam que os sinais de tendêcia e sazonalidade estão
-bem descritos. Vamos fazer a previsão para 12 meses a frente:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{previsao12 }\OtherTok{\textless{}{-}} \FunctionTok{dlmForecast}\NormalTok{(filtro, }\DecValTok{12}\NormalTok{)}
-
-\FunctionTok{ts.plot}\NormalTok{(ldeaths,}\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{1974}\NormalTok{,}\DecValTok{1981}\NormalTok{), }\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{400}\NormalTok{,}\DecValTok{4000}\NormalTok{))}
-\FunctionTok{lines}\NormalTok{( }\FunctionTok{window}\NormalTok{(filtro}\SpecialCharTok{$}\NormalTok{f,}\AttributeTok{start=}\FunctionTok{c}\NormalTok{(}\DecValTok{1974}\NormalTok{,}\DecValTok{1}\NormalTok{)), }\AttributeTok{lty=}\DecValTok{2}\NormalTok{,}\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
-
-\CommentTok{\# medidas para o intervalo de previsão}
-\NormalTok{media\_prev }\OtherTok{\textless{}{-}}\NormalTok{ previsao12}\SpecialCharTok{$}\NormalTok{f}
-\NormalTok{media\_prev }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(media\_prev, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{1980}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
-
-\NormalTok{desv\_prev }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{( }\FunctionTok{unlist}\NormalTok{( previsao12}\SpecialCharTok{$}\NormalTok{Q))}
-\NormalTok{desv\_prev }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(desv\_prev, }\AttributeTok{start =} \FunctionTok{c}\NormalTok{(}\DecValTok{1980}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{frequency =} \DecValTok{12}\NormalTok{)}
-
-\CommentTok{\# intervalo de 90\% para as previsões}
-\FunctionTok{lines}\NormalTok{(media\_prev, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(media\_prev }\SpecialCharTok{{-}}\FloatTok{1.64}\SpecialCharTok{*}\NormalTok{desv\_prev, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(media\_prev}\FloatTok{+1.64}\SpecialCharTok{*}\NormalTok{desv\_prev, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
-
-\CommentTok{\# legenda}
-\FunctionTok{legend}\NormalTok{(}\StringTok{\textquotesingle{}bottomleft\textquotesingle{}}\NormalTok{,}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Série observada\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{}Previsão 1 passo à frente\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Previsão de 24 meses\textquotesingle{}}\NormalTok{), }\AttributeTok{lty=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{col =}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{), }\AttributeTok{bty =} \StringTok{\textquotesingle{}n\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-20-1.pdf}
-
-}
-
-\end{figure}
-
-Também podemos estudar os elementos suavisados dos sinais:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{suave }\OtherTok{\textless{}{-}} \FunctionTok{dlmSmooth}\NormalTok{(filtro)}
-\NormalTok{sd }\OtherTok{\textless{}{-}} \FunctionTok{sdSmooth}\NormalTok{(suave)}
-
-\NormalTok{Nível }\OtherTok{\textless{}{-}}\NormalTok{ suave}\SpecialCharTok{$}\NormalTok{s[,}\DecValTok{1}\NormalTok{]}
-\StringTok{\textasciigrave{}}\AttributeTok{Inc. tend}\StringTok{\textasciigrave{}} \OtherTok{\textless{}{-}}\NormalTok{ suave}\SpecialCharTok{$}\NormalTok{s[,}\DecValTok{2}\NormalTok{]}
-\StringTok{\textasciigrave{}}\AttributeTok{Fat. Saz}\StringTok{\textasciigrave{}} \OtherTok{\textless{}{-}}\NormalTok{ suave}\SpecialCharTok{$}\NormalTok{s[,}\DecValTok{3}\NormalTok{]}
-
-\FunctionTok{plot.ts}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(Nível, }\StringTok{\textasciigrave{}}\AttributeTok{Inc. tend}\StringTok{\textasciigrave{}}\NormalTok{,}\StringTok{\textasciigrave{}}\AttributeTok{Fat. Saz}\StringTok{\textasciigrave{}}\NormalTok{), }\AttributeTok{main =} \StringTok{\textquotesingle{}Componentes do sinal\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}[H]
-
-{\centering \includegraphics{sazonal_files/figure-pdf/unnamed-chunk-21-1.pdf}
-
-}
-
-\end{figure}
-
-\hypertarget{exercuxedcios-5}{%
-\section{Exercícios}\label{exercuxedcios-5}}
-
-Exercício 2
-
-Analise as seguintes séries temporais:
-
-\begin{itemize}
-\item
-  Óbitos maternos
-\item
-  Número de nascidos vivos
-\item
-  \texttt{co2}
-\item
-  Taxa de desemprego
-\end{itemize}
-
-Analise as seguintes séries temporais: Exercício 2 Compare a tendência e
-sazonalidade do número de nascidos vivos segundo os partos normal e
-cesário.
-
-\bookmarksetup{startatroot}
-
-\hypertarget{references}{%
-\chapter*{References}\label{references}}
+\chapter*{References}\label{references}
 \addcontentsline{toc}{chapter}{References}
 
 \markboth{References}{References}
 
-\hypertarget{refs}{}
-\begin{CSLReferences}{0}{0}
+\phantomsection\label{refs}
+\begin{CSLReferences}{0}{1}
 \end{CSLReferences}
+
 
 
 

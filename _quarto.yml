@@ -5,18 +5,12 @@ project:
 book:
   title: "Introdução aos modelos lineares dinâmicos"
   author: "James D Santos"
-  date: "28/09/2023"
+  date: "12/08/2025"
   chapters:
     - index.qmd
-    - summary.qmd
     - intro.qmd
     - sinal.qmd
-    - acf.qmd
-    - ferramentas.qmd
     - mld.qmd
-    - polinomial.qmd
-    - sazonal.qmd
-    - regressao.qmd
     - references.qmd
 
 bibliography: references.bib
@@ -24,7 +18,3 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrreprt
-  epub:
-    cover-image: cover.png

@@ -1,5 +1,0 @@
-"0","require(dlm)"
-"2","Carregando pacotes exigidos: dlm
-"
-"2","Warning: package ‘dlm’ was built under R version 4.3.1"
-"0","mod <- dlmModPoly(2)"

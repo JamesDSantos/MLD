@@ -1,4 +1,0 @@
-"0","fab_ano <- ts( fab_ano, start = 2013)"
-"0","fab_mes <- fab_dia[, .N, by=.(year(ocorrencia_dia), month(ocorrencia_dia))]"
-"0","fab_mes <-fab_mes[ order(year, month ) ]"
-"0","fab_mes <- ts( fab_mes[,3], start = c(2013, 1))"

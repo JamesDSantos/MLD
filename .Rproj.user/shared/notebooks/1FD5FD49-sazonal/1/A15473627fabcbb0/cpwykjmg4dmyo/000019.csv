@@ -1,4 +1,0 @@
-"0",""
-"0","# legenda"
-"0","legend('bottomleft',c('Série observada','Previsão 1 passo à frente', 'Previsão de 12 meses'), lty=c(1,2,1), col =c(1,1,'blue'), bty = 'n')"
-"0",""

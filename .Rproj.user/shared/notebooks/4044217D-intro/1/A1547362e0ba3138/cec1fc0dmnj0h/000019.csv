@@ -1,2 +1,0 @@
-"0","fab_mes <- ts( fab_mes[,3], start = c(2013, 1))"
-"0","plot(fab_mes, lwd = 2, ylab = 'No. acidentes/mês', xlab = 'Ano')"

@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="quarto-1.5.57" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+
+<title>6  Modelos lineares dinâmicos sazonais – Introdução aos modelos lineares dinâmicos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<!-- htmldependencies:E3FAD763 -->
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn"
+      data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" 
+      aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation"
+      onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <h1 class="quarto-secondary-nav-title no-breadcrumbs"></h1>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" role="link"
+        aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation"
+        onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="/">
+      Introdução aos modelos lineares dinâmicos
+      </a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class='chapter-number'>1</span>  <span class='chapter-title'>Manipulação de séries temporais univariadas no software `R`</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/sinal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class='chapter-number'>2</span>  <span class='chapter-title'>Sinal, ruído e correlograma</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/ferramentas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class='chapter-number'>3</span>  <span class='chapter-title'>Mais ferramentas exploratórias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/mld.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class='chapter-number'>4</span>  <span class='chapter-title'>O modelo linear dinâmico</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/polinomial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class='chapter-number'>5</span>  <span class='chapter-title'>Modelo linear dinâmico polinomial</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/sazonal.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class='chapter-number'>6</span>  <span class='chapter-title'>Modelos lineares dinâmicos sazonais</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/regressao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class='chapter-number'>7</span>  <span class='chapter-title'>Regressão dinâmica</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" ></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <div id="quarto-toc-target"></div>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>  <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+<nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#a-soma-de-um-ciclo-sazonal" id="toc-a-soma-de-um-ciclo-sazonal"><span class="header-section-number">6.1</span> A soma de um ciclo sazonal</a></li>
+  <li><a href="#o-modelo-linear-dinâmico-para-fatores-sazonais" id="toc-o-modelo-linear-dinâmico-para-fatores-sazonais"><span class="header-section-number">6.2</span> O modelo linear dinâmico para fatores sazonais</a></li>
+  <li><a href="#regressão-harmônica-dinâmica" id="toc-regressão-harmônica-dinâmica"><span class="header-section-number">6.3</span> Regressão harmônica dinâmica</a></li>
+  <li><a href="#a-superposição-de-modelos-lineares-dinâmicos" id="toc-a-superposição-de-modelos-lineares-dinâmicos"><span class="header-section-number">6.4</span> A superposição de modelos lineares dinâmicos</a></li>
+  <li><a href="#exercícios" id="toc-exercícios"><span class="header-section-number">6.5</span> Exercícios</a></li>
+  </ul>
+</nav>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: dlm</code></pre>
+</div>
+</div>
+<section id="a-soma-de-um-ciclo-sazonal" class="level2" data-number="6.1">
+<h2 data-number="6.1"><span class="header-section-number">6.1</span> A soma de um ciclo sazonal</h2>
+<p>Como ilustração, considere um efeito sazonal trimestral (período 4). Considere os seguintes fatores sazonais:</p>
+<p><span class="math display">\[\beta_t=\left\{\begin{array}{ll}1,&amp; t=1,5,9,\ldots \\
+2,&amp; t=2,6,10,\ldots\\
+3,&amp;t=3,7,11,\ldots \\
+4,&amp;t=4,8,12,\ldots\end{array}\right.\]</span></p>
+<p>Note que <span class="math display">\[\beta_1+\beta_2+\beta_3+\beta_4=10\]</span></p>
+<p>Também note que <span class="math display">\[\beta_2+\beta_3+\beta_4+\beta_5=10\]</span> e que o mesmo é verdade para a soma de 4 quaiquer fatores sazonais consecutivos. Pode-se provar que, para qualquer sinal sazonal, a soma de seu efeito considerando um intervalo de tempo igual ao período é constante.</p>
+<p>Considere então que uma série com período 4, fatores sazonais desconhecidos e e uma uma tendência, do tipo <span class="math display">\[\hbox{tendência}(t)=\alpha+\gamma t.\]</span> Então, para qualquer <span class="math inline">\(k=0,1,2,\ldots,\)</span></p>
+<p><span class="math display">\[y_{k+1}+y_{k+2}+y_{k+3}+y_{k+4}=4\alpha+\gamma(10+4k)+\beta_1+\beta_2+\beta_3+\beta_4\]</span></p>
+<p>Portanto, se os dados forem agregados para construir uma série anual, é impossível estimar <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta_1+\beta_2+\beta_3+\beta_4\)</span> em separado. Por isso, assuminos que a soma dos fatores sazonais deve ser nula. Intuitivamente, estamos dizendo que o nível da série não pode ser modelado pela tendência.</p>
+</section>
+<section id="o-modelo-linear-dinâmico-para-fatores-sazonais" class="level2" data-number="6.2">
+<h2 data-number="6.2"><span class="header-section-number">6.2</span> O modelo linear dinâmico para fatores sazonais</h2>
+<p>Considere uma série sazonal com período <span class="math inline">\(p\)</span>. No modelo linear dinâmico para fatores sazonais, assumimos que existem <span class="math inline">\(p-1\)</span> fatores sazonais,</p>
+<p><span class="math display">\[\psi_1,\ldots,\psi_{p-1},\]</span> sendo que o <span class="math inline">\(p\)</span>-ésimo fator é, necessariamente <span class="math inline">\(-(\psi_1-\psi_2-\cdots-\psi_{p-1}\)</span>. Além disso, permitimos que cada fator evolua no tempo, o que implica na notação <span class="math inline">\(\psi_t\)</span>. Contudo, neste modelo consideramos apenas uma evolução de nível para os fatores (em um problema mensal, todos os janeiros estariam flutuando em torno de um nível, por exemplo). Por este motivo, a previsão para cada fator dentro dentro de uma determinada posição do ciclo sazonal será constante.</p>
+<p>A função <code>dlmModSeas</code> constrói as matrizes <span class="math inline">\(F_t\)</span> e <span class="math inline">\(G_t\)</span> para o modelo com fatores sazonais dinâmicos. Vamos ilustrar o uso deste modelo utilizando a série <code>nottem</code> - por didática, vamos remover a tendência da série via <code>loess</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tempo <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(nottem)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dnottem <span class="ot">&lt;-</span> nottem <span class="sc">-</span> <span class="fu">loess</span>( nottem <span class="sc">~</span> tempo)<span class="sc">$</span>fit</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(dnottem)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>,<span class="at">lty =</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Já identificamos, em outro momento, que o período desta série é 12, logo</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">dlmModSeas</span>(<span class="dv">12</span>)</span></code></pre></div>
+</div>
+<p>Precisamos colocar uma informação sobre os fatores sazonais. Vamos simplesmente assumir que todos valem zero.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span>m0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">11</span>)</span></code></pre></div>
+</div>
+<p>Vamos estimar as variâncias:</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modFim</span>(dnottem, mod)</span></code></pre></div>
+</div>
+<p>Em seguida, aplicamos o filtro de Kalman e verificamos os erros de previsão:</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>filtro <span class="ot">&lt;-</span> <span class="fu">dlmFilter</span>(dnottem, mod)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>erro <span class="ot">&lt;-</span> dnottem <span class="sc">-</span> filtro<span class="sc">$</span>f</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(erro)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(erro)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Podemos notar que os erros foram altos no começo da série. Em geral, precisamos de pelos menos dois ciclos sazonais para ter uma previsão melhor. Já no correlograma, sobraram alguns elementos para serem explicados, como uma relação da série com as defasagens 1 e 2 e uma sazonalidade autoregressiva. Contudo, o comportamento sazonal, que era nosso objetivo, foi bem explicado.</p>
+<p>As previsões vão se repetir após <span class="math inline">\(12\)</span> unidades de tempo. Abaixo, fazemos a previsão para 2 anos.</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>previsao24 <span class="ot">&lt;-</span> <span class="fu">dlmForecast</span>(filtro,<span class="dv">24</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>previsao24<span class="sc">$</span>f</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Jan         Feb         Mar         Apr         May         Jun
+1940  -9.5270342  -9.3875820  -6.5109877  -2.5961825   3.0938313   9.1652476
+1941  -9.5270342  -9.3875820  -6.5109877  -2.5961825   3.0938313   9.1652476
+             Jul         Aug         Sep         Oct         Nov         Dec
+1940  11.7374593  12.0203431   7.9654691  -0.4551335  -4.7023333 -10.8030973
+1941  11.7374593  12.0203431   7.9654691  -0.4551335  -4.7023333 -10.8030973</code></pre>
+</div>
+</div>
+<p>Vamos colocar essas informações em um gráfico.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(dnottem,<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">1920</span>,<span class="dv">1942</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">20</span>,<span class="dv">20</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>( <span class="fu">window</span>(filtro<span class="sc">$</span>f,<span class="at">start=</span><span class="fu">c</span>(<span class="dv">1920</span>,<span class="dv">12</span>)), <span class="at">lty=</span><span class="dv">2</span>,<span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># medidas para o intervalo de previsão</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>media_prev <span class="ot">&lt;-</span> previsao24<span class="sc">$</span>f</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>media_prev <span class="ot">&lt;-</span> <span class="fu">ts</span>(media_prev, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1940</span>,<span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>desv_prev <span class="ot">&lt;-</span> <span class="fu">sqrt</span>( <span class="fu">unlist</span>( previsao24<span class="sc">$</span>Q))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>desv_prev <span class="ot">&lt;-</span> <span class="fu">ts</span>(desv_prev, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1940</span>,<span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># intervalo de 90% para as previsões</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(media_prev, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span><span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(media_prev <span class="sc">-</span><span class="fl">1.64</span><span class="sc">*</span>desv_prev, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span><span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(media_prev<span class="fl">+1.64</span><span class="sc">*</span>desv_prev, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span><span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># legenda</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&#39;bottomleft&#39;</span>,<span class="fu">c</span>(<span class="st">&#39;Série observada&#39;</span>,<span class="st">&#39;Previsão 1 passo à frente&#39;</span>, <span class="st">&#39;Previsão de 24 meses&#39;</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">col =</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="st">&#39;blue&#39;</span>), <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Agora vamos estudar os estados suavizados. `</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>suave <span class="ot">&lt;-</span> <span class="fu">dlmSmooth</span>(filtro)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sdSmooth</span>(suave)</span></code></pre></div>
+</div>
+<p>Como o período é 12, existem <span class="math inline">\(p-1=11\)</span> estados nesse modelo. Contudo, a matriz <span class="math inline">\(G_t\)</span> é construída de modo que o primeiro estado sempre contém o fator sazonal da vez. Portanto, para poder analizar os fatores sazonais suavizados, basta selecionar a primeira coluna de <code>s</code> dentro do objeto <code>suave</code></p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nivel_medio <span class="ot">&lt;-</span> suave<span class="sc">$</span>s[,<span class="dv">1</span>]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sd_nivel <span class="ot">&lt;-</span> sd[,<span class="dv">1</span>]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(dnottem)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(nivel_medio, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&#39;seagreen&#39;</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># intervalor de credibilidade (95%) para o nível</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(nivel_medio <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span>sd_nivel, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&#39;seagreen&#39;</span>, <span class="at">lty=</span> <span class="dv">2</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(nivel_medio <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>sd_nivel, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&#39;seagreen&#39;</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="regressão-harmônica-dinâmica" class="level2" data-number="6.3">
+<h2 data-number="6.3"><span class="header-section-number">6.3</span> Regressão harmônica dinâmica</h2>
+<p>Vimos anteriormente que uma onda, de período <span class="math inline">\(p\)</span>, pode ser representada pela função harmônica</p>
+<p><span class="math display">\[g_1(t)=A_1\cos\left(\frac{2\pi}{p}t+\phi_1\right).\]</span> Acontece que é possível que existam outros ciclos dentro do de duração <span class="math inline">\(p\)</span>.</p>
+<p>Para ilustrar, vamos imaginar o caso no qual <span class="math inline">\(p=12\)</span>. Então, temos uma onda se reinicia a cada <span class="math inline">\(12\)</span> meses, isto é,</p>
+<p><span class="math display">\[g_1(t)=A_1\cos\left(\frac{2\pi}{12}t+\phi_1\right).\]</span> Acontece que é possível que existam Porém podemos ter um outro efeito, que se renova a cada semestre. Nesse caso, teríamos outro harmônico para esse comportamento</p>
+<p><span class="math display">\[g_2(t)=A_2\cos\left(\frac{2\pi}{6}t+\phi_2\right)\]</span></p>
+<p>Também podemos ter um ciclo se repetindo a cada quatrimestre</p>
+<p><span class="math display">\[g_3(t)=A_3\cos\left(\frac{2\pi}{4}t+\phi_3\right),\]</span> e outro a cada trimestre</p>
+<p><span class="math display">\[g_4(t)=A_4\cos\left(\frac{2\pi}{3}t+\phi_4\right).\]</span></p>
+<p>Então, o nosso padrão sazonal seria a soma desses harmônicos:</p>
+<p><span class="math display">\[g(t)=\sum_{j=1}^4 g_{j}(t)=\sum_{j=1}^4 A_j\cos\left(\frac{2\pi}{p}jt+\phi_j\right).\]</span> A função <span class="math inline">\(g_j(t)\)</span> é denominada <span class="math inline">\(j\)</span>-ésimo harmônico e é possível ter <span class="math inline">\(q\)</span> harmônicos, onde <span class="math inline">\(q\)</span> é a parte inteira de <span class="math inline">\(p/2\)</span>.</p>
+<p>A figura abaixo ilustra essa ideia.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+</div>
+<p>No caso geral, para um período <span class="math inline">\(p\)</span>, podemos converter o modelo acima em um modelo linear</p>
+<p><span class="math display">\[g(t)=\sum_{j=1}^{q} \beta_{1,j}\cos\left(\frac{2\pi}{p}jt\right)+\beta_{2,j}\sin\left(\frac{2\pi}{p}jt\right).\]</span> De fato, existe <span class="math inline">\(\boldsymbol{F}_t&#39;\)</span> tal que</p>
+<p><span class="math display">\[g(t)=\boldsymbol{F}_t&#39;\boldsymbol{\beta},\]</span> onde <span class="math inline">\(\boldsymbol{\beta}\)</span> é um vetor contendo <span class="math inline">\(\beta_{1,1},\beta_{1,2},\ldots,\beta_{1,q},\beta_{2,q}\)</span>. O modelo</p>
+<p><span class="math display">\[y_t= \boldsymbol{F}_t&#39;\boldsymbol{\beta}+\varepsilon_t\]</span> é denominado regressão harmônica. Assumindo que o vetor de parâmetros pode evoluir no tempo <span class="math inline">\(t\)</span>, considerando uma estrutura de nível, teremos o modelo de regressão harmônica dinâmico.</p>
+<p>Vamos analisar a série <code>dnottem</code> utilizando esse modelo com apenas um harmônico. A função <code>dlmModTrig(p,q)</code> cria as matrizes necessárias para o modelo de regressão harmônica com período <span class="math inline">\(p\)</span> e <span class="math inline">\(q\)</span> harmônicos (se omitido, serão utilizados <span class="math inline">\(p/2\)</span> harmônicos).</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">dlmModTrig</span>(<span class="dv">12</span>, <span class="dv">1</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modFim</span>( dnottem, mod)</span></code></pre></div>
+</div>
+<p>Vamos aplicar o filtro de Kalman:</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>filtro <span class="ot">&lt;-</span> <span class="fu">dlmFilter</span>(dnottem,mod)</span></code></pre></div>
+</div>
+<p>A previsão é semelhante ao que já fizemos, então vamos apenas analisar os erros de previsão.</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>erros <span class="ot">&lt;-</span> dnottem <span class="sc">-</span> filtro<span class="sc">$</span>f</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(erros)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(erros)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note que o padrão sazonal não foi todo explicado. Abaixo utilizamos a função periodograma nos erros de previsão.</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">periodograma</span>(erros)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Período:  6 </code></pre>
+</div>
+</div>
+<p>Note que o período encontrado é 6 - isso corresponde ao harmônico 2, uma vez que 12/2=6. Vamos reescrever nosso modelo colocando os dois primeiros harmônicos.</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">dlmModTrig</span>(<span class="dv">12</span>, <span class="dv">2</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modFim</span>( dnottem, mod)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>filtro <span class="ot">&lt;-</span> <span class="fu">dlmFilter</span>(dnottem,mod)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>erros <span class="ot">&lt;-</span> dnottem <span class="sc">-</span> filtro<span class="sc">$</span>f</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(erros)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(erros)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Agora toda a parte sazonal foi explicada. Isso implica que existem dois comportamentos: um ciclo sazonal com duração de 12 meses e outro com duração de 6 meses.</p>
+<p>A amplitude é sem dúvidas uma medida importante, uma vez que ela mede a magnitude do harmônico. Vamos obter as estimativas suavizadas das duas amplitudes.</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>suave <span class="ot">&lt;-</span> <span class="fu">dlmSmooth</span>(filtro)</span></code></pre></div>
+</div>
+<p>Em <code>suave$s</code>, obtemos as estimativas suavizadas para os estados da regressão harmônica. São quatro colunas, sendo que as duas primeiras são referentes ao harmônico 1 e as duas seguinda ao 2. Vamos recuperar as amplitudes:</p>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>A1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>( suave<span class="sc">$</span>s[,<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> suave<span class="sc">$</span>s[,<span class="dv">2</span>]<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>A2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>( suave<span class="sc">$</span>s[,<span class="dv">3</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> suave<span class="sc">$</span>s[,<span class="dv">4</span>]<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>( <span class="fu">cbind</span>(A1, A2), <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Podemos perceber que houve um leve aumento do nível da amplitude do efeito sazonal anual, indo de 10 para 12 unidades, entre 1920 e 1934 (série A1). Já o efeito semestral, com influência bem menor, apresentou padrões de tendência crescente e decrescente ao longo do tempo.</p>
+</section>
+<section id="a-superposição-de-modelos-lineares-dinâmicos" class="level2" data-number="6.4">
+<h2 data-number="6.4"><span class="header-section-number">6.4</span> A superposição de modelos lineares dinâmicos</h2>
+<p>Podemos imaginar que uma série temporal <span class="math inline">\(y_t\)</span> é a soma de várias séries ocultas. Por exemplo, considere que</p>
+<p><span class="math inline">\(y_t=x_t+u_t\)</span></p>
+<p>onde <span class="math inline">\(x_t\)</span> é uma série que possui apenas a tendência da série e <span class="math inline">\(u_t\)</span> a parte sazonal.</p>
+<div class="alert alert-success">
+<p><strong>Teorema.</strong> Se <span class="math inline">\(x_t\)</span> e <span class="math inline">\(u_t\)</span> são modelos lineares dinâmicos, então <span class="math inline">\(y_t\)</span> também é um modelo linear dinâmico.</p>
+</div>
+<p>Deste modo, podemos somar modelos lineares dinâmicos para analizar diferentes tipos de sinal.</p>
+<p>Considere a série <code>ldeaths</code>, que já sabemos possuir uma leve tendência linear de decrescimento e um forte sinal sazonal de período 12. Podemos ajustar um modelo linear dinâmico com essas duas características.</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">dlmModPoly</span>(<span class="dv">2</span>) <span class="sc">+</span> <span class="fu">dlmModSeas</span>(<span class="dv">12</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span>m0[<span class="dv">1</span>] <span class="ot">&lt;-</span> ldeaths[<span class="dv">1</span>]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">modFim</span>(ldeaths, mod)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>filtro <span class="ot">&lt;-</span> <span class="fu">dlmFilter</span>(ldeaths, mod)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>erro <span class="ot">&lt;-</span> ldeaths <span class="sc">-</span> filtro<span class="sc">$</span>f</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(erro)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(erro)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Os gráficos acima apontam que os sinais de tendêcia e sazonalidade estão bem descritos. Vamos fazer a previsão para 12 meses a frente:</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>previsao12 <span class="ot">&lt;-</span> <span class="fu">dlmForecast</span>(filtro, <span class="dv">12</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(ldeaths,<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">1974</span>,<span class="dv">1981</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">400</span>,<span class="dv">4000</span>))</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>( <span class="fu">window</span>(filtro<span class="sc">$</span>f,<span class="at">start=</span><span class="fu">c</span>(<span class="dv">1974</span>,<span class="dv">1</span>)), <span class="at">lty=</span><span class="dv">2</span>,<span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># medidas para o intervalo de previsão</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>media_prev <span class="ot">&lt;-</span> previsao12<span class="sc">$</span>f</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>media_prev <span class="ot">&lt;-</span> <span class="fu">ts</span>(media_prev, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1980</span>,<span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>desv_prev <span class="ot">&lt;-</span> <span class="fu">sqrt</span>( <span class="fu">unlist</span>( previsao12<span class="sc">$</span>Q))</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>desv_prev <span class="ot">&lt;-</span> <span class="fu">ts</span>(desv_prev, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1980</span>,<span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co"># intervalo de 90% para as previsões</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(media_prev, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span><span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(media_prev <span class="sc">-</span><span class="fl">1.64</span><span class="sc">*</span>desv_prev, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span><span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(media_prev<span class="fl">+1.64</span><span class="sc">*</span>desv_prev, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span><span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co"># legenda</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&#39;bottomleft&#39;</span>,<span class="fu">c</span>(<span class="st">&#39;Série observada&#39;</span>,<span class="st">&#39;Previsão 1 passo à frente&#39;</span>, <span class="st">&#39;Previsão de 24 meses&#39;</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">col =</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="st">&#39;blue&#39;</span>), <span class="at">bty =</span> <span class="st">&#39;n&#39;</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Também podemos estudar os elementos suavisados dos sinais:</p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>suave <span class="ot">&lt;-</span> <span class="fu">dlmSmooth</span>(filtro)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sdSmooth</span>(suave)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>Nível <span class="ot">&lt;-</span> suave<span class="sc">$</span>s[,<span class="dv">1</span>]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">Inc. tend</span><span class="st">`</span> <span class="ot">&lt;-</span> suave<span class="sc">$</span>s[,<span class="dv">2</span>]</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">Fat. Saz</span><span class="st">`</span> <span class="ot">&lt;-</span> suave<span class="sc">$</span>s[,<span class="dv">3</span>]</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.ts</span>(<span class="fu">cbind</span>(Nível, <span class="st">`</span><span class="at">Inc. tend</span><span class="st">`</span>,<span class="st">`</span><span class="at">Fat. Saz</span><span class="st">`</span>), <span class="at">main =</span> <span class="st">&#39;Componentes do sinal&#39;</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img src="sazonal_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672" /></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="exercícios" class="level2" data-number="6.5">
+<h2 data-number="6.5"><span class="header-section-number">6.5</span> Exercícios</h2>
+<div class="alert alert-warning">
+<p><strong>Exercício 2</strong></p>
+<p>Analise as seguintes séries temporais:</p>
+<ul>
+<li><p>Óbitos maternos</p></li>
+<li><p>Número de nascidos vivos</p></li>
+<li><p><code>co2</code></p></li>
+<li><p>Taxa de desemprego</p></li>
+</ul>
+</div>
+<div class="alert alert-warning">
+<p>Analise as seguintes séries temporais: <strong>Exercício 2</strong> Compare a tendência e sazonalidade do número de nascidos vivos segundo os partos normal e cesário.</p>
+</div>
+<div id="quarto-navigation-envelope" class="hidden">
+<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-sidebar-title">Introdução aos modelos lineares dinâmicos</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-navbar-title">Introdução aos modelos lineares dinâmicos</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-next"><span class="chapter-number">7</span>  <span class="chapter-title">Regressão dinâmica</span></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-prev"><span class="chapter-number">5</span>  <span class="chapter-title">Modelo linear dinâmico polinomial</span></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-sidebar:/index.htmlPrefácio">Prefácio</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-sidebar:/intro.html&lt;span-class=&#39;chapter-number&#39;&gt;1&lt;/span&gt;--&lt;span-class=&#39;chapter-title&#39;&gt;Manipulação-de-séries-temporais-univariadas-no-software-`R`&lt;/span&gt;"><span class="chapter-number">1</span>  <span class="chapter-title">Manipulação de séries temporais univariadas no software <code>R</code></span></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-sidebar:/sinal.html&lt;span-class=&#39;chapter-number&#39;&gt;2&lt;/span&gt;--&lt;span-class=&#39;chapter-title&#39;&gt;Sinal,-ruído-e-correlograma&lt;/span&gt;"><span class="chapter-number">2</span>  <span class="chapter-title">Sinal, ruído e correlograma</span></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-sidebar:/ferramentas.html&lt;span-class=&#39;chapter-number&#39;&gt;3&lt;/span&gt;--&lt;span-class=&#39;chapter-title&#39;&gt;Mais-ferramentas-exploratórias&lt;/span&gt;"><span class="chapter-number">3</span>  <span class="chapter-title">Mais ferramentas exploratórias</span></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-sidebar:/mld.html&lt;span-class=&#39;chapter-number&#39;&gt;4&lt;/span&gt;--&lt;span-class=&#39;chapter-title&#39;&gt;O-modelo-linear-dinâmico&lt;/span&gt;"><span class="chapter-number">4</span>  <span class="chapter-title">O modelo linear dinâmico</span></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-sidebar:/polinomial.html&lt;span-class=&#39;chapter-number&#39;&gt;5&lt;/span&gt;--&lt;span-class=&#39;chapter-title&#39;&gt;Modelo-linear-dinâmico-polinomial&lt;/span&gt;"><span class="chapter-number">5</span>  <span class="chapter-title">Modelo linear dinâmico polinomial</span></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-sidebar:/sazonal.html&lt;span-class=&#39;chapter-number&#39;&gt;6&lt;/span&gt;--&lt;span-class=&#39;chapter-title&#39;&gt;Modelos-lineares-dinâmicos-sazonais&lt;/span&gt;"><span class="chapter-number">6</span>  <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-sidebar:/regressao.html&lt;span-class=&#39;chapter-number&#39;&gt;7&lt;/span&gt;--&lt;span-class=&#39;chapter-title&#39;&gt;Regressão-dinâmica&lt;/span&gt;"><span class="chapter-number">7</span>  <span class="chapter-title">Regressão dinâmica</span></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-int-sidebar:/references.htmlReferences">References</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-breadcrumbs-&lt;span-class=&#39;chapter-number&#39;&gt;6&lt;/span&gt;--&lt;span-class=&#39;chapter-title&#39;&gt;Modelos-lineares-dinâmicos-sazonais&lt;/span&gt;"><span class="chapter-number">6</span>  <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></span></p>
+</div>
+<div id="quarto-meta-markdown" class="hidden">
+<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-metatitle"><span class="chapter-number">6</span>  <span class="chapter-title">Modelos lineares dinâmicos sazonais</span> – Introdução aos modelos lineares dinâmicos</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-twittercardtitle"><span class="chapter-number">6</span>  <span class="chapter-title">Modelos lineares dinâmicos sazonais</span> – Introdução aos modelos lineares dinâmicos</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-ogcardtitle"><span class="chapter-number">6</span>  <span class="chapter-title">Modelos lineares dinâmicos sazonais</span> – Introdução aos modelos lineares dinâmicos</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-metasitename">Introdução aos modelos lineares dinâmicos</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-twittercarddesc"></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="quarto-ogcardddesc"></span></p>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id = "quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a  href="/polinomial.html" class="pagination-link" aria-label="Modelo linear dinâmico polinomial">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class='chapter-number'>5</span>  <span class='chapter-title'>Modelo linear dinâmico polinomial</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a  href="/regressao.html" class="pagination-link" aria-label="Regressão dinâmica">
+        <span class="nav-page-text"><span class='chapter-number'>7</span>  <span class='chapter-title'>Regressão dinâmica</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+</body>
+
+</html>

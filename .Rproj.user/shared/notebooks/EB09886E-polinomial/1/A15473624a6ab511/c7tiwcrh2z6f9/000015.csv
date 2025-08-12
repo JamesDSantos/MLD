@@ -1,2 +1,0 @@
-"0","Nile <- ts(Nile, start =1900)"
-"0","ts.plot(Nile, lwd = 2)"

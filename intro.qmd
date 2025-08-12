@@ -1,8 +1,9 @@
-# Introdução
+# Manipulação de séries temporais univariadas no software `R`
+
 
 ## Definição de séries temporais
 
-Considere um fenômeno aleatório que será observado ao longo do tempo. A coleção de variáveis aleatórias indexadas no tempo associadas a este fenômeno será denominada série temporal. Neste caso, para cada instante de tempo $t$, há uma variável $X(t)$ associada.
+Considere um fenômeno aleatório que é observado ao longo do tempo. A coleção de variáveis aleatórias indexadas no tempo, associadas a este fenômeno, é denominada série temporal. Neste caso, para cada instante de tempo $t$, há uma variável $X(t)$ associada.
 
 ```{r figura1, dev = 'png',echo = F, fig.show = 'hide', }
 set.seed(123)
@@ -24,7 +25,7 @@ title(xlab = 'Tempo', ylab='Série temporal')
 
 ![Figure 1 - Ilustração de uma série temporal](`r knitr::fig_chunk('figura1','png')`)
 
-Alguns autores definem séries temporais simplesmente como uma os valores de uma variável registrados ao longo do tempo. Essa definição não é útil para nós, uma vez que o tempo não necessariamente possui influência na variável, ou seja, é possível que a distribuição de $X(t)$ não dependa de $t$.
+Alguns autores definem séries temporais simplesmente como valores observados ao longo do tempo.No entanto, essa definição não é útil para nós, uma vez que o tempo não necessariamente possui influência na variável, ou seja, é possível que a distribuição de $X(t)$ não dependa de $t$.
 
 ::: {.alert .alert-success}
 <strong>Importante</strong>: estamos interessados apenas em séries temporais nas quais o modelo de probabilidades depende do tempo $t$.
@@ -32,9 +33,33 @@ Alguns autores definem séries temporais simplesmente como uma os valores de uma
 
 A partir deste momento, $X(t)$ será escrita como $X_t$ e representará a variável aleatória associada ao tempo $t$ e a versão minúscula $x_t$ representará o valor observado.
 
-## A classe `ts`
+## A classe `ts` e a função `window`
 
-A tabela aabeixo apresenta o número de nascidos vivos por mês na cidade de Manaus em 2021.
+Nessa seção vamos distutir a classe `ts` do `R`. Ela é particularmente útil para fazer gráficos de séries temporais.  A função `ts` possui vários argumentos importantes:
+
+* `data`: vetor ou matriz da série observada
+
+* `frequency`: esse valor representa o número de observações por período. Vamos discutir essa particularidade em outro momento, mas para a maioria das séries, o período é representado por um ano e o valor de `frequency` está relacionado com quantas observações são necessárias para completar um ano. Por exemplo, se os dados são registrados mensalmente, temos `frequency=12`. Em caso de trimestres, `frequency=4`. O valor padrão é `frequency=1`.
+
+* `deltat`: é o inverso do número de observações por período. Apenas um entre `frequency` e `deltat` deve ser dado.
+
+* `start`: representa o tempo no qual a série começa. Pode ser representado por um único número ou por um vetor de dois números, com o segundo 
+representando o momento dentro do período.  Por exemplo:
+
+  * se `frequancy=12` (meses em um ano) então `start=c(1996,2)` implica que a primeira observação data de fevereiro de 1996. 
+  
+  * se `frequancy=4` (trimestres em um ano) então `start=c(1996,2)` implica que a primeira observação data do segundo trimestre dede 1996. 
+  
+
+* `end`: representa o tempo no qual a série termina. A sintaxe é a mesma do `start`
+
+* `names`: é um vetor com o nomes das séries. É utilizado apenas quando há mais de uma série temporal.
+
+
+<div class='alert alert-info'>
+**Exemplo**
+
+Vamos ilustrar a construção de um objeto ts`` utilizando a tabela abaixo, que apresenta o número de nascidos vivos por mês na cidade de Manaus em 2021.
 
 | Mês | No. nascidos vivos |
 |-----------|--------------|
@@ -52,7 +77,7 @@ A tabela aabeixo apresenta o número de nascidos vivos por mês na cidade de Man
 | Dezembro | 3222| 
 
 
-Para todos os efeitos, uma série temporal é um vetor numérico. 
+Vamos guarda a série no vetor `x` e construir o objeto `y` na classe `ts`.
 
 ```{r}
 x <- c(
@@ -61,164 +86,212 @@ x <- c(
 3129, 3096, 3191, 3222
 
 )
-
-plot(x, type = 'l')
-```
-
-Contudo, é útil construir a série temporal como um objeto da classe `ts`. Tal função possui dois argumentos importantes:
-
-* `frequency`: representa o número de observações por unidade de tempo. Por exemplo, se o tempo está sendo registrado em anos, mas o dados são mensais, então `frequency=12`.
-
-* `start`: representa o momento que a série começa. Pode ser representado um único número ou por um vetor de dois números, com o segundo 
-representando o momento dentro do período. Por exemplo `start=c(1996,2)` implica que a primeira observação data de fevereiro de 1996. 
-
-```{r}
 y <- ts( x, start = c(2021,1), frequency = 12)
 y
-ts.plot(y)
 ```
 
-No gráfico acima, a parte decimal no eixo $x$  representa a fração do tempo entre de um ano (começando em 0 e acumulando 1/12 para cada mês subsequente). 
-
-Também podemos customizar o gráfico.
+A função `plot` reconhece um objeto na classe `ts` e constrói um gráfico com o tempo devidamente marcado no eixo as abscissas.
 
 ```{r}
-plot(y, ylab = 'No. nascidos vivos mensal', lwd = 2, col = 'seagreen')
+plot(y)
 ```
 
-A função `window` seleciona um subconjunto da  série temporal. Abaixo selecionamos apenas os nascimentos entre Junho e Agosto e marcamos estes valores no gráfico.
+Outros detalhes gráficos da função `plot` podem ser utilizados. 
+
+```{r}
+plot(y, ylab = 'No. nascidos vivos', lwd = 2, col = 'seagreen', xlab = 'Ano', main = 'Série mensal de nascidos vivos em Manaus', sub='Fonte: Sistema de Informação sobre Nascidos Vivos/SUS')
+```
+</div>
+
+
+É possível extrair os argumentos de um `ts` já criado utilizando funções com os mesmos nomes dos respectivos argumentos. No exemplo acima, criamos o objeto denominado `y`. Abaixo, extraímos os argumentos deste objeto.
+
+```{r}
+start(y)
+end(y)
+frequency(y)
+deltat(y)
+```
+
+
+
+A função `window` é particularmente útil para selecionar um subconjunto da série temporal. Seus argumentos são os mesmos da função `ts`.
+
+
+<div class='alert alert-info'>
+**Exemplo** Utilizando o mesmo conjunto de dados do exemplo anterior, vamos usar a função  `window` para extrair apenas os nascimentos entre junho e agosto.
+
 
 ```{r}
 z <- window(y, start=c(2021,6), end = c(2021,8))
-
-plot(y, ylab = 'No. nascidos vivos mensal', lwd = 2, col = 'seagreen')
-lines(z, col = 'brown', lwd= 2)
-
+z
 ```
+
+Acima, `z` é um novo objeto `ts`. Podemos usar a função `lines` destacar a parte selecionada da série em um gráfico já existente. Abaixo, descatamos os dados selecionados em `z`.
+
+```{r}
+plot(y, ylab = 'No. nascidos vivos', lwd = 2, col = 'seagreen', xlab = 'Ano', main = 'Série 
+mensal de nascidos vivos em Manaus', sub='Fonte: Sistema de Informação sobre Nascidos Vivos/SUS')
+lines(z, col ='brown', lwd = 4 )
+```
+</div>
+
 
 <div class='alert alert-warning'>
 <strong>Exercício 1</strong>
-Considere o total mensal de nascidos vivos na cidade de Manaus entre 2019 e 2020:
 
-| Ano | Mês | No. nascidos vivos |
-|-----|-----| -----|
-|2019 | 1 | 3.199|
-||2|2.963|
-||3|3.146|
-||4|2.966|
-||5|3.074|
-||6|2.919|
-||7|3.129|
-||8|3.230|
-||9|3.456|
-||10|3.486|
-||11|3.220|
-||12|3.151|
-|2020|1|3.185|
-||2|3.131|
-||3|3.256|
-||4|3.008|
-||5|3.080|
-||6|2.919|
-||7|3.208|
-||8|3.126|
-||9|3.126|
-||10|3.210|
-||11|2.957|
-||12|3.068|
+A série abaixo representa o número de homicídios mensais no Amazonas, segundo causa básica de óbito, entre os anos 2000 e 2023.
 
-1. Construa um único vetor com os três anos apresentados
+```{r, message=FALSE}
+require(gsheet)
+url = 'https://docs.google.com/spreadsheets/d/1rtiyOZ1W3SRIWZJTR1RyBmxmnGO11x005GNGrgLBr5A/edit?usp=sharing'
 
-2. A partir do vetor criado, construa um objeto do tipo `ts`
+hom = gsheet2tbl(url)
+```
+
+1. Construa um objeto do tipo `ts`
 
 3. Faça um gráfico da série.
 
-4. Crie um janela para ver apenas o ano de 2020.
+4. Crie um janela para marcar o período entre o início da pandemia de COVID-19 (março de 2020) e o primeiro dia sem mortes por COVID-19 (julho de 2021) 
 
-5. Represente a janela acima no gráfico anterior.
+5. Represente a janela acima no gráfico anterior. O que esse gráfico revela?
 
 </div>
 
 
-## O pacote `data.table`
+## A classe `Date` e o pacote `lubridate`
 
-Assim como números e textos possuem classes específicas, as datas no ambiente `R` também possuem sua `Date`.
+Nessa seção discutimos a classe `Date`, responsável por operações com datas no `R`. São apresentadas as principais funções do pacote `base`. Em seguida, apresentamos o pacote `lubridate`, que oferece funções adicionais e uma sintaxe mais fluida.   
+
+
+No pacote `base`, as datas são objeto da classe `Date`. Abaixo, transformamos o texto que representa 3 de agosto de 1998 nessa classe.
 
 ```{r}
 # 3 de agosto de 1998 (formato americano)
 x <- '1998/8/3'
-as.Date(x)
+y <- as.Date(x)
 ```
 
-Para que o `R` entenda uma data no formato nacional, é necessário mudar o formato:
+Existem diversas funções que interagem com objetos nessa classe: 
+
+* `weekdays`:  Retorna o dia da semana.
+
+* `months`: Retorna o nome do mês.
+
+* `quarters`: Retorna o trimestre do ano (Q1,Q2,Q3 ou Q4).
+
+
+Abaixo, ilustramos o uso dessas funções com a data 3 de agosto de 1998.
 
 ```{r}
+weekdays(y)
+months(y)
+quarters(y)
+```
+
+Outra vantagem desta classe é a possibilidade de calcular a diferença em dias entre duas datas, utilizando a função `-`. Abaixo mostramos a diferença entre 3 de agosto de 1998 e 3 de agosto de 1999.
+
+```{r}
+z <- as.Date('1999-08-03')
+z-y
+```
+Em certas aplicações, é necessário criar um vetor contendo datas em sequência. A função `seq` interage com objetos da classe `Date`, permitindo que o argumento `by` receba as strings `day`, `week`,`month`, `quarter` e `year`. Abaixo, criamos um vetor mensal que começa em 3 de agosto de 1998 e terminando e 3 de agosto de 1999.
+
+```{r}
+inicio <- as.Date('1998-08-03')
+fim <- as.Date('1999-08-03')
+seq(inicio, fim, by='month')
+```
+
+
+Observe que a conversão da `string` para `Date` é realizada considerando o formato americano por padrão. É possível usar a função `as.Date` para ler qualquer formato, modificando o argumento `format`. No entanto, o pacote `lubridate` oferece funções mais simples para essa conversão:
+
+* `ymd`: Converte `strings` no formato "ano, mês, dia", como "2023-10-26".
+
+* `mdy`: Converte `strings` no formato "mês, dia, ano", como "10-26-2023".
+
+* `dmy`: Converte `strings` no formato "dia, mês, ano", como "26-10-2023".
+
+
+Abaixo, transformamos a data 3/8/1998 para o formato americano.
+
+```{r, message=FALSE}
+require(lubridate)
 # 3 de agosto de 1998 (formato nacional)
 x <- '3/8/1998'
-as.Date(x, format = '%d/%m/%Y')
+dmy(x)
 ```
-Lidamos com datas quando temos uma fonte de dados bruta, mas em geral nosso objetivo é determinar a quantidade de eventos dentro de dias, semanas, meses ou anos. O pacote `data.table` permite lidar com esse problema de modo rápido. Podemos criar um objeto deste tipo utilizando a função `fread`. A seguir, vamos baixar uma base de dados de acidentes com aeronaves, mantida pela Força Aérea Brasileira e transformar a data de formato nacional para a classe `Date`.
+
+
+O `lubridate` também ofere a possibilidade de trabalhar com informações de tempo dentro de um dia, como horas, minutos e segundos. Por exemplo, a informação 15h30 de 3 de agosto de 1998 é lida como
 
 ```{r}
-library(data.table)
-url <- 'https://drive.google.com/uc?authuser=0&id=1iYrnwXgmLK07x8b330aD73scOVruZEuz&export=download'
-
-aereo <-  fread(url, encoding = 'Latin-1')
-aereo$ocorrencia_dia <- as.Date(aereo$ocorrencia_dia, '%d/%m/%Y')
+x <- '3/8/1998 15:30:00'
+dmy_hms(x)
 ```
+O `lubridate` possui as funções `month` e `wday`, que funcionam de modo análgo às funções `months` e `weekdays`. Além disso, o `lubridate` traz uma série de funções adicionais como:
 
-Um objeto do tipo `data.table` permite uma série de consultas. Em geral, pode-se fazer `aereo[a,b,c]`, onde `a` é uma consulta/função nas linhas, `b` nas colunas e `c` é um agrupador. Uma excelente introdução pode ser vista em [Introduction to data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html). 
+* `year`: retorna o ano de uma data
+* `day`: retornam o dia de uma data (útil para o formado xxx-xx-xx 00:00:00)
+* `hour`, `minute`, `second`: Retornam a hora, minuto e segundo de um objeto de data e tempo.
 
-Abaixo, selecionamos apenas a coluna de interesse.
+As funções de arredondamento de data também são úteis, especialmente para obter contagens mensais, anuais, etc. Elas são `floor_date` e `ceiling_date` e são responsáveis por arredondar uma data para o início ou o fim de um período, respectivamente. Abaixo, arredondamos a data 3 de agosto de 1998 para o começo do mês.
 
 ```{r}
-fab_dia <- aereo[,'ocorrencia_dia',]
-head(fab_dia)
+x <- dmy('03/08/1998')
+floor_date(x, 'month')
 ```
 
- Ao utilizar o operador `.N` em `[,.N,c]`, é retornado o número de linhas que possuem o agrupamento em `c`. Vamos agrupar as datas do nosso banco por ano.
- 
-```{r} 
-fab_ano <- fab_dia[, .N, by=.(year(ocorrencia_dia))]
-fab_ano <-fab_ano[ order(year) ]
-head(fab_ano)
-```
+<div class='alert alert-info'>
+**Exemplo**
 
-Agora, podemos fazer o gráfico da série
+A Força Aérea Brasileira (FAB), por meio do Centro de Investigação e Prevenção de Acidentes Aeronáuticos (CENIPA), possui um `dashboard` para explorar dados sobre incidentes e acidentes aéreos no Brasil. Um acidente é definido como uma ocorrência grave associada à operação de uma aeronave que resulta em lesões ou morte, dano estrutural da aeronave ou aeronave desaparecida. Os demais casos são classificados como incidentes. Os dados, atualizados em 11/08/2025, estão disponíveis para esse curso na `url` abaixo:
+
 
 ```{r}
-fab_ano <- ts( fab_ano, start = 2013)
-plot(fab_ano[,2], lwd = 2, ylab = 'No. acidentes/ano', xlab = 'Ano')
+url <- 'https://docs.google.com/spreadsheets/d/1BjTXFMmTpcxKdRHCr5IIDJde9yr0s3oAAfyj2vdVuX8/edit?usp=sharing'
+
+aereo <-  gsheet2tbl(url)
+head(aereo)
 ```
 
-Também podemos fazer uma série mensal:
+A unidade amostral é o acidente/indicente. Estamos interessados em criar uma série temporal com o número de acidentes mensais. Abaixo, filtramos apenas os acidentes (coluna `Classificção`) e, em seguida, transformamos as datas em objetos do tipo `Date`.
 
-```{r} 
-fab_mes <- fab_dia[, .N, by=.(year(ocorrencia_dia), month(ocorrencia_dia))]
-
-fab_mes <-fab_mes[ order(year, month ) ]
-head(fab_mes)
-```
-
-O gráfico dessa nova série é:
 
 ```{r}
-fab_mes <- ts( fab_mes[,3], start = c(2013, 1), frequency = 12)
-plot(fab_mes, lwd = 2, ylab = 'No. acidentes/mês', xlab = 'Ano')
+acidentes <- aereo[ aereo$Classificação=='ACIDENTE', ]
+datas <- dmy(acidentes$Data)
 ```
-     
+
+Agora, vamos arredondar todas as datas para o primeiro dia do mês. Em seguida, contaremos as frequências para cada mês/ano
+
+```{r}
+mes_ano <- floor_date(datas, 'month')
+contagem <- table(mes_ano)
+contagem
+```
+
+É sempre importante checar o resultado em `contagem`, para verificar se não há algum mês ausente. Como não o caso aqui, vamos construir um objeto do tipo `ts` e fazer o gráfico da série temporal.
+
+```{r}
+serie <- ts(contagem, start=c(2015,1), frequency = 12 )
+plot(serie, ylab = 'No. de acidentes aéreos', xlab = 'Ano', sub= 'Fonte: CENIPA' )
+```
+</div>
+
 
 <div class='alert alert-warning'>
-<strong>Exercício 1</strong>
+<strong>Exercício 2</strong>
 
 
-A série abaixo contém a data dos óbitos maternos no Brasil a partir de 2010.
+A série abaixo contém as datas dos óbitos maternos no Brasil a partir de 2010.
 
 ```{r}
 url <- 'https://drive.google.com/uc?authuser=0&id=1tYFFT9L2iopKmBDUI3P8qNIRaOnMYj7d&export=download'
 ```
 
-Crie uma série temporal com o número de óbitos mensal e faça um gráfico. Crie uma janela para colocar no gráfico o período da pandemia de COVID-19.
+Crie uma série temporal com o número de óbitos mensal e faça um gráfico. Crie uma janela para destacar no gráfico o período da pandemia de COVID-19 (março de 2020 até julhode 2021).
 
 </div>
 
