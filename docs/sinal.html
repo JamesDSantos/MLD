@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Sinal, ruído e correlograma – Introdução aos modelos lineares dinâmicos</title>
+<title>3&nbsp; Sinal, ruído e correlograma – Introdução aos modelos lineares dinâmicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./references.html" rel="next">
-<link href="./intro.html" rel="prev">
+<link href="./estacionaria.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -144,7 +144,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sinal.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sinal, ruído e correlograma</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sinal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal, ruído e correlograma</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -183,8 +183,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./estacionaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Séries Estacionárias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./sinal.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sinal, ruído e correlograma</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal, ruído e correlograma</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -203,15 +209,15 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sinal-e-ruído" id="toc-sinal-e-ruído" class="nav-link active" data-scroll-target="#sinal-e-ruído"><span class="header-section-number">2.1</span> Sinal e ruído</a></li>
-  <li><a href="#a-função-de-aucorrelação" id="toc-a-função-de-aucorrelação" class="nav-link" data-scroll-target="#a-função-de-aucorrelação"><span class="header-section-number">2.2</span> A função de aucorrelação</a>
+  <li><a href="#sinal-e-ruído" id="toc-sinal-e-ruído" class="nav-link active" data-scroll-target="#sinal-e-ruído"><span class="header-section-number">3.1</span> Sinal e ruído</a></li>
+  <li><a href="#a-função-de-aucorrelação" id="toc-a-função-de-aucorrelação" class="nav-link" data-scroll-target="#a-função-de-aucorrelação"><span class="header-section-number">3.2</span> A função de aucorrelação</a>
   <ul class="collapse">
-  <li><a href="#o-correlograma-de-uma-amostra-aleatória" id="toc-o-correlograma-de-uma-amostra-aleatória" class="nav-link" data-scroll-target="#o-correlograma-de-uma-amostra-aleatória"><span class="header-section-number">2.2.1</span> O correlograma de uma amostra aleatória</a></li>
-  <li><a href="#o-correlograma-com-a-componente-de-tendência" id="toc-o-correlograma-com-a-componente-de-tendência" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-tendência"><span class="header-section-number">2.2.2</span> O correlograma com a componente de tendência</a></li>
-  <li><a href="#o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" id="toc-o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico"><span class="header-section-number">2.2.3</span> O correlograma com a componente de sazonalidade - sinal harmônico</a></li>
-  <li><a href="#o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" id="toc-o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo"><span class="header-section-number">2.2.4</span> O correlograma com a componente de sazonalidade - sinal autorregressivo</a></li>
+  <li><a href="#o-correlograma-de-uma-amostra-aleatória" id="toc-o-correlograma-de-uma-amostra-aleatória" class="nav-link" data-scroll-target="#o-correlograma-de-uma-amostra-aleatória"><span class="header-section-number">3.2.1</span> O correlograma de uma amostra aleatória</a></li>
+  <li><a href="#o-correlograma-com-a-componente-de-tendência" id="toc-o-correlograma-com-a-componente-de-tendência" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-tendência"><span class="header-section-number">3.2.2</span> O correlograma com a componente de tendência</a></li>
+  <li><a href="#o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" id="toc-o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico"><span class="header-section-number">3.2.3</span> O correlograma com a componente de sazonalidade - sinal harmônico</a></li>
+  <li><a href="#o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" id="toc-o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo"><span class="header-section-number">3.2.4</span> O correlograma com a componente de sazonalidade - sinal autorregressivo</a></li>
   </ul></li>
-  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">2.3</span> Exercícios</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">3.3</span> Exercícios</a></li>
   </ul>
 </nav>
     </div>
@@ -220,7 +226,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sinal, ruído e correlograma</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal, ruído e correlograma</span></h1>
 </div>
 
 
@@ -237,8 +243,8 @@ window.Quarto = {
 </header>
 
 
-<section id="sinal-e-ruído" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="sinal-e-ruído"><span class="header-section-number">2.1</span> Sinal e ruído</h2>
+<section id="sinal-e-ruído" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sinal-e-ruído"><span class="header-section-number">3.1</span> Sinal e ruído</h2>
 <p>Em geral, a série temporal possui componentes de dois tipos: sinal e ruído. O primeiro é uma função do tempo geralmente relacionado com a média da série em dado instante de tempo, enquanto que o segundo está relacionado com a variância. Podemos assumir que essa relação é aditiva:</p>
 <p><span class="math display">\[X_t=\hbox{sinal}(t)+\varepsilon_t\]</span> onde <span class="math inline">\(\varepsilon_t\)</span> é o ruído.</p>
 <p>Em alguns casos essa relação é multiplicativa, ou seja,</p>
@@ -258,7 +264,7 @@ window.Quarto = {
 <p>O ruído é a parte aleatória da composição e possui média zero. Isso implica que, para uma série com sinal <span class="math inline">\(f(t)\)</span>, teremos</p>
 <p><span class="math display">\[E(x_t)=E(f(t))+E(\varepsilon_t)=f(t)\]</span> e <span class="math display">\[Var(x_t)=Var(f(t)+\varepsilon_t)=Var(\varepsilon_t)\]</span> Os ruídos mais importantes são:</p>
 <ul>
-<li><p>Ruído branco: possuem variância constante e são não correlacionados, ou seja <span class="math inline">\(Cov(\varepsilon_t,\varepsilon_s)=0\)</span> para todo <span class="math inline">\(t\neq s\)</span>.</p></li>
+<li><p>Ruído branco: como ja definido, é um processo estacionário com variância constante e não correlacionado, ou seja <span class="math inline">\(Cov(\varepsilon_t,\varepsilon_s)=0\)</span> para todo <span class="math inline">\(t\neq s\)</span>.</p></li>
 <li><p>Média móvel de ordem <span class="math inline">\(q\)</span>: sejam <span class="math inline">\(\ldots,\varepsilon_{-2},\varepsilon_{-1},\varepsilon_{0},\varepsilon_{1},\ldots\)</span> ruídos brancos. O ruído de média móvel de ordem <span class="math inline">\(q\)</span> é dado por <span class="math display">\[\eta_t=\varepsilon_{t}+\sum_{j=1}^q \theta_j\varepsilon_{t-j}.\]</span></p></li>
 </ul>
 <p>A série a seguir representa uma série mensal de concentração de <span class="math inline">\(\hbox{CO}_2\)</span> na atmosfera em Mauna Loa, expressa em partes por milhão. Note o comportamento da tendência e da sazonalidade.</p>
@@ -303,8 +309,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="a-função-de-aucorrelação" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="a-função-de-aucorrelação"><span class="header-section-number">2.2</span> A função de aucorrelação</h2>
+<section id="a-função-de-aucorrelação" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="a-função-de-aucorrelação"><span class="header-section-number">3.2</span> A função de aucorrelação</h2>
 <p>Considere inicialmente uma amostra aleatória <span class="math inline">\(X_1,\ldots,X_n\)</span> (ou seja, todas as variáveis são independentes e possuem a mesma distribuição). Sejam <span class="math display">\[A_h=\{X_1,\ldots,X_{n-h}\}\]</span> e <span class="math display">\[B_h=\{X_h,\ldots,X_n\}.\]</span> Então, a correlação entre <span class="math inline">\(A_h\)</span> e <span class="math inline">\(B_h\)</span> é nula.</p>
 <p>Deste modo, um meio de verificar se a coleção observada é uma série temporal é observar a correlação amostral entre <span class="math display">\[a_h=\{x_1,\ldots,x_{n-h}\}\]</span> e <span class="math display">\[b_h=\{x_h,\ldots,x_n\},\]</span> para diferentes valores de <span class="math inline">\(h\)</span>.</p>
 <p>A função <span class="math inline">\(r(h)\)</span> que representa a correlação amostral entre <span class="math inline">\(a_h\)</span> e <span class="math inline">\(b_h\)</span> é denominada <strong>autocorrelação</strong>. O valor <span class="math inline">\(h\)</span> é denominado <strong>defasagem</strong> (do inglês, <em>lag</em>).</p>
@@ -318,8 +324,8 @@ window.Quarto = {
 <div class="alert alert-success">
 <p><strong>Correlograma</strong> O gráfico <span class="math inline">\((h,r(h))\)</span> é denominado correlograma, ou gráfico da função de autocorrelação.</p>
 </div>
-<section id="o-correlograma-de-uma-amostra-aleatória" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="o-correlograma-de-uma-amostra-aleatória"><span class="header-section-number">2.2.1</span> O correlograma de uma amostra aleatória</h3>
+<section id="o-correlograma-de-uma-amostra-aleatória" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="o-correlograma-de-uma-amostra-aleatória"><span class="header-section-number">3.2.1</span> O correlograma de uma amostra aleatória</h3>
 <p>Quando a amostra é aleatória, a função de autocorrelação é nula para qualquer defasagem diferente de 0. Deste modo, o correlograma deve apresentar valores próximos de zero.</p>
 <p>Para entender o que próximo de zero significa, o limites do intervalo de confiança para o coeficiente de correlação sobre a hipótese de que esta é nula são colocados no gráfico.</p>
 <p>Abaixo ilustramos um correlograma para uma amostra de variáveis aleatórias independentes com distribuição normal padrão.</p>
@@ -346,8 +352,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="o-correlograma-com-a-componente-de-tendência" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-tendência"><span class="header-section-number">2.2.2</span> O correlograma com a componente de tendência</h3>
+<section id="o-correlograma-com-a-componente-de-tendência" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-tendência"><span class="header-section-number">3.2.2</span> O correlograma com a componente de tendência</h3>
 <p>Quando uma série exibe tendência, o correlograma exibe um descaimento lento e persistente.</p>
 <p>Considere, por exemplo, a série</p>
 <p><span class="math display">\[x_t= t + \varepsilon_t,\]</span> onde <span class="math inline">\(\varepsilon_t\sim\hbox{Normal}(0,5^2)\)</span>. Abaixo simulamos essa série e apresentamos o respectivo correlograma</p>
@@ -381,8 +387,8 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" class="level3" data-number="2.2.3">
-<h3 data-number="2.2.3" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico"><span class="header-section-number">2.2.3</span> O correlograma com a componente de sazonalidade - sinal harmônico</h3>
+<section id="o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico"><span class="header-section-number">3.2.3</span> O correlograma com a componente de sazonalidade - sinal harmônico</h3>
 <p>O sinal sazonal é caracterizado por um comportamento periódico. Existem dois comportamentos sazonais típicos. O primeiro é baseado na função harmônica:</p>
 <p><span class="math display">\[\hbox{sinal}(t)=A\cos\left(\frac{2\pi}{p}t + \phi\right)\]</span> Neste tipo de sinal, há um comportamento em forma de onda já estabelecido. Eis algumas informações importantes:</p>
 <ul>
@@ -455,8 +461,8 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oo)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" class="level3" data-number="2.2.4">
-<h3 data-number="2.2.4" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo"><span class="header-section-number">2.2.4</span> O correlograma com a componente de sazonalidade - sinal autorregressivo</h3>
+<section id="o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo"><span class="header-section-number">3.2.4</span> O correlograma com a componente de sazonalidade - sinal autorregressivo</h3>
 <p>Nesse tipo de sazonalidade, ainda há um período <span class="math inline">\(p\)</span>, mas não há um sinal harmônico. O valor da série no tempo <span class="math inline">\(t\)</span> é baseado no valor observado no tempo <span class="math inline">\(t-p\)</span>.</p>
 <p>Quando a sazonalidade possue essa característica, há uma autocorrelação marcante nos múltiplos de <span class="math inline">\(p\)</span>. Observe a série simulada abaixo, com um período <span class="math inline">\(p=12\)</span></p>
 <div class="cell">
@@ -477,8 +483,8 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="exercícios" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">2.3</span> Exercícios</h2>
+<section id="exercícios" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">3.3</span> Exercícios</h2>
 <div class="alert alert-warning">
 <p><strong>Exercício 1</strong> Estude o comportamento da série <code>ldeaths</code>, que conta o número mensal de óbitos por doenças pulmonares no Reino Unido.</p>
 </div>
@@ -918,8 +924,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./intro.html" class="pagination-link" aria-label="Manipulação de séries temporais univariadas no software `R`">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Manipulação de séries temporais univariadas no software <code>R</code></span></span>
+      <a href="./estacionaria.html" class="pagination-link" aria-label="Séries Estacionárias">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Séries Estacionárias</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

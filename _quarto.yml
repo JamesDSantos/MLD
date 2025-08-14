@@ -9,6 +9,7 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
+    - estacionaria.qmd
     - sinal.qmd
     - references.qmd
 

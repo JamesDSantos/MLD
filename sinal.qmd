@@ -37,11 +37,10 @@ e
 $$Var(x_t)=Var(f(t)+\varepsilon_t)=Var(\varepsilon_t)$$
 Os ruídos mais importantes são:
 
--   Ruído branco: possuem variância constante e são não correlacionados, ou seja $Cov(\varepsilon_t,\varepsilon_s)=0$ para todo $t\neq s$.
+-   Ruído branco: como ja definido, é um processo estacionário com variância constante e não correlacionado, ou seja $Cov(\varepsilon_t,\varepsilon_s)=0$ para todo $t\neq s$.
 
 -   Média móvel de ordem $q$: sejam $\ldots,\varepsilon_{-2},\varepsilon_{-1},\varepsilon_{0},\varepsilon_{1},\ldots$ ruídos brancos. O ruído de média móvel de ordem $q$ é dado por
 $$\eta_t=\varepsilon_{t}+\sum_{j=1}^q \theta_j\varepsilon_{t-j}.$$
-
 
 
 A série a seguir representa uma série mensal de concentração de $\hbox{CO}_2$ na atmosfera em Mauna Loa, expressa em partes por milhão. Note o comportamento da tendência e da sazonalidade.
