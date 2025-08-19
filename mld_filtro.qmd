@@ -1,0 +1,121 @@
+# O modelo linear dinâmico
+
+
+## Modelo de espaço de estados
+
+Seja $y_{1:t}=\{y_1,\ldots,y_t\}$. Considere que a distribuição de $y_t$ pode ser completamente 
+especificada com o conhecimento do vetor $\boldsymbol{\theta}$, ou seja
+
+$$f(y_{1:t}|\boldsymbol{\theta}).$$
+
+    A partir da incerteza sobre $\boldsymbol{\theta}$,  representada por $f(\boldsymbol{\theta})$,
+teremos que
+$$f(\boldsymbol{\theta}|y_{1:t})\propto f(y_{1:t}|\boldsymbol{\theta})f(\boldsymbol{\theta}).$$ 
+  
+  Em geral, assumimos que $\boldsymbol{\theta}$ especifica completamente $y_{i}$, fazendo com que $y_{i}$ e $y_{j}$ sejam independentes para $i\neq j$ quando condicionados ao vetor $\boldsymbol{\theta}$. Disto, teremos
+$$f(y_{1:t}|\boldsymbol{\theta})=\prod_{i=1}^t f(y_i|\boldsymbol{\theta}).$$ 
+
+Supondo que observamos a amostra $y_1,\ldots,y_t$, a distribuição para a observação  no tempo futuro $t+1$ é dada por
+$$\begin{align*}
+f(y_{t+1}|y_{1:t})&=\int f(y_{t+1}|\boldsymbol{\theta},y_{1:t})f(\boldsymbol{\theta}|y_{1:t})d\boldsymbol{\theta}\\
+&=\int f(y_{t+1}|\boldsymbol{\theta})f(\boldsymbol{\theta}|y_{1:t})d\boldsymbol{\theta}
+\end{align*}$$
+e para um tempo $t+k$ 
+$$\begin{align*}
+f(y_{t+k}|y_{1:t})&=\int  f(y_{t+k}|\boldsymbol{\theta})f(\boldsymbol{\theta}|y_{1:t})d\boldsymbol{\theta}\\
+\end{align*}$$
+
+ É possível flexibilizar a modelagem discutida até aqui permitindo que 
+$\boldsymbol{\theta}$ evolua segundo uma cadeia de Markov. Deste modo, existem dois processos estocásticos envolvidos: o processo $\{y_t,t\in\mathcal{T}\}$ envolvendo as observações e o processo  $\{\boldsymbol{\theta}_t,t\in\mathcal{T}\}$ envolvendo os parâmetros (ou estados). 
+
+Um modelo de espaço de estados consiste de uma equação para as observações:
+
+$$\boldsymbol{y}_t = \boldsymbol{F}_t'\boldsymbol{\theta}_t + \boldsymbol{v}_t$$
+e uma equação de estados
+$$\begin{equation}
+		\boldsymbol{\theta}_t = \boldsymbol{G}_t\boldsymbol{\theta}_{t-1} + \boldsymbol{w}_t
+\end{equation}$$
+onde $\boldsymbol{G}_t$ e $\boldsymbol{F}_t$ são matrizes conhecidas  e $\boldsymbol{v}_t$ e $\boldsymbol{w}_t$ são vetores de erros aleatórios independentes entre si. Todos os modelos que estudamos até aqui admitem uma representação em espaço de estados.
+
+## Definição de modelo linear dinâmico
+	
+Um modelo de espaço de estados é denominado modelo linear dinâmico quando, para qualquer $t\geq 1$ 
+
+$$\begin{align}
+		y_t|\boldsymbol{\theta}_t&\sim\hbox{Normal}(\boldsymbol{F}_t'\boldsymbol{\theta}_t,V_t)\\
+\boldsymbol{\theta}_t|\boldsymbol{\theta}_{t-1}&\sim\hbox{Normal}(\boldsymbol{G}_t\boldsymbol{\theta}_{t-1},\boldsymbol{W}_t)
+\end{align}$$
+onde $\{\boldsymbol{F}_t, \boldsymbol{G}_t, V_t, \boldsymbol{W}_t\}$ são matrizes conhecidas e
+$$\begin{equation}\boldsymbol{\theta}_0\sim\hbox{Normal}(\boldsymbol{m}_0,\boldsymbol{C}_0).
+\end{equation}$$
+Como as distribuições envolvidas são conhecidas, dizemos que o modelo é especificado pela quádrupla $\{\boldsymbol{F},\boldsymbol{G},\boldsymbol{V},\boldsymbol{W}\}_t$.
+
+
+## O filtro de Kalman
+
+Seja $D_{0}$ a informação inicial (em $t=0$) e seja $D_t=\{y_t,D_{t-1}\}$. Então, se para qualquer $t-1\geq 0$
+  $$\boldsymbol{\theta}_{t-1}|D_{t-1}\sim\hbox{Normal}(\boldsymbol{m}_{t-1},\boldsymbol{C}_{t-1}),$$
+  teremos que:
+
+  * A priori para o tempo $t$ será 
+$$\boldsymbol{\theta}_t|D_{t-1}\sim\hbox{Normal}(\boldsymbol{a}_t,\boldsymbol{R}_t),$$
+  onde
+$$\begin{align}
+\boldsymbol{a}_t&=\boldsymbol{G}_t\boldsymbol{m}_{t-1},\\
+\boldsymbol{R}_t&=\boldsymbol{G}_t\boldsymbol{C}_{t-1}\boldsymbol{G}_t'+\boldsymbol{W}_t.
+		\end{align}$$
+		
+  * A previsão para o tempo $t$ será
+		$$\boldsymbol{y}_t|D_{t-1}\sim\hbox{Normal}(\boldsymbol{f}_t,\boldsymbol{Q}_t),$$ onde
+		$$\begin{align}
+			\boldsymbol{f}_t &= \boldsymbol{F}_t'\boldsymbol{a}_t \\
+\boldsymbol{Q}_t&=\boldsymbol{F}_t'\boldsymbol{R}_t\boldsymbol{F}_t +\boldsymbol{V}_t. 
+		\end{align}$$
+		
+* A posteriori para o tempo $t$ será 
+		$$\boldsymbol{\theta}_t|D_{t}\sim\hbox{Normal}(\boldsymbol{m}_t,\boldsymbol{C}_t),$$
+		onde
+		$$\begin{align}
+			\boldsymbol{A}_t &= \boldsymbol{R}_t\boldsymbol{F}_t \boldsymbol{Q}_t^{-1}\\
+			\boldsymbol{m}_t&= \boldsymbol{a}_t + \boldsymbol{A}_t(\boldsymbol{y}_t - \boldsymbol{f}_t)\\
+			\boldsymbol{C}_t &=\boldsymbol{R}_t - \boldsymbol{A}_t\boldsymbol{Q}_t\boldsymbol{A}_t'.
+\end{align}$$
+
+
+**Demonstração.** Suponha que, para $t-1$, $\boldsymbol{\theta}_{t-1}|D_{t-1}\sim\hbox{N}(\boldsymbol{m}_{t-1},\boldsymbol{C}_{t-1})$. Então, como 
+$\boldsymbol{\theta}_t|\boldsymbol{\theta}_{t-1},D_{t-1}\sim\hbox{N}(\boldsymbol{G}_t\boldsymbol{\theta}_{t-1},\boldsymbol{W}_t)$, pelo lema da reconstrução teremos que
+
+$$\begin{align*}
+\left(\left.\begin{array}{c}\boldsymbol{\theta}_{t-1} \\ \boldsymbol{\theta}_t \end{array}\right|D_{t-1}\right)\sim N\left[\left(\begin{array}{c}\boldsymbol{m}_{t-1} \\ \boldsymbol{G}_t\boldsymbol{m}_{t-1} \end{array}\right),\left(\begin{array}{cc}\boldsymbol{C}_{t-1}& \boldsymbol{C}_{t-1}\boldsymbol{G}_t'\\ \boldsymbol{G}_t \boldsymbol{C}_{t-1} &\boldsymbol{W}_t+\boldsymbol{G}_t\boldsymbol{C}_{t}\boldsymbol{G}_t'\end{array}\right)\right]
+\end{align*}$$
+logo, a priori para o tempo $t$ será 
+$$\boldsymbol{\theta}_t|D_{t-1}\sim\hbox{Normal}(\boldsymbol{a}_t,\boldsymbol{R}_t),$$
+  onde
+$$\begin{align}
+\boldsymbol{a}_t&=\boldsymbol{G}_t\boldsymbol{m}_{t-1},\\
+\boldsymbol{R}_t&=\boldsymbol{G}_t\boldsymbol{C}_{t-1}\boldsymbol{G}_t'+\boldsymbol{W}_t.
+	\end{align}$$
+	De modo análogo, como $\boldsymbol{y}_t|\boldsymbol{\theta}_t,D_{t-1}\sim\hbox{N}(\boldsymbol{F}_t'\boldsymbol{\theta}_t,\boldsymbol{V}_t)$ e
+$\boldsymbol{\theta}_t|D_{t-1}\sim\hbox{N}(\boldsymbol{a}_t,\boldsymbol{R}_t)$, pelo lema da reconstrução teremos que
+$$\begin{align*}
+\left(\left.\begin{array}{c}\boldsymbol{y}_{t} \\ \boldsymbol{\theta}_t \end{array}\right|D_{t-1}\right)\sim N\left[\left(\begin{array}{c}\boldsymbol{F}_t'\boldsymbol{a}_t \\ \boldsymbol{a}_t \end{array}\right),\left(\begin{array}{cc} \boldsymbol{V}_{t}+ \boldsymbol{F}_t'\boldsymbol{R}_{t}\boldsymbol{F}_{t} &\boldsymbol{F}_t'\boldsymbol{R}_{t} \\ \boldsymbol{R}_t\boldsymbol{F}_t & \boldsymbol{R}_t\end{array}\right)\right]
+	\end{align*}$$
+logo, a distribuição da previsão para o tempo $t$ será
+	$$\boldsymbol{y}_t|D_{t-1}\sim\hbox{Normal}(\boldsymbol{f}_t,\boldsymbol{Q}_t),$$ onde
+$$\begin{align}
+		\boldsymbol{f}_t &= \boldsymbol{F}_t'\boldsymbol{a}_t \\
+\boldsymbol{Q}_t&=\boldsymbol{F}_t'\boldsymbol{R}_t\boldsymbol{F}_t +\boldsymbol{V}_t. 
+	\end{align}$$
+	Por último, considerando que $\boldsymbol{\theta}_t|\boldsymbol{y_t},D_{t-1}\equiv \boldsymbol{\theta}_t|D_{t}$ e que
+	$$\begin{align*}
+		\left(\left.\begin{array}{c}\boldsymbol{y}_{t} \\ \boldsymbol{\theta}_t \end{array}\right|D_{t-1}\right)\sim N\left[\left(\begin{array}{c}\boldsymbol{f}_t \\ \boldsymbol{a}_t \end{array}\right),\left(\begin{array}{cc} \boldsymbol{Q}_{t} & \boldsymbol{F}_t'\boldsymbol{Q}_t\\ \boldsymbol{R}_t\boldsymbol{F}_t & \boldsymbol{R}_t\end{array}\right)\right]
+\end{align*}$$
+pelo lema da condicional, teremos que
+$$\boldsymbol{\theta}_t|D_t\sim\hbox{N}(\boldsymbol{a}_t+\boldsymbol{R}_t\boldsymbol{F}_t\boldsymbol{Q}_t^{-1}(\boldsymbol{y}_t-\boldsymbol{f}_t),\boldsymbol{R}_t-\boldsymbol{R}_t\boldsymbol{F}_t\boldsymbol{Q}_t^{-1}\boldsymbol{F}_t'\boldsymbol{R}_t)$$
+	ou ainda, $\boldsymbol{\theta}_t|D_{t}\sim\hbox{Normal}(\boldsymbol{m}_t,\boldsymbol{C}_t),$
+	onde
+	$$\begin{align}
+		\boldsymbol{A}_t &= \boldsymbol{R}_t\boldsymbol{F}_t \boldsymbol{Q}_t^{-1}\\
+		\boldsymbol{m}_t&= \boldsymbol{a}_t + \boldsymbol{A}_t(\boldsymbol{y}_t - \boldsymbol{f}_t)\\
+		\boldsymbol{C}_t &=\boldsymbol{R}_t - \boldsymbol{A}_t\boldsymbol{Q}_t\boldsymbol{A}_t'.
+                                \end{align}$$

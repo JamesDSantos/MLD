@@ -190,7 +190,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./sinal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal, ruído e correlograma</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal e ruído</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -589,8 +589,8 @@ window.Quarto = {
 </div>
 <p>É sempre importante checar o resultado em <code>contagem</code>, para verificar se não há algum mês ausente. Como não o caso aqui, vamos construir um objeto do tipo <code>ts</code> e fazer o gráfico da série temporal.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>serie <span class="ot">&lt;-</span> <span class="fu">ts</span>(contagem, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">2015</span>,<span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span> )</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(serie, <span class="at">ylab =</span> <span class="st">'No. de acidentes aéreos'</span>, <span class="at">xlab =</span> <span class="st">'Ano'</span>, <span class="at">sub=</span> <span class="st">'Fonte: CENIPA'</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>serie_acidentes <span class="ot">&lt;-</span> <span class="fu">ts</span>(contagem, <span class="at">start=</span><span class="fu">c</span>(<span class="dv">2015</span>,<span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span> )</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(serie_acidentes, <span class="at">ylab =</span> <span class="st">'No. de acidentes aéreos'</span>, <span class="at">xlab =</span> <span class="st">'Ano'</span>, <span class="at">sub=</span> <span class="st">'Fonte: CENIPA'</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

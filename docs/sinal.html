@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Sinal, ruído e correlograma – Introdução aos modelos lineares dinâmicos</title>
+<title>3&nbsp; Sinal e ruído – Introdução aos modelos lineares dinâmicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -144,7 +144,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sinal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal, ruído e correlograma</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sinal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal e ruído</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -190,7 +190,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./sinal.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal, ruído e correlograma</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal e ruído</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -210,13 +210,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#sinal-e-ruído" id="toc-sinal-e-ruído" class="nav-link active" data-scroll-target="#sinal-e-ruído"><span class="header-section-number">3.1</span> Sinal e ruído</a></li>
-  <li><a href="#a-função-de-aucorrelação" id="toc-a-função-de-aucorrelação" class="nav-link" data-scroll-target="#a-função-de-aucorrelação"><span class="header-section-number">3.2</span> A função de aucorrelação</a>
-  <ul class="collapse">
-  <li><a href="#o-correlograma-de-uma-amostra-aleatória" id="toc-o-correlograma-de-uma-amostra-aleatória" class="nav-link" data-scroll-target="#o-correlograma-de-uma-amostra-aleatória"><span class="header-section-number">3.2.1</span> O correlograma de uma amostra aleatória</a></li>
-  <li><a href="#o-correlograma-com-a-componente-de-tendência" id="toc-o-correlograma-com-a-componente-de-tendência" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-tendência"><span class="header-section-number">3.2.2</span> O correlograma com a componente de tendência</a></li>
-  <li><a href="#o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" id="toc-o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico"><span class="header-section-number">3.2.3</span> O correlograma com a componente de sazonalidade - sinal harmônico</a></li>
-  <li><a href="#o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" id="toc-o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" class="nav-link" data-scroll-target="#o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo"><span class="header-section-number">3.2.4</span> O correlograma com a componente de sazonalidade - sinal autorregressivo</a></li>
-  </ul></li>
+  <li><a href="#a-função-de-aucorrelação-para-diferentes-sinais" id="toc-a-função-de-aucorrelação-para-diferentes-sinais" class="nav-link" data-scroll-target="#a-função-de-aucorrelação-para-diferentes-sinais"><span class="header-section-number">3.2</span> A função de aucorrelação para diferentes sinais</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">3.3</span> Exercícios</a></li>
   </ul>
 </nav>
@@ -226,7 +220,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal, ruído e correlograma</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal e ruído</span></h1>
 </div>
 
 
@@ -309,23 +303,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="a-função-de-aucorrelação" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="a-função-de-aucorrelação"><span class="header-section-number">3.2</span> A função de aucorrelação</h2>
-<p>Considere inicialmente uma amostra aleatória <span class="math inline">\(X_1,\ldots,X_n\)</span> (ou seja, todas as variáveis são independentes e possuem a mesma distribuição). Sejam <span class="math display">\[A_h=\{X_1,\ldots,X_{n-h}\}\]</span> e <span class="math display">\[B_h=\{X_h,\ldots,X_n\}.\]</span> Então, a correlação entre <span class="math inline">\(A_h\)</span> e <span class="math inline">\(B_h\)</span> é nula.</p>
-<p>Deste modo, um meio de verificar se a coleção observada é uma série temporal é observar a correlação amostral entre <span class="math display">\[a_h=\{x_1,\ldots,x_{n-h}\}\]</span> e <span class="math display">\[b_h=\{x_h,\ldots,x_n\},\]</span> para diferentes valores de <span class="math inline">\(h\)</span>.</p>
-<p>A função <span class="math inline">\(r(h)\)</span> que representa a correlação amostral entre <span class="math inline">\(a_h\)</span> e <span class="math inline">\(b_h\)</span> é denominada <strong>autocorrelação</strong>. O valor <span class="math inline">\(h\)</span> é denominado <strong>defasagem</strong> (do inglês, <em>lag</em>).</p>
-<div class="alert alert-success">
-<p><strong>Propriedades</strong></p>
-<ul>
-<li><p><span class="math inline">\(r(0)=1\)</span></p></li>
-<li><p><span class="math inline">\(-1\leq r(h) \leq 1\)</span></p></li>
-</ul>
-</div>
-<div class="alert alert-success">
-<p><strong>Correlograma</strong> O gráfico <span class="math inline">\((h,r(h))\)</span> é denominado correlograma, ou gráfico da função de autocorrelação.</p>
-</div>
-<section id="o-correlograma-de-uma-amostra-aleatória" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="o-correlograma-de-uma-amostra-aleatória"><span class="header-section-number">3.2.1</span> O correlograma de uma amostra aleatória</h3>
+<section id="a-função-de-aucorrelação-para-diferentes-sinais" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="a-função-de-aucorrelação-para-diferentes-sinais"><span class="header-section-number">3.2</span> A função de aucorrelação para diferentes sinais</h2>
 <p>Quando a amostra é aleatória, a função de autocorrelação é nula para qualquer defasagem diferente de 0. Deste modo, o correlograma deve apresentar valores próximos de zero.</p>
 <p>Para entender o que próximo de zero significa, o limites do intervalo de confiança para o coeficiente de correlação sobre a hipótese de que esta é nula são colocados no gráfico.</p>
 <p>Abaixo ilustramos um correlograma para uma amostra de variáveis aleatórias independentes com distribuição normal padrão.</p>
@@ -351,11 +330,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section>
-<section id="o-correlograma-com-a-componente-de-tendência" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-tendência"><span class="header-section-number">3.2.2</span> O correlograma com a componente de tendência</h3>
-<p>Quando uma série exibe tendência, o correlograma exibe um descaimento lento e persistente.</p>
-<p>Considere, por exemplo, a série</p>
+<p>Considere que a série exibe tendência. Isso implica que a relação entre <span class="math inline">\(x_t\)</span> e <span class="math inline">\(x_{t+h}\)</span> é aproximadamente linear na vizinhança de <span class="math inline">\(t\)</span>, ou seja</p>
+<p><span class="math display">\[x_{t+h}\approx x_t+hb+\varepsilon_{t}\]</span> Isso implica em <span class="math inline">\(Corr(x_t,x_{t+h})\approx 1\)</span>. Por ser um comportamento de médio/longo prazo, é esperado que <span class="math inline">\(\rho(h)\)</span> decaia lentamente para zero. Considere, por exemplo, a série</p>
 <p><span class="math display">\[x_t= t + \varepsilon_t,\]</span> onde <span class="math inline">\(\varepsilon_t\sim\hbox{Normal}(0,5^2)\)</span>. Abaixo simulamos essa série e apresentamos o respectivo correlograma</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="dv">5</span>)</span>
@@ -372,11 +348,38 @@ window.Quarto = {
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Observe as similaridades do correlograma acima com o observado para a série de acidentes aéreos mensais vista anteriormente.</p>
+<p>Observe as similaridades do correlograma acima com o observado para a série de homicídios em Manaus, vista anteriormente.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>oo <span class="ot">&lt;-</span> <span class="fu">par</span>( <span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>( fab_mes , <span class="at">ylab =</span> <span class="st">'No. acidentes aéreos mensal'</span> )</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(fab_mes , <span class="at">lag =</span> <span class="dv">50</span>,  <span class="at">main =</span><span class="st">'correlograma'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sinal_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="sinal_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>O sinal sazonal é caracterizado por um comportamento periódico, geralmente modelado pela função harmônica:</p>
+<p><span class="math display">\[\hbox{sinal}(t)=A\cos\left(\frac{2\pi}{p}t + \phi\right)\]</span></p>
+<p>Vamos estudar a função harmônica com mais detalhes em outro momento. Por hora, note que</p>
+<p><span class="math display">\[\begin{align}
+x_{t+h}&amp;=A\cos\left(\frac{2\pi}{p}(t+h) + \phi\right)+\varepsilon_{t+h}=A\cos\left(\frac{2\pi}{p}t+ \frac{2\pi}{p}h+ \phi\right)+\varepsilon_{t+h}\\
+&amp;=A\cos\left(\frac{2\pi}{p}t+\phi\right)\cos\left( \frac{2\pi}{p}h\right)-A\sin\left(\frac{2\pi}{p}t+\phi\right)\sin\left( \frac{2\pi}{p}h\right)+\varepsilon_{t+h}\\
+&amp;=\left[A\cos\left(\frac{2\pi}{p}t+\phi\right)\pm\varepsilon_t\right]\cos\left( \frac{2\pi}{p}h\right)-A\sin\left(\frac{2\pi}{p}t+\phi\right)\sin\left( \frac{2\pi}{p}h\right)+\varepsilon_{t+h}\\
+&amp;=\underbrace{\cos\left( \frac{2\pi}{p}h\right)}_{A(h)}x_t-\underbrace{A\sin\left(\frac{2\pi}{p}t+\phi\right)\sin\left( \frac{2\pi}{p}h\right)}_{B(h)}+\underbrace{\varepsilon_{t+h}-A\cos\left( \frac{2\pi}{p}h\right)\varepsilon_t}_{\varepsilon_{t+h}^\star}
+\end{align}\]</span> ou seja, <span class="math display">\[x_{t+h}\approx A(h)x_t+B(h)+\varepsilon_{t+h}^\star,\]</span> e <span class="math inline">\(x_{t+h}\)</span> e <span class="math inline">\(x_t\)</span> são correlacionados quando <span class="math inline">\(A(h)\neq 0\)</span>. Como <span class="math inline">\(|A(h)|\)</span> oscila entre 0 e 1, a função e autocorrelação deve ter um comportamento de onda, atingindo seu máximo em <span class="math inline">\(h=p,2p,3p,\ldots\)</span>. Observe a série simulada abaixo, com um período <span class="math inline">\(p=12\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>oo <span class="ot">&lt;-</span> <span class="fu">par</span>( <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) x[i] <span class="ot">&lt;-</span> <span class="fu">cos</span>(<span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>i<span class="sc">/</span><span class="dv">12</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,.<span class="dv">05</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(x)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(x, <span class="at">lag =</span> <span class="dv">36</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -386,22 +389,9 @@ window.Quarto = {
 </div>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-sazonalidade---sinal-harmônico"><span class="header-section-number">3.2.3</span> O correlograma com a componente de sazonalidade - sinal harmônico</h3>
-<p>O sinal sazonal é caracterizado por um comportamento periódico. Existem dois comportamentos sazonais típicos. O primeiro é baseado na função harmônica:</p>
-<p><span class="math display">\[\hbox{sinal}(t)=A\cos\left(\frac{2\pi}{p}t + \phi\right)\]</span> Neste tipo de sinal, há um comportamento em forma de onda já estabelecido. Eis algumas informações importantes:</p>
-<ul>
-<li><p>O valor <span class="math inline">\(p\)</span>, denominado período, equivale ao tempo que demora para o padrão se repetir.</p></li>
-<li><p><span class="math inline">\(A\)</span> é denominado amplitude e representa o maior/menor valor que este sinal pode aingir.</p></li>
-<li><p>Por último, <span class="math inline">\(\phi\)</span> é denominado fase, e serve basicamente para deslocar a onda.</p></li>
-</ul>
-<p>Abaixo seguem alguns exemplos de harmônicos, todos com período 12:</p>
+<p>Compare esse correlograma com a série mensal de temperaturas no castelo de Nottingham</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>oo <span class="ot">&lt;-</span> <span class="fu">par</span>( <span class="at">cex =</span> <span class="fl">1.3</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>( <span class="fu">cos</span>( x<span class="sc">*</span> <span class="dv">2</span><span class="sc">*</span>pi<span class="sc">/</span><span class="dv">12</span>), <span class="dv">0</span>,<span class="dv">24</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ylab =</span> <span class="fu">expression</span>( <span class="fu">cos</span>( <span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>t<span class="sc">/</span><span class="dv">12</span> )))</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span> )</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">12</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nottem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -409,9 +399,7 @@ window.Quarto = {
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>( .<span class="dv">5</span><span class="sc">*</span><span class="fu">cos</span>( x<span class="sc">*</span> <span class="dv">2</span><span class="sc">*</span>pi<span class="sc">/</span><span class="dv">12</span>), <span class="dv">0</span>,<span class="dv">24</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ylab =</span> <span class="fu">expression</span>( .<span class="dv">5</span><span class="sc">*</span><span class="fu">cos</span>( <span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>t<span class="sc">/</span><span class="dv">12</span> )), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span> )</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">12</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(nottem, <span class="at">lag =</span> <span class="dv">36</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -419,69 +407,7 @@ window.Quarto = {
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>( <span class="fu">cos</span>( x<span class="sc">*</span> <span class="dv">2</span><span class="sc">*</span>pi<span class="sc">/</span><span class="dv">12</span><span class="sc">+</span><span class="dv">90</span>), <span class="dv">0</span>,<span class="dv">24</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">ylab =</span> <span class="fu">expression</span>( <span class="fu">cos</span>( <span class="dv">2</span><span class="sc">*</span>pi<span class="sc">*</span>t<span class="sc">/</span><span class="dv">12</span> <span class="sc">+</span><span class="dv">90</span>)), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span> )</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">12</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="sinal_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
 </div>
-</div>
-</div>
-<p>Abaixo simulamos uma série temporal com um sinal do tipo harmônico. Observe que o comportamento em forma de onda é aparente na função de autocorrelação.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">cos</span>( <span class="dv">2</span><span class="sc">*</span>pi<span class="sc">/</span><span class="dv">12</span> <span class="sc">*</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>,<span class="dv">0</span>,.<span class="dv">1</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>oo <span class="ot">&lt;-</span> <span class="fu">par</span>( <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(x)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="sinal_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Abaixo, apresentamos a temperatura mensal observada no Castelo de Nottingham, entre 1920-1939. Compare os resultados com os gráficos acima.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>oo <span class="ot">&lt;-</span> <span class="fu">par</span>( <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(nottem)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf</span>(nottem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="sinal_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oo)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo" class="level3" data-number="3.2.4">
-<h3 data-number="3.2.4" class="anchored" data-anchor-id="o-correlograma-com-a-componente-de-sazonalidade---sinal-autorregressivo"><span class="header-section-number">3.2.4</span> O correlograma com a componente de sazonalidade - sinal autorregressivo</h3>
-<p>Nesse tipo de sazonalidade, ainda há um período <span class="math inline">\(p\)</span>, mas não há um sinal harmônico. O valor da série no tempo <span class="math inline">\(t\)</span> é baseado no valor observado no tempo <span class="math inline">\(t-p\)</span>.</p>
-<p>Quando a sazonalidade possue essa característica, há uma autocorrelação marcante nos múltiplos de <span class="math inline">\(p\)</span>. Observe a série simulada abaixo, com um período <span class="math inline">\(p=12\)</span></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>oo <span class="ot">&lt;-</span> <span class="fu">par</span>( <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">12</span>,<span class="dv">0</span>,.<span class="dv">1</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">13</span><span class="sc">:</span><span class="dv">100</span>) x[i] <span class="ot">&lt;-</span> .<span class="dv">6</span><span class="sc">*</span>x[i<span class="dv">-12</span>] <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,.<span class="dv">05</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(x)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(x, <span class="at">lag =</span> <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="sinal_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
 </section>
 <section id="exercícios" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">3.3</span> Exercícios</h2>
@@ -494,7 +420,7 @@ window.Quarto = {
 <div class="alert alert-warning">
 <p><strong>Exercício 3</strong> Em 2017, um epidemiologista estava interessado na série de suicídios no Mato Grosso do Sul. O banco de dados utilizado é dado a seguir. Construa uma série mensal e estude seu comportamento</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">'https://drive.google.com/uc?authuser=0&amp;id=1DMSgrQDl0636Lw0Y0MYJHJrgw_2uXntM&amp;export=download'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">'https://drive.google.com/uc?authuser=0&amp;id=1DMSgrQDl0636Lw0Y0MYJHJrgw_2uXntM&amp;export=download'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 

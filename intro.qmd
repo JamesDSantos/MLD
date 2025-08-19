@@ -147,6 +147,7 @@ require(gsheet)
 url = 'https://docs.google.com/spreadsheets/d/1rtiyOZ1W3SRIWZJTR1RyBmxmnGO11x005GNGrgLBr5A/edit?usp=sharing'
 
 hom = gsheet2tbl(url)
+
 ```
 
 1. Construa um objeto do tipo `ts`
@@ -275,8 +276,8 @@ contagem
 É sempre importante checar o resultado em `contagem`, para verificar se não há algum mês ausente. Como não o caso aqui, vamos construir um objeto do tipo `ts` e fazer o gráfico da série temporal.
 
 ```{r}
-serie <- ts(contagem, start=c(2015,1), frequency = 12 )
-plot(serie, ylab = 'No. de acidentes aéreos', xlab = 'Ano', sub= 'Fonte: CENIPA' )
+serie_acidentes <- ts(contagem, start=c(2015,1), frequency = 12 )
+plot(serie_acidentes, ylab = 'No. de acidentes aéreos', xlab = 'Ano', sub= 'Fonte: CENIPA' )
 ```
 </div>
 

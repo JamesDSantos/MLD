@@ -1,0 +1,9 @@
+/* styles.css */
+#exm- {
+  background-color: #d0e9f4; /* Cor de fundo do alert-info */
+  color: #0c5460; /* Cor do texto do alert-info */
+  border-color: #c0e0e9; /* Cor da borda do alert-info */
+  padding: 1rem 1.5rem; /* Padrão de padding do alert */
+  border-radius: 0.25rem; /* Padrão de borda arredondada */
+  border-left: 0.5rem solid #0c5460; /* Adiciona a barra lateral azul */
+}
