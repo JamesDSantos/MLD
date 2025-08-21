@@ -12,6 +12,7 @@ book:
     - estacionaria.qmd
     - sinal.qmd
     - modelo_linear.qmd
+    - mld.qmd
     - references.qmd
 
 bibliography: references.bib

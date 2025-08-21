@@ -148,5 +148,65 @@
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Sinal e ruído</span>"
     ]
+  },
+  {
+    "objectID": "modelo_linear.html",
+    "href": "modelo_linear.html",
+    "title": "4  Revisão sobre o modelo linear",
+    "section": "",
+    "text": "4.1 A distribuição normal\nDizemos que o vetor \\(\\boldsymbol{x}\\), de comprimento \\(n\\), tem distribuição normal (multivariada) se sua função densidade é dada por\n\\[f(x|\\mu,\\Phi) = |2\\pi\\Sigma|^{\\frac{n}{2}}\\exp\\left\\{-\\frac{1}{2}(\\boldsymbol{x}-\\boldsymbol{\\mu})'\\Sigma^{-1}(\\boldsymbol{x}-\\boldsymbol{\\mu})\\right\\}\\] onde \\(\\boldsymbol{\\mu}\\) é um vetor de comprimento \\(n\\) e \\(\\Sigma\\) é a matriz de covariâncias. Para essa distribuição, \\(E(\\boldsymbol{x}) = \\boldsymbol{\\mu}\\) e \\(Var(\\boldsymbol{x}) =\\Sigma\\).\nSe \\(\\boldsymbol{x}|\\boldsymbol{\\mu}, \\boldsymbol{\\Sigma} ∼ \\hbox{Normal}_n(\\boldsymbol{\\mu}, \\Sigma )\\), então, para qualquer matriz (real) \\(\\boldsymbol{A}\\) de dimensão \\(m\\times n\\) e para qualquer vetor \\(\\boldsymbol{b}\\) de comprimento \\(n\\),\n\\[\\boldsymbol{Ax} + \\boldsymbol{b} ∼ \\hbox{Normal}_m(\\boldsymbol{A}\\boldsymbol{\\mu} + \\boldsymbol{b}, \\boldsymbol{A}\\Sigma\\boldsymbol{A}).\\] Em particular, \\(\\boldsymbol{z} = \\Sigma^{-1/2}(\\boldsymbol{x} − \\boldsymbol{\\mu})\\) tem distribuição Normal\\((\\boldsymbol{0}, \\boldsymbol{I})\\).\nConsidere que o vetor \\(\\boldsymbol{x}\\) foi particionado em \\(\\boldsymbol{x} = (\\boldsymbol{x}_1, \\boldsymbol{x}_2)\\), onde \\(\\boldsymbol{x}_1\\) tem comprimento \\(q &lt; n\\) e \\(x_2\\) tem comprimento \\(n − q\\). Os parâmetros da distribuição podem ser particionados da seguinte forma\n\\[\\left(\\begin{array}{c}\\boldsymbol{x}_1\\\\ \\boldsymbol{x}_2\\end{array}\\right)\n\\sim\\hbox{Normal}_n\\left[\n\\left(\\begin{array}{c}\\boldsymbol{\\mu}_1 \\\\ \\boldsymbol{\\mu}_2\\end{array}\\right),\n\\left(\\begin{array}{cc}\\Sigma_{11} & \\Sigma_{12} \\\\ \\Sigma_{12}' & \\Sigma_{22} \\end{array}\\right)\\right]\\] Então \\(\\boldsymbol{x}_1 \\sim \\hbox{Normal}(\\boldsymbol{\\mu}_1, \\Sigma_{11})\\) e \\(\\boldsymbol{x}_2 \\sim\\hbox{Normal}(\\boldsymbol{\\mu}_2, \\Sigma_{22})\\). Além disso \\(Cov(\\boldsymbol{x}_1, \\boldsymbol{x}_2) = \\Sigma_{12}\\) e \\(Cov(\\boldsymbol{x}_2, \\boldsymbol{x}_1) = \\Sigma_{12}'\\). Além disso,\n\\[\\boldsymbol{x}_2|\\boldsymbol{x}_1\\sim\\hbox{Normal}(\\boldsymbol{\\mu}_2+\\Sigma_{12}'\\Sigma_{11}^{-1}(\\boldsymbol{x}_1-\\boldsymbol{\\mu}), \\Sigma_{22}-\\Sigma_{12}'\\Sigma_{11}^{-1}\\Sigma_{12})\\] Também é possível rescontruiar a conjunta quando temos a condicional e a marginal, conforme mostra o lema abaixo.\n.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Revisão sobre o modelo linear</span>"
+    ]
+  },
+  {
+    "objectID": "modelo_linear.html#a-distribuição-normal",
+    "href": "modelo_linear.html#a-distribuição-normal",
+    "title": "4  Revisão sobre o modelo linear",
+    "section": "",
+    "text": "Lema (Reconstrução da conjunta) Se \\(\\boldsymbol{x}_2|\\boldsymbol{x}_1\\sim\\hbox{Normal}(\\boldsymbol{\\mu}_2+\\boldsymbol{B}_1(\\boldsymbol{x}_1-\\boldsymbol{\\mu}_1),\\boldsymbol{B}_2)\\) e \\(\\boldsymbol{x}_1\\sim\\hbox{Normal}(\\boldsymbol{\\mu}_1,\\Sigma_{11})\\), então,\n\\[\\left(\\begin{array}{c}\\boldsymbol{x}_1\\\\\\boldsymbol{x}_2\\end{array}\\right)\\sim\\hbox{Normal}_n\\left[\\left(\\begin{array}{c}\\boldsymbol{\\mu}_1 \\\\ \\boldsymbol{\\mu}_2\\end{array}\\right),\\left(\\begin{array}{cc}\\Sigma_{11} & \\Sigma_{11}\\boldsymbol{B}_1' \\\\ \\boldsymbol{B}_1\\Sigma_{11} & \\boldsymbol{B}_2+\\boldsymbol{B}_1\\Sigma_{11}\\boldsymbol{B}_1'\\end{array} \\right)\\right]\\]",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Revisão sobre o modelo linear</span>"
+    ]
+  },
+  {
+    "objectID": "modelo_linear.html#o-modelo-linear",
+    "href": "modelo_linear.html#o-modelo-linear",
+    "title": "4  Revisão sobre o modelo linear",
+    "section": "4.2 O modelo linear",
+    "text": "4.2 O modelo linear\nPara \\(i=1,\\ldots,n\\), considere o modelo linear abaixo: \\[y_i= \\beta_0+\\sum_{j=1}^{p-1}x_{i,j}+\\varepsilon_i=\\underbrace{ \\left(1\\;\\;x_{i,1}\\;\\;\\cdots\\;\\;x_{i,p-1}\\right)}_\\text{$\\boldsymbol{f}'_i$}\\underbrace{\\left(\\begin{array}{c}\\beta_0 \\\\ \\beta_1 \\\\ \\vdots \\\\ \\beta_{p-1}\n        \\end{array}\\right)}_\\text{$\\boldsymbol{\\beta}$}+\\varepsilon_i=\\boldsymbol{f}'_i\\boldsymbol{\\beta}+\\varepsilon_i,\\] onde \\(x_i\\) é fixado e \\(\\varepsilon\\) é um ruído branco gaussiano. Pela independência entre \\(y_i\\) e \\(y_j\\), pode-se fazer a seguinte representação estocástica de \\(\\boldsymbol{y}\\): \\[\\begin{equation}\n        \\boldsymbol{y}=\\boldsymbol{F}'\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon},\n        \\end{equation}\\] onde \\(\\boldsymbol{\\varepsilon}\\sim\\hbox{Normal}(\\boldsymbol{0},\\nu\\textbf{I}_n)\\) e \\(\\boldsymbol{F}\\) é uma matriz \\(p\\times n\\) conhecida com \\(i\\)-ésima coluna dada por \\(\\boldsymbol{f}_i\\):\n\\[\\boldsymbol{F}=\\left(\\boldsymbol{f}_1,\\ldots,\\boldsymbol{f}_n\\right).\\] Disto, tem-se que \\[\\boldsymbol{y}|\\boldsymbol{\\beta},\\nu\\sim\\hbox{Normal}(\\boldsymbol{F}'\\boldsymbol{\\beta},\\nu\\textbf{I}_n)\\]\n\n4.2.0.1 Priori conjugada\nConsidere que \\(\\nu\\) é conhecido. Então, a priori \\(\\boldsymbol{\\beta}\\sim\\hbox{Normal}(\\boldsymbol{m},\\nu\\boldsymbol{C})\\) é conjugada para o modelo linear.\nPelo lema da reconstrução da conjunta, temos que\n\\[\\left(\\begin{array}{c}\\boldsymbol{\\beta}\\\\\\boldsymbol{y} \\end{array}\\right)\\sim\\hbox{Normal}\\left[\\left(\\begin{array}{c}  \\boldsymbol{m}\\\\ \\boldsymbol{F}'\\boldsymbol{m} \\end{array}\\right),\\left(\\begin{array}{cc} \\nu \\boldsymbol{C} &  \\nu\\boldsymbol{C}\\boldsymbol{F}\\\\ \\nu\\boldsymbol{F}'\\boldsymbol{C} & \\nu[\\textbf{I}+\\boldsymbol{F}'\\boldsymbol{C}\\boldsymbol{F}] \\end{array} \\right)\\right]\\] logo, a posteriori é dada por \\[\\boldsymbol{\\beta}|\\boldsymbol{y}\\sim\\hbox{Normal}(\\boldsymbol{m}+A(\\boldsymbol{y}-\\boldsymbol{F}'\\boldsymbol{m}), \\nu[\\boldsymbol{I}-\\boldsymbol{A}(\\boldsymbol{I}+\\boldsymbol{F}'\\boldsymbol{C}\\boldsymbol{F})\\boldsymbol{A}'])\\] onde \\(\\boldsymbol{A}=\\boldsymbol{CF}(\\boldsymbol{I}+\\boldsymbol{F}'\\boldsymbol{C}\\boldsymbol{F})^{-1}\\).",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Revisão sobre o modelo linear</span>"
+    ]
+  },
+  {
+    "objectID": "modelo_linear.html#o-uso-de-modelos-de-regressão-na-estimação-de-tendência",
+    "href": "modelo_linear.html#o-uso-de-modelos-de-regressão-na-estimação-de-tendência",
+    "title": "4  Revisão sobre o modelo linear",
+    "section": "4.3 O uso de modelos de regressão na estimação de tendência",
+    "text": "4.3 O uso de modelos de regressão na estimação de tendência\nPor algum tempo, modelos de regressão foram muito utilizados na estimação dos sinais de tendência e sazonalidade.\nConsidere que a tendência é definida como uma função \\(T:(0,t]\\rightarrow \\mathbb{R}\\). O Teorema de Weierstrass afirma que, se \\(T\\) é contínua, então para qualquer \\(\\delta&gt;0\\), existe um polinômio \\(u(.)\\) tal que \\[|T(t)-u(t)|&lt;\\delta.\\] Isto quer dizer que \\(T(.)\\) sempre pode ser aproximada por um polinômio. Assim, para determinada ordem \\(p\\), é correto afirmar que\n\\[\\begin{equation}\n        y_t = \\beta_0 + \\sum_{j=1}^p \\beta_j t^j + \\varepsilon_t\n        \\end{equation}\\] onde \\(\\varepsilon_t\\) é um ruído estacionário, é um modelo razoável para uma série temporal com tendência. Assumindo que \\(\\varepsilon_t\\) é um ruído branco gaussiano, tem-se o modelo de tendência polinomial de grau \\(p\\).\nFazendo \\(\\boldsymbol{f}_t'=(1,t,\\ldots,t^p)\\) , o modelo de tendência polinomial é reescrito como \\[\\boldsymbol{y}=\\boldsymbol{F}'\\boldsymbol{\\beta}+\\boldsymbol{\\varepsilon}\\] Para ilustrar a estimação da tendência, vamos utilizar a série sobre o PIB anual brasileiro, observada entre 1977 e 2016, que pode ser baixada com os comandos abaixo.\n\n        x &lt;- read.csv(\"https://www.dropbox.com/s/zsoxpzpzqo6reml/PIB_brasil.csv?dl=1\",\n        sep=\";\",dec=\",\")\n        \n        PIB &lt;- x$PIB\n        PIB &lt;- ts(PIB, start=1967, frequency=1)\n        plot(PIB, lwd = 2, xlab = 'Ano', ylab = 'PIB (em milhares de dólares)', main = '')\n\n\n\n\n\n\n\n\nVamos implementar a matriz de regressão \\(\\boldsymbol{F}'\\) para \\(p=8\\)\n\np &lt;- 8\nn &lt;- length(PIB)\n        \nZ &lt;- model.matrix( ~ poly(time(PIB), p) )\nFt &lt;- t(Z)\n\nConsidere a prior \\(\\beta\\sim\\hbox{Normal}(\\textbf{0},\\nu lambda_0 \\boldsymbol{I})\\), com \\(\\lambda_0=10\\). A média da posteriori será\n\nlambda0= 10\nC &lt;- diag(lambda0,p+1)\nA &lt;- C%*%Ft%*%solve(( diag(1,n)+t(Ft) %*% C %*% Ft) )\n\nbeta_post &lt;- A %*% PIB\n(beta_post)\n\n            [,1]\n [1,]  6429.4617\n [2,]  9123.2037\n [3,]  -391.2442\n [4,]  2440.6759\n [5,] -1333.3176\n [6,]  -902.7895\n [7,]  -365.5307\n [8,]  -863.5817\n [9,]   122.1578\n\n\nA tendência estimada é dada pelos valores ajustados: \\[\\hat{y}=\\boldsymbol{F}'E(\\boldsymbol{\\beta}|\\boldsymbol{y})\\]\n\nts.plot(PIB)\ntend &lt;- t(Ft)%*%beta_post\nlines( ts(tend, start=1967),col=2)\n\n\n\n\n\n\n\n\nO resíduo dado por \\(\\boldsymbol{y}-\\hat{\\\\boldsymbol{y}}\\) é uma estimativa para o ruído. Abaixo, temos os seu gráfico e seu correlograma.\n\nerro = PIB - tend\nts.plot(erro)\nabline(h = 0, lty = 2)\n\n\n\n\n\n\n\nacf(erro)\n\n\n\n\n\n\n\n\nOs resíduos mostram que relações residuais do ano anterior poderia melhorar a estimativa.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Revisão sobre o modelo linear</span>"
+    ]
+  },
+  {
+    "objectID": "modelo_linear.html#exercícios",
+    "href": "modelo_linear.html#exercícios",
+    "title": "4  Revisão sobre o modelo linear",
+    "section": "4.4 Exercícios",
+    "text": "4.4 Exercícios\n\nExercício 1 Os dados abaixo representam os óbitod por suicídios no Mato Grosso do Sul. O banco de dados utilizado é dado a seguir. Construa uma série mensal e estude seu comportamento\n\nurl &lt;- 'https://drive.google.com/uc?authuser=0&id=1DMSgrQDl0636Lw0Y0MYJHJrgw_2uXntM&export=download'\n\nEstime a tendência utilizando um modelo linear.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Revisão sobre o modelo linear</span>"
+    ]
+  },
+  {
+    "objectID": "mld.html",
+    "href": "mld.html",
+    "title": "5  O modelo linear dinâmico",
+    "section": "",
+    "text": "5.1 O modelo linear dinâmico\nSeja \\(y_1,\\ldots,t\\) uma série temporal. Seja \\(D_j={y_1,\\ldots,y_j}\\). Dizemos que \\(y_t\\) é um modelo linear dinâmico se\n\\[\\begin{align}\ny_t|\\boldsymbol{\\theta}_t,D_{t-1}&\\sim\\hbox{Normal}(\\boldsymbol{F}_t'\\boldsymbol{\\theta}_t,V_t)\\\\\n\\boldsymbol{\\theta}_t|\\boldsymbol{\\theta}_{t-1},D_{t-1}&\\sim\\hbox{Normal}(\\boldsymbol{G}_t\\boldsymbol{\\theta}_{t-1},\\boldsymbol{W}_t)\n\\end{align}\\]\nA expressão acima, os \\(\\theta\\)’s são denominados estados. Para a completa especificação do modelo, devemos informar valores iniciais \\(m_0\\) e \\(C_0\\) que representam nossa opinião sobre os estados antes do tempo \\(1\\):\n\\[\\theta_0\\sim\\ N(m_0,C_0)\\] Escolhas diferentes para \\(\\boldsymbol{F}_t\\) e \\(\\boldsymbol{G}_t\\) permitem acomodar sinais diferentes.\nPode-se mostrar que \\(y_{t+h}|D_t\\) tem distribuição normal. Como \\(t+h\\) é um tempo não observado, essa é a distribuição para previsões. Neste caso, a função de previsão para o horizonte \\(h\\) é\n\\[f_t(h)=E(Y_{t+h}|D_{t})\\] onde \\(E(.)\\) sempre deve ser lido como média.\nO pacote para lidar com modelos lineares dinâmicos é o dlm. A função abaixo é utilizada para estimar as variâncias desconhecidas do modelo e deve sempre ser colocada no environment do R:\nrequire(dlm)\n\nCarregando pacotes exigidos: dlm\n\nmodFim &lt;- function(y,mod){\n  ffbs &lt;- dlmGibbsDIG(y, mod = mod, n.sample = 5000,\n                    a.y=1,b.y=100,a.theta=1,b.theta=100,\n                    save.states = FALSE, thin = 0)\n\nv_sim  &lt;- sample(ffbs$dV[-(1:2500)],2500,T)\n\nq &lt;- dim(ffbs$dW)[2]\nw_sim &lt;- NULL\nfor(j in 1:q){\n w_sim &lt;- c(w_sim, mean(sample(ffbs$dW[,j][-(1:2500)],2500,T)))\n}\n# declarando as variâncias na quádrupla\nmod$V &lt;- mean(v_sim)\nmod$W &lt;- diag( w_sim)\nreturn(mod)\n}\nTambém pode-se mostrar que \\(\\theta_{t-h}|D_t\\) tem distribuição normal. Como se trata da distribuição dos estados após verificar toda a série temporal, esta é a distribuição para a suavização.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>O modelo linear dinâmico</span>"
+    ]
   }
 ]

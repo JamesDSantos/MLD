@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>modelo_linear</title>
+<title>5&nbsp; O modelo linear dinâmico – Introdução aos modelos lineares dinâmicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,19 +20,88 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="modelo_linear_files/libs/clipboard/clipboard.min.js"></script>
-<script src="modelo_linear_files/libs/quarto-html/quarto.js"></script>
-<script src="modelo_linear_files/libs/quarto-html/popper.min.js"></script>
-<script src="modelo_linear_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="modelo_linear_files/libs/quarto-html/anchor.min.js"></script>
-<link href="modelo_linear_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="modelo_linear_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="modelo_linear_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="modelo_linear_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="modelo_linear_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./modelo_linear.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -66,53 +135,159 @@ window.Quarto = {
 
 </head>
 
-<body class="fullcontent">
+<body class="nav-sidebar floating">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mld.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Introdução aos modelos lineares dinâmicos</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Manipulação de séries temporais univariadas no software <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./estacionaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Séries Estacionárias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sinal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal e ruído</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./modelo_linear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Revisão sobre o modelo linear</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mld.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#o-modelo-linear-dinâmico" id="toc-o-modelo-linear-dinâmico" class="nav-link active" data-scroll-target="#o-modelo-linear-dinâmico"><span class="header-section-number">5.1</span> O modelo linear dinâmico</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
-
-
-
-<section id="revisão-sobre-o-modelo-linear" class="level1">
-<h1>Revisão sobre o modelo linear</h1>
-<section id="a-distribuição-normal" class="level2">
-<h2 class="anchored" data-anchor-id="a-distribuição-normal">A distribuição normal</h2>
-<p>Dizemos que o vetor <span class="math inline">\(\boldsymbol{x}\)</span>, de comprimento <span class="math inline">\(n\)</span>, tem distribuição normal (multivariada) se sua função densidade é dada por</p>
-<p><span class="math display">\[f(x|\mu,\Phi) = |2\pi\Sigma|^{\frac{n}{2}}\exp\left\{-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu})'\Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}\]</span> onde <span class="math inline">\(\boldsymbol{\mu}\)</span> é um vetor de comprimento <span class="math inline">\(n\)</span> e <span class="math inline">\(\Sigma\)</span> é a matriz de covariâncias. Para essa distribuição, <span class="math inline">\(E(\boldsymbol{x}) = \boldsymbol{\mu}\)</span> e <span class="math inline">\(Var(\boldsymbol{x}) =\Sigma\)</span>.</p>
-<p>Se <span class="math inline">\(\boldsymbol{x}|\boldsymbol{\mu}, \boldsymbol{\Sigma} ∼ \hbox{Normal}_n(\boldsymbol{\mu}, \Sigma )\)</span>, então, para qualquer matriz (real) <span class="math inline">\(\boldsymbol{A}\)</span> de dimensão <span class="math inline">\(m\times n\)</span> e para qualquer vetor <span class="math inline">\(\boldsymbol{b}\)</span> de comprimento <span class="math inline">\(n\)</span>,</p>
-<p><span class="math display">\[\boldsymbol{Ax} + \boldsymbol{b} ∼ \hbox{Normal}_m(\boldsymbol{A}\boldsymbol{\mu} + \boldsymbol{b}, \boldsymbol{A}\Sigma\boldsymbol{A}).\]</span> Em particular, <span class="math inline">\(\boldsymbol{z} = \Sigma^{-1/2}(\boldsymbol{x} − \boldsymbol{\mu})\)</span> tem distribuição Normal<span class="math inline">\((\boldsymbol{0}, \boldsymbol{I})\)</span>.</p>
-<p>Considere que o vetor <span class="math inline">\(\boldsymbol{x}\)</span> foi particionado em <span class="math inline">\(\boldsymbol{x} = (\boldsymbol{x}_1, \boldsymbol{x}_2)\)</span>, onde <span class="math inline">\(\boldsymbol{x}_1\)</span> tem comprimento <span class="math inline">\(q &lt; n\)</span> e <span class="math inline">\(x_2\)</span> tem comprimento <span class="math inline">\(n − q\)</span>. Os parâmetros da distribuição podem ser particionados da seguinte forma</p>
-<p><span class="math display">\[\left(\begin{array}{c}\boldsymbol{x}_1\\ \boldsymbol{x}_2\end{array}\right)
-\sim\hbox{Normal}_n\left[
-\left(\begin{array}{c}\boldsymbol{\mu}_1 \\ \boldsymbol{\mu}_2\end{array}\right),
-\left(\begin{array}{cc}\Sigma_{11} &amp; \Sigma_{12} \\ \Sigma_{12}' &amp; \Sigma_{22} \end{array}\right)\right]\]</span> Então <span class="math inline">\(\boldsymbol{x}_1 \sim \hbox{Normal}(\boldsymbol{\mu}_1, \Sigma_{11})\)</span> e <span class="math inline">\(\boldsymbol{x}_2 \sim\hbox{Normal}(\boldsymbol{\mu}_2, \Sigma_{22})\)</span>. Além disso <span class="math inline">\(Cov(\boldsymbol{x}_1, \boldsymbol{x}_2) = \Sigma_{12}\)</span> e <span class="math inline">\(Cov(\boldsymbol{x}_2, \boldsymbol{x}_1) = \Sigma_{12}'\)</span>. Além disso,</p>
-<p><span class="math display">\[\boldsymbol{x}_2|\boldsymbol{x}_1\sim\hbox{Normal}(\boldsymbol{\mu}_2+\Sigma_{12}'\Sigma_{11}^{-1}(\boldsymbol{x}_1-\boldsymbol{\mu}), \Sigma_{22}-\Sigma_{12}'\Sigma_{11}^{-1}\Sigma_{12})\]</span> Também é possível rescontruiar a conjunta quando temos a condicional e a marginal, conforme mostra o lema abaixo.</p>
-<div class="alert alert-success">
-<p><strong>Lema (Reconstrução da conjunta)</strong> Se <span class="math inline">\(\boldsymbol{x}_2|\boldsymbol{x}_1\sim\hbox{Normal}(\boldsymbol{\mu}_2+\boldsymbol{B}_1(\boldsymbol{x}_1-\boldsymbol{\mu}_1),\boldsymbol{B}_2)\)</span> e <span class="math inline">\(\boldsymbol{x}_1\sim\hbox{Normal}(\boldsymbol{\mu}_1,\Sigma_{11})\)</span>, então,</p>
-<p><span class="math display">\[\left(\begin{array}{c}\boldsymbol{x}_1\\\boldsymbol{x}_2\end{array}\right)\sim\hbox{Normal}_n\left[\left(\begin{array}{c}\boldsymbol{\mu}_1 \\ \boldsymbol{\mu}_2\end{array}\right),\left(\begin{array}{cc}\Sigma_{11} &amp; \Sigma_{11}\boldsymbol{B}_1' \\ \boldsymbol{B}_1\Sigma_{11} &amp; \boldsymbol{B}_2+\boldsymbol{B}_1\Sigma_{11}\boldsymbol{B}_1'\end{array} \right)\right]\]</span></p>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></h1>
 </div>
-<p>.</p>
-</section>
-<section id="o-modelo-linear" class="level2">
-<h2 class="anchored" data-anchor-id="o-modelo-linear">O modelo linear</h2>
-<p>Para <span class="math inline">\(i=1,\ldots,n\)</span>, considere o modelo linear abaixo: <span class="math display">\[y_i= \beta_0+\sum_{j=1}^{p-1}x_{i,j}+\varepsilon_i=\underbrace{ \left(1\;\;x_{i,1}\;\;\cdots\;\;x_{i,p-1}\right)}_\text{$\boldsymbol{f}'_i$}\underbrace{\left(\begin{array}{c}\beta_0 \\ \beta_1 \\ \vdots \\ \beta_{p-1}
-        \end{array}\right)}_\text{$\boldsymbol{\beta}$}+\varepsilon_i=\boldsymbol{f}'_i\boldsymbol{\beta}+\varepsilon_i,\]</span> onde <span class="math inline">\(x_i\)</span> é fixado e <span class="math inline">\(\varepsilon\)</span> é um ruído branco gaussiano. Pela independência entre <span class="math inline">\(y_i\)</span> e <span class="math inline">\(y_j\)</span>, pode-se fazer a seguinte representação estocástica de <span class="math inline">\(\boldsymbol{y}\)</span>: <span class="math display">\[\begin{equation}
-        \boldsymbol{y}=\boldsymbol{F}'\boldsymbol{\beta} + \boldsymbol{\varepsilon},
-        \end{equation}\]</span> onde <span class="math inline">\(\boldsymbol{\varepsilon}\sim\hbox{Normal}(\boldsymbol{0},\nu\textbf{I}_n)\)</span> e <span class="math inline">\(\boldsymbol{F}\)</span> é uma matriz <span class="math inline">\(p\times n\)</span> conhecida com <span class="math inline">\(i\)</span>-ésima coluna dada por <span class="math inline">\(\boldsymbol{f}_i\)</span>:</p>
-<p><span class="math display">\[\boldsymbol{F}=\left(\boldsymbol{f}_1,\ldots,\boldsymbol{f}_n\right).\]</span> Disto, tem-se que <span class="math display">\[\boldsymbol{y}|\boldsymbol{\beta},\nu\sim\hbox{Normal}(\boldsymbol{F}'\boldsymbol{\beta},\nu\textbf{I}_n)\]</span></p>
-<section id="priori-conjugada" class="level4">
-<h4 class="anchored" data-anchor-id="priori-conjugada">Priori conjugada</h4>
-<p>Considere que <span class="math inline">\(\nu\)</span> é conhecido. Então, a priori <span class="math inline">\(\boldsymbol{\beta}\sim\hbox{Normal}(\boldsymbol{m},\nu\boldsymbol{C})\)</span> é conjugada para o modelo linear.</p>
-<p>Pelo lema da reconstrução da conjunta, temos que</p>
-<p><span class="math display">\[\left(\begin{array}{c}\boldsymbol{\beta}\\\boldsymbol{y} \end{array}\right)\sim\hbox{Normal}\left[\left(\begin{array}{c}  \boldsymbol{m}\\ \boldsymbol{F}'\boldsymbol{m} \end{array}\right),\left(\begin{array}{cc} \nu \boldsymbol{C} &amp;  \nu\boldsymbol{C}\boldsymbol{F}\\ \nu\boldsymbol{F}'\boldsymbol{C} &amp; \nu[\textbf{I}+\boldsymbol{F}'\boldsymbol{C}\boldsymbol{F}] \end{array} \right)\right]\]</span> logo, a posteriori é dada por <span class="math display">\[\boldsymbol{\beta}|\boldsymbol{y}\sim\hbox{Normal}(\boldsymbol{m}+A(\boldsymbol{y}-\boldsymbol{F}'\boldsymbol{m}), \nu[\boldsymbol{I}-\boldsymbol{A}(\boldsymbol{I}+\boldsymbol{F}'\boldsymbol{C}\boldsymbol{F})\boldsymbol{A}'])\]</span> onde <span class="math inline">\(\boldsymbol{A}=\boldsymbol{CF}(\boldsymbol{I}+\boldsymbol{F}'\boldsymbol{C}\boldsymbol{F})^{-1}\)</span>.</p>
-</section>
-</section>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="o-modelo-linear-dinâmico" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="o-modelo-linear-dinâmico"><span class="header-section-number">5.1</span> O modelo linear dinâmico</h2>
+<p>Seja <span class="math inline">\(y_1,\ldots,t\)</span> uma série temporal. Seja <span class="math inline">\(D_j={y_1,\ldots,y_j}\)</span>. Dizemos que <span class="math inline">\(y_t\)</span> é um modelo linear dinâmico se</p>
+<p><span class="math display">\[\begin{align}
+y_t|\boldsymbol{\theta}_t,D_{t-1}&amp;\sim\hbox{Normal}(\boldsymbol{F}_t'\boldsymbol{\theta}_t,V_t)\\
+\boldsymbol{\theta}_t|\boldsymbol{\theta}_{t-1},D_{t-1}&amp;\sim\hbox{Normal}(\boldsymbol{G}_t\boldsymbol{\theta}_{t-1},\boldsymbol{W}_t)
+\end{align}\]</span></p>
+<p>A expressão acima, os <span class="math inline">\(\theta\)</span>’s são denominados estados. Para a completa especificação do modelo, devemos informar valores iniciais <span class="math inline">\(m_0\)</span> e <span class="math inline">\(C_0\)</span> que representam nossa opinião sobre os estados antes do tempo <span class="math inline">\(1\)</span>:</p>
+<p><span class="math display">\[\theta_0\sim\ N(m_0,C_0)\]</span> Escolhas diferentes para <span class="math inline">\(\boldsymbol{F}_t\)</span> e <span class="math inline">\(\boldsymbol{G}_t\)</span> permitem acomodar sinais diferentes.</p>
+<p>Pode-se mostrar que <span class="math inline">\(y_{t+h}|D_t\)</span> tem distribuição normal. Como <span class="math inline">\(t+h\)</span> é um tempo não observado, essa é a distribuição para previsões. Neste caso, a função de previsão para o horizonte <span class="math inline">\(h\)</span> é</p>
+<p><span class="math display">\[f_t(h)=E(Y_{t+h}|D_{t})\]</span> onde <span class="math inline">\(E(.)\)</span> sempre deve ser lido como <strong>média</strong>.</p>
+<p>O pacote para lidar com modelos lineares dinâmicos é o <code>dlm</code>. A função abaixo é utilizada para estimar as variâncias desconhecidas do modelo e deve sempre ser colocada no <em>environment</em> do <code>R</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(dlm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Carregando pacotes exigidos: dlm</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>modFim <span class="ot">&lt;-</span> <span class="cf">function</span>(y,mod){</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  ffbs <span class="ot">&lt;-</span> <span class="fu">dlmGibbsDIG</span>(y, <span class="at">mod =</span> mod, <span class="at">n.sample =</span> <span class="dv">5000</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">a.y=</span><span class="dv">1</span>,<span class="at">b.y=</span><span class="dv">100</span>,<span class="at">a.theta=</span><span class="dv">1</span>,<span class="at">b.theta=</span><span class="dv">100</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">save.states =</span> <span class="cn">FALSE</span>, <span class="at">thin =</span> <span class="dv">0</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>v_sim  <span class="ot">&lt;-</span> <span class="fu">sample</span>(ffbs<span class="sc">$</span>dV[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2500</span>)],<span class="dv">2500</span>,T)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">dim</span>(ffbs<span class="sc">$</span>dW)[<span class="dv">2</span>]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>w_sim <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>q){</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a> w_sim <span class="ot">&lt;-</span> <span class="fu">c</span>(w_sim, <span class="fu">mean</span>(<span class="fu">sample</span>(ffbs<span class="sc">$</span>dW[,j][<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2500</span>)],<span class="dv">2500</span>,T)))</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># declarando as variâncias na quádrupla</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span>V <span class="ot">&lt;-</span> <span class="fu">mean</span>(v_sim)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span>W <span class="ot">&lt;-</span> <span class="fu">diag</span>( w_sim)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(mod)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Também pode-se mostrar que <span class="math inline">\(\theta_{t-h}|D_t\)</span> tem distribuição normal. Como se trata da distribuição dos estados após verificar toda a série temporal, esta é a distribuição para a suavização.</p>
+
+
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -533,6 +708,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./modelo_linear.html" class="pagination-link" aria-label="Revisão sobre o modelo linear">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Revisão sobre o modelo linear</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

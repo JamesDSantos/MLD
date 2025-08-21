@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="James D Santos">
-<meta name="dcterms.date" content="2025-12-08">
 
-<title>Introdução aos modelos lineares dinâmicos</title>
+<title>4&nbsp; Revisão sobre o modelo linear – Introdução aos modelos lineares dinâmicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,7 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./intro.html" rel="next">
+<link href="./mld.html" rel="next">
+<link href="./sinal.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -70,6 +103,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -82,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Prefácio</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./modelo_linear.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Revisão sobre o modelo linear</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -109,7 +171,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prefácio</span></a>
   </div>
 </li>
@@ -133,7 +195,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./modelo_linear.html" class="sidebar-item-text sidebar-link">
+  <a href="./modelo_linear.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Revisão sobre o modelo linear</span></span></a>
   </div>
 </li>
@@ -159,7 +221,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#prefácio" id="toc-prefácio" class="nav-link active" data-scroll-target="#prefácio">Prefácio</a></li>
+  <li><a href="#a-distribuição-normal" id="toc-a-distribuição-normal" class="nav-link active" data-scroll-target="#a-distribuição-normal"><span class="header-section-number">4.1</span> A distribuição normal</a></li>
+  <li><a href="#o-modelo-linear" id="toc-o-modelo-linear" class="nav-link" data-scroll-target="#o-modelo-linear"><span class="header-section-number">4.2</span> O modelo linear</a></li>
+  <li><a href="#o-uso-de-modelos-de-regressão-na-estimação-de-tendência" id="toc-o-uso-de-modelos-de-regressão-na-estimação-de-tendência" class="nav-link" data-scroll-target="#o-uso-de-modelos-de-regressão-na-estimação-de-tendência"><span class="header-section-number">4.3</span> O uso de modelos de regressão na estimação de tendência</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">4.4</span> Exercícios</a></li>
   </ul>
 </nav>
     </div>
@@ -168,26 +233,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introdução aos modelos lineares dinâmicos</h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Revisão sobre o modelo linear</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>James D Santos </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">December 8, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -197,8 +250,135 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="prefácio" class="level1 unnumbered">
-<h1 class="unnumbered">Prefácio</h1>
+<section id="a-distribuição-normal" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="a-distribuição-normal"><span class="header-section-number">4.1</span> A distribuição normal</h2>
+<p>Dizemos que o vetor <span class="math inline">\(\boldsymbol{x}\)</span>, de comprimento <span class="math inline">\(n\)</span>, tem distribuição normal (multivariada) se sua função densidade é dada por</p>
+<p><span class="math display">\[f(x|\mu,\Phi) = |2\pi\Sigma|^{\frac{n}{2}}\exp\left\{-\frac{1}{2}(\boldsymbol{x}-\boldsymbol{\mu})'\Sigma^{-1}(\boldsymbol{x}-\boldsymbol{\mu})\right\}\]</span> onde <span class="math inline">\(\boldsymbol{\mu}\)</span> é um vetor de comprimento <span class="math inline">\(n\)</span> e <span class="math inline">\(\Sigma\)</span> é a matriz de covariâncias. Para essa distribuição, <span class="math inline">\(E(\boldsymbol{x}) = \boldsymbol{\mu}\)</span> e <span class="math inline">\(Var(\boldsymbol{x}) =\Sigma\)</span>.</p>
+<p>Se <span class="math inline">\(\boldsymbol{x}|\boldsymbol{\mu}, \boldsymbol{\Sigma} ∼ \hbox{Normal}_n(\boldsymbol{\mu}, \Sigma )\)</span>, então, para qualquer matriz (real) <span class="math inline">\(\boldsymbol{A}\)</span> de dimensão <span class="math inline">\(m\times n\)</span> e para qualquer vetor <span class="math inline">\(\boldsymbol{b}\)</span> de comprimento <span class="math inline">\(n\)</span>,</p>
+<p><span class="math display">\[\boldsymbol{Ax} + \boldsymbol{b} ∼ \hbox{Normal}_m(\boldsymbol{A}\boldsymbol{\mu} + \boldsymbol{b}, \boldsymbol{A}\Sigma\boldsymbol{A}).\]</span> Em particular, <span class="math inline">\(\boldsymbol{z} = \Sigma^{-1/2}(\boldsymbol{x} − \boldsymbol{\mu})\)</span> tem distribuição Normal<span class="math inline">\((\boldsymbol{0}, \boldsymbol{I})\)</span>.</p>
+<p>Considere que o vetor <span class="math inline">\(\boldsymbol{x}\)</span> foi particionado em <span class="math inline">\(\boldsymbol{x} = (\boldsymbol{x}_1, \boldsymbol{x}_2)\)</span>, onde <span class="math inline">\(\boldsymbol{x}_1\)</span> tem comprimento <span class="math inline">\(q &lt; n\)</span> e <span class="math inline">\(x_2\)</span> tem comprimento <span class="math inline">\(n − q\)</span>. Os parâmetros da distribuição podem ser particionados da seguinte forma</p>
+<p><span class="math display">\[\left(\begin{array}{c}\boldsymbol{x}_1\\ \boldsymbol{x}_2\end{array}\right)
+\sim\hbox{Normal}_n\left[
+\left(\begin{array}{c}\boldsymbol{\mu}_1 \\ \boldsymbol{\mu}_2\end{array}\right),
+\left(\begin{array}{cc}\Sigma_{11} &amp; \Sigma_{12} \\ \Sigma_{12}' &amp; \Sigma_{22} \end{array}\right)\right]\]</span> Então <span class="math inline">\(\boldsymbol{x}_1 \sim \hbox{Normal}(\boldsymbol{\mu}_1, \Sigma_{11})\)</span> e <span class="math inline">\(\boldsymbol{x}_2 \sim\hbox{Normal}(\boldsymbol{\mu}_2, \Sigma_{22})\)</span>. Além disso <span class="math inline">\(Cov(\boldsymbol{x}_1, \boldsymbol{x}_2) = \Sigma_{12}\)</span> e <span class="math inline">\(Cov(\boldsymbol{x}_2, \boldsymbol{x}_1) = \Sigma_{12}'\)</span>. Além disso,</p>
+<p><span class="math display">\[\boldsymbol{x}_2|\boldsymbol{x}_1\sim\hbox{Normal}(\boldsymbol{\mu}_2+\Sigma_{12}'\Sigma_{11}^{-1}(\boldsymbol{x}_1-\boldsymbol{\mu}), \Sigma_{22}-\Sigma_{12}'\Sigma_{11}^{-1}\Sigma_{12})\]</span> Também é possível rescontruiar a conjunta quando temos a condicional e a marginal, conforme mostra o lema abaixo.</p>
+<div class="alert alert-success">
+<p><strong>Lema (Reconstrução da conjunta)</strong> Se <span class="math inline">\(\boldsymbol{x}_2|\boldsymbol{x}_1\sim\hbox{Normal}(\boldsymbol{\mu}_2+\boldsymbol{B}_1(\boldsymbol{x}_1-\boldsymbol{\mu}_1),\boldsymbol{B}_2)\)</span> e <span class="math inline">\(\boldsymbol{x}_1\sim\hbox{Normal}(\boldsymbol{\mu}_1,\Sigma_{11})\)</span>, então,</p>
+<p><span class="math display">\[\left(\begin{array}{c}\boldsymbol{x}_1\\\boldsymbol{x}_2\end{array}\right)\sim\hbox{Normal}_n\left[\left(\begin{array}{c}\boldsymbol{\mu}_1 \\ \boldsymbol{\mu}_2\end{array}\right),\left(\begin{array}{cc}\Sigma_{11} &amp; \Sigma_{11}\boldsymbol{B}_1' \\ \boldsymbol{B}_1\Sigma_{11} &amp; \boldsymbol{B}_2+\boldsymbol{B}_1\Sigma_{11}\boldsymbol{B}_1'\end{array} \right)\right]\]</span></p>
+</div>
+<p>.</p>
+</section>
+<section id="o-modelo-linear" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="o-modelo-linear"><span class="header-section-number">4.2</span> O modelo linear</h2>
+<p>Para <span class="math inline">\(i=1,\ldots,n\)</span>, considere o modelo linear abaixo: <span class="math display">\[y_i= \beta_0+\sum_{j=1}^{p-1}x_{i,j}+\varepsilon_i=\underbrace{ \left(1\;\;x_{i,1}\;\;\cdots\;\;x_{i,p-1}\right)}_\text{$\boldsymbol{f}'_i$}\underbrace{\left(\begin{array}{c}\beta_0 \\ \beta_1 \\ \vdots \\ \beta_{p-1}
+        \end{array}\right)}_\text{$\boldsymbol{\beta}$}+\varepsilon_i=\boldsymbol{f}'_i\boldsymbol{\beta}+\varepsilon_i,\]</span> onde <span class="math inline">\(x_i\)</span> é fixado e <span class="math inline">\(\varepsilon\)</span> é um ruído branco gaussiano. Pela independência entre <span class="math inline">\(y_i\)</span> e <span class="math inline">\(y_j\)</span>, pode-se fazer a seguinte representação estocástica de <span class="math inline">\(\boldsymbol{y}\)</span>: <span class="math display">\[\begin{equation}
+        \boldsymbol{y}=\boldsymbol{F}'\boldsymbol{\beta} + \boldsymbol{\varepsilon},
+        \end{equation}\]</span> onde <span class="math inline">\(\boldsymbol{\varepsilon}\sim\hbox{Normal}(\boldsymbol{0},\nu\textbf{I}_n)\)</span> e <span class="math inline">\(\boldsymbol{F}\)</span> é uma matriz <span class="math inline">\(p\times n\)</span> conhecida com <span class="math inline">\(i\)</span>-ésima coluna dada por <span class="math inline">\(\boldsymbol{f}_i\)</span>:</p>
+<p><span class="math display">\[\boldsymbol{F}=\left(\boldsymbol{f}_1,\ldots,\boldsymbol{f}_n\right).\]</span> Disto, tem-se que <span class="math display">\[\boldsymbol{y}|\boldsymbol{\beta},\nu\sim\hbox{Normal}(\boldsymbol{F}'\boldsymbol{\beta},\nu\textbf{I}_n)\]</span></p>
+<section id="priori-conjugada" class="level4" data-number="4.2.0.1">
+<h4 data-number="4.2.0.1" class="anchored" data-anchor-id="priori-conjugada"><span class="header-section-number">4.2.0.1</span> Priori conjugada</h4>
+<p>Considere que <span class="math inline">\(\nu\)</span> é conhecido. Então, a priori <span class="math inline">\(\boldsymbol{\beta}\sim\hbox{Normal}(\boldsymbol{m},\nu\boldsymbol{C})\)</span> é conjugada para o modelo linear.</p>
+<p>Pelo lema da reconstrução da conjunta, temos que</p>
+<p><span class="math display">\[\left(\begin{array}{c}\boldsymbol{\beta}\\\boldsymbol{y} \end{array}\right)\sim\hbox{Normal}\left[\left(\begin{array}{c}  \boldsymbol{m}\\ \boldsymbol{F}'\boldsymbol{m} \end{array}\right),\left(\begin{array}{cc} \nu \boldsymbol{C} &amp;  \nu\boldsymbol{C}\boldsymbol{F}\\ \nu\boldsymbol{F}'\boldsymbol{C} &amp; \nu[\textbf{I}+\boldsymbol{F}'\boldsymbol{C}\boldsymbol{F}] \end{array} \right)\right]\]</span> logo, a posteriori é dada por <span class="math display">\[\boldsymbol{\beta}|\boldsymbol{y}\sim\hbox{Normal}(\boldsymbol{m}+A(\boldsymbol{y}-\boldsymbol{F}'\boldsymbol{m}), \nu[\boldsymbol{I}-\boldsymbol{A}(\boldsymbol{I}+\boldsymbol{F}'\boldsymbol{C}\boldsymbol{F})\boldsymbol{A}'])\]</span> onde <span class="math inline">\(\boldsymbol{A}=\boldsymbol{CF}(\boldsymbol{I}+\boldsymbol{F}'\boldsymbol{C}\boldsymbol{F})^{-1}\)</span>.</p>
+</section>
+</section>
+<section id="o-uso-de-modelos-de-regressão-na-estimação-de-tendência" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="o-uso-de-modelos-de-regressão-na-estimação-de-tendência"><span class="header-section-number">4.3</span> O uso de modelos de regressão na estimação de tendência</h2>
+<p>Por algum tempo, modelos de regressão foram muito utilizados na estimação dos sinais de tendência e sazonalidade.</p>
+<p>Considere que a tendência é definida como uma função <span class="math inline">\(T:(0,t]\rightarrow \mathbb{R}\)</span>. O Teorema de Weierstrass afirma que, se <span class="math inline">\(T\)</span> é contínua, então para qualquer <span class="math inline">\(\delta&gt;0\)</span>, existe um polinômio <span class="math inline">\(u(.)\)</span> tal que <span class="math display">\[|T(t)-u(t)|&lt;\delta.\]</span> Isto quer dizer que <span class="math inline">\(T(.)\)</span> sempre pode ser aproximada por um polinômio. Assim, para determinada ordem <span class="math inline">\(p\)</span>, é correto afirmar que<br>
+<span class="math display">\[\begin{equation}
+        y_t = \beta_0 + \sum_{j=1}^p \beta_j t^j + \varepsilon_t
+        \end{equation}\]</span> onde <span class="math inline">\(\varepsilon_t\)</span> é um ruído estacionário, é um modelo razoável para uma série temporal com tendência. Assumindo que <span class="math inline">\(\varepsilon_t\)</span> é um ruído branco gaussiano, tem-se o modelo de tendência polinomial de grau <span class="math inline">\(p\)</span>.</p>
+<p>Fazendo <span class="math inline">\(\boldsymbol{f}_t'=(1,t,\ldots,t^p)\)</span> , o modelo de tendência polinomial é reescrito como <span class="math display">\[\boldsymbol{y}=\boldsymbol{F}'\boldsymbol{\beta}+\boldsymbol{\varepsilon}\]</span> Para ilustrar a estimação da tendência, vamos utilizar a série sobre o PIB anual brasileiro, observada entre 1977 e 2016, que pode ser baixada com os comandos abaixo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>        x <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://www.dropbox.com/s/zsoxpzpzqo6reml/PIB_brasil.csv?dl=1"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">sep=</span><span class="st">";"</span>,<span class="at">dec=</span><span class="st">","</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        PIB <span class="ot">&lt;-</span> x<span class="sc">$</span>PIB</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        PIB <span class="ot">&lt;-</span> <span class="fu">ts</span>(PIB, <span class="at">start=</span><span class="dv">1967</span>, <span class="at">frequency=</span><span class="dv">1</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">plot</span>(PIB, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">'Ano'</span>, <span class="at">ylab =</span> <span class="st">'PIB (em milhares de dólares)'</span>, <span class="at">main =</span> <span class="st">''</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modelo_linear_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Vamos implementar a matriz de regressão <span class="math inline">\(\boldsymbol{F}'\)</span> para <span class="math inline">\(p=8\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(PIB)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>( <span class="sc">~</span> <span class="fu">poly</span>(<span class="fu">time</span>(PIB), p) )</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Ft <span class="ot">&lt;-</span> <span class="fu">t</span>(Z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Considere a prior <span class="math inline">\(\beta\sim\hbox{Normal}(\textbf{0},\nu lambda_0 \boldsymbol{I})\)</span>, com <span class="math inline">\(\lambda_0=10\)</span>. A média da posteriori será</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lambda0<span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">diag</span>(lambda0,p<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> C<span class="sc">%*%</span>Ft<span class="sc">%*%</span><span class="fu">solve</span>(( <span class="fu">diag</span>(<span class="dv">1</span>,n)<span class="sc">+</span><span class="fu">t</span>(Ft) <span class="sc">%*%</span> C <span class="sc">%*%</span> Ft) )</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>beta_post <span class="ot">&lt;-</span> A <span class="sc">%*%</span> PIB</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>(beta_post)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            [,1]
+ [1,]  6429.4617
+ [2,]  9123.2037
+ [3,]  -391.2442
+ [4,]  2440.6759
+ [5,] -1333.3176
+ [6,]  -902.7895
+ [7,]  -365.5307
+ [8,]  -863.5817
+ [9,]   122.1578</code></pre>
+</div>
+</div>
+<p>A tendência estimada é dada pelos valores ajustados: <span class="math display">\[\hat{y}=\boldsymbol{F}'E(\boldsymbol{\beta}|\boldsymbol{y})\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(PIB)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>tend <span class="ot">&lt;-</span> <span class="fu">t</span>(Ft)<span class="sc">%*%</span>beta_post</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>( <span class="fu">ts</span>(tend, <span class="at">start=</span><span class="dv">1967</span>),<span class="at">col=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modelo_linear_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>O resíduo dado por <span class="math inline">\(\boldsymbol{y}-\hat{\\boldsymbol{y}}\)</span> é uma estimativa para o ruído. Abaixo, temos os seu gráfico e seu correlograma.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>erro <span class="ot">=</span> PIB <span class="sc">-</span> tend</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ts.plot</span>(erro)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modelo_linear_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(erro)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="modelo_linear_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Os resíduos mostram que relações residuais do ano anterior poderia melhorar a estimativa.</p>
+</section>
+<section id="exercícios" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">4.4</span> Exercícios</h2>
+<div class="alert alert-warning">
+<p><strong>Exercício 1</strong> Os dados abaixo representam os óbitod por suicídios no Mato Grosso do Sul. O banco de dados utilizado é dado a seguir. Construa uma série mensal e estude seu comportamento</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">'https://drive.google.com/uc?authuser=0&amp;id=1DMSgrQDl0636Lw0Y0MYJHJrgw_2uXntM&amp;export=download'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Estime a tendência utilizando um modelo linear.</p>
+</div>
 
 
 </section>
@@ -626,10 +806,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./sinal.html" class="pagination-link" aria-label="Sinal e ruído">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal e ruído</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./intro.html" class="pagination-link" aria-label="Manipulação de séries temporais univariadas no software `R`">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Manipulação de séries temporais univariadas no software <code>R</code></span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./mld.html" class="pagination-link" aria-label="O modelo linear dinâmico">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
