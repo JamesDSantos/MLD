@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>mld_filtro</title>
+<title>5&nbsp; O modelo linear dinâmico – Introdução aos modelos lineares dinâmicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,16 +23,51 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="mld_filtro_files/libs/clipboard/clipboard.min.js"></script>
-<script src="mld_filtro_files/libs/quarto-html/quarto.js"></script>
-<script src="mld_filtro_files/libs/quarto-html/popper.min.js"></script>
-<script src="mld_filtro_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="mld_filtro_files/libs/quarto-html/anchor.min.js"></script>
-<link href="mld_filtro_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="mld_filtro_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="mld_filtro_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="mld_filtro_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="mld_filtro_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./polinomial.html" rel="next">
+<link href="./modelo_linear.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -66,19 +101,131 @@ window.Quarto = {
 
 </head>
 
-<body class="fullcontent">
+<body class="nav-sidebar floating">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mld_filtro.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Introdução aos modelos lineares dinâmicos</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Manipulação de séries temporais univariadas no software <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./estacionaria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Séries Estacionárias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./sinal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sinal e ruído</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./modelo_linear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Revisão sobre o modelo linear</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mld_filtro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./polinomial.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modelo linear dinâmico polinomial</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#modelo-de-espaço-de-estados" id="toc-modelo-de-espaço-de-estados" class="nav-link active" data-scroll-target="#modelo-de-espaço-de-estados"><span class="header-section-number">5.1</span> Modelo de espaço de estados</a></li>
+  <li><a href="#definição-de-modelo-linear-dinâmico" id="toc-definição-de-modelo-linear-dinâmico" class="nav-link" data-scroll-target="#definição-de-modelo-linear-dinâmico"><span class="header-section-number">5.2</span> Definição de modelo linear dinâmico</a></li>
+  <li><a href="#o-filtro-de-kalman" id="toc-o-filtro-de-kalman" class="nav-link" data-scroll-target="#o-filtro-de-kalman"><span class="header-section-number">5.3</span> O filtro de Kalman</a></li>
+  <li><a href="#suavização" id="toc-suavização" class="nav-link" data-scroll-target="#suavização"><span class="header-section-number">5.4</span> Suavização</a></li>
+  <li><a href="#forward-filtering-backward-sampling-ffbs" id="toc-forward-filtering-backward-sampling-ffbs" class="nav-link" data-scroll-target="#forward-filtering-backward-sampling-ffbs"><span class="header-section-number">5.5</span> Forward filtering backward sampling (FFBS)</a></li>
+  <li><a href="#previsão" id="toc-previsão" class="nav-link" data-scroll-target="#previsão"><span class="header-section-number">5.6</span> Previsão</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></h1>
+</div>
 
 
 
-<section id="o-modelo-linear-dinâmico" class="level1">
-<h1>O modelo linear dinâmico</h1>
-<section id="modelo-de-espaço-de-estados" class="level2">
-<h2 class="anchored" data-anchor-id="modelo-de-espaço-de-estados">Modelo de espaço de estados</h2>
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="modelo-de-espaço-de-estados" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="modelo-de-espaço-de-estados"><span class="header-section-number">5.1</span> Modelo de espaço de estados</h2>
 <p>Seja <span class="math inline">\(y_{1:t}=\{y_1,\ldots,y_t\}\)</span>. Considere que a distribuição de <span class="math inline">\(y_t\)</span> pode ser completamente especificada com o conhecimento do vetor <span class="math inline">\(\boldsymbol{\theta}\)</span>, ou seja</p>
 <p><span class="math display">\[f(y_{1:t}|\boldsymbol{\theta}).\]</span></p>
 <pre><code>A partir da incerteza sobre $\boldsymbol{\theta}$,  representada por $f(\boldsymbol{\theta})$,</code></pre>
@@ -96,8 +243,8 @@ f(y_{t+k}|y_{1:t})&amp;=\int  f(y_{t+k}|\boldsymbol{\theta})f(\boldsymbol{\theta
         \boldsymbol{\theta}_t = \boldsymbol{G}_t\boldsymbol{\theta}_{t-1} + \boldsymbol{w}_t
 \end{equation}\]</span> onde <span class="math inline">\(\boldsymbol{G}_t\)</span> e <span class="math inline">\(\boldsymbol{F}_t\)</span> são matrizes conhecidas e <span class="math inline">\(\boldsymbol{v}_t\)</span> e <span class="math inline">\(\boldsymbol{w}_t\)</span> são vetores de erros aleatórios independentes entre si. Todos os modelos que estudamos até aqui admitem uma representação em espaço de estados.</p>
 </section>
-<section id="definição-de-modelo-linear-dinâmico" class="level2">
-<h2 class="anchored" data-anchor-id="definição-de-modelo-linear-dinâmico">Definição de modelo linear dinâmico</h2>
+<section id="definição-de-modelo-linear-dinâmico" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="definição-de-modelo-linear-dinâmico"><span class="header-section-number">5.2</span> Definição de modelo linear dinâmico</h2>
 <p>Um modelo de espaço de estados é denominado modelo linear dinâmico quando, para qualquer <span class="math inline">\(t\geq 1\)</span></p>
 <p><span class="math display">\[\begin{align}
         y_t|\boldsymbol{\theta}_t&amp;\sim\hbox{Normal}(\boldsymbol{F}_t'\boldsymbol{\theta}_t,V_t)\\
@@ -105,8 +252,8 @@ f(y_{t+k}|y_{1:t})&amp;=\int  f(y_{t+k}|\boldsymbol{\theta})f(\boldsymbol{\theta
 \end{align}\]</span> onde <span class="math inline">\(\{\boldsymbol{F}_t, \boldsymbol{G}_t, V_t, \boldsymbol{W}_t\}\)</span> são matrizes conhecidas e <span class="math display">\[\begin{equation}\boldsymbol{\theta}_0\sim\hbox{Normal}(\boldsymbol{m}_0,\boldsymbol{C}_0).
 \end{equation}\]</span> Como as distribuições envolvidas são conhecidas, dizemos que o modelo é especificado pela quádrupla <span class="math inline">\(\{\boldsymbol{F},\boldsymbol{G},\boldsymbol{V},\boldsymbol{W}\}_t\)</span>.</p>
 </section>
-<section id="o-filtro-de-kalman" class="level2">
-<h2 class="anchored" data-anchor-id="o-filtro-de-kalman">O filtro de Kalman</h2>
+<section id="o-filtro-de-kalman" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="o-filtro-de-kalman"><span class="header-section-number">5.3</span> O filtro de Kalman</h2>
 <p>Seja <span class="math inline">\(D_{0}\)</span> a informação inicial (em <span class="math inline">\(t=0\)</span>) e seja <span class="math inline">\(D_t=\{y_t,D_{t-1}\}\)</span>. Então, se para qualquer <span class="math inline">\(t-1\geq 0\)</span> <span class="math display">\[\boldsymbol{\theta}_{t-1}|D_{t-1}\sim\hbox{Normal}(\boldsymbol{m}_{t-1},\boldsymbol{C}_{t-1}),\]</span> teremos que:</p>
 <ul>
 <li><p>A priori para o tempo <span class="math inline">\(t\)</span> será <span class="math display">\[\boldsymbol{\theta}_t|D_{t-1}\sim\hbox{Normal}(\boldsymbol{a}_t,\boldsymbol{R}_t),\]</span> onde <span class="math display">\[\begin{align}
@@ -142,10 +289,149 @@ f(y_{t+k}|y_{1:t})&amp;=\int  f(y_{t+k}|\boldsymbol{\theta})f(\boldsymbol{\theta
         \boldsymbol{C}_t &amp;=\boldsymbol{R}_t - \boldsymbol{A}_t\boldsymbol{Q}_t\boldsymbol{A}_t'.
                                 \end{align}\]</span></p>
 </section>
+<section id="suavização" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="suavização"><span class="header-section-number">5.4</span> Suavização</h2>
+<p>Considere a estrutura <span class="math display">\[y_t = f(t)+\varepsilon_t,\]</span> onde <span class="math inline">\(f(.)\)</span> é um sinal e <span class="math inline">\(\varepsilon_t\)</span> um ruído.</p>
+<p>Em séries temporais, o termo suavização refere-se aos métodos cujo objetivo é a eliminação do ruído para melhor visualização do sinal. Tais técnicas procuram estimar o nível <span class="math inline">\(f(t)\)</span> através de médias ponderadas dos vizinhos de <span class="math inline">\(y_t\)</span>.Note que o objetivo da suavização não é previsão, logo para estimar <span class="math inline">\(f(t)\)</span> em princípio <span class="math inline">\(y_1,\ldots,y_n\)</span> com <span class="math inline">\(n\geq t\)</span> podem ser utilizados. Por isso, também é comum denominar a suavização como análise retrospectiva.</p>
+<p>Para os MLDs, esta é feita através da distribuição de <span class="math display">\[\boldsymbol{\theta}_{t-k}|D_t,\]</span> para <span class="math inline">\(1\leq k&lt;t\)</span>. \end{itemize}</p>
+<div id="thm-" class="alert alert-success theorem">
+<p><span class="theorem-title"><strong>Theorem 5.1</strong></span> Considere o MLD <span class="math inline">\(\{\boldsymbol{F},\boldsymbol{G},\boldsymbol{V},\boldsymbol{W}\}_t.\)</span> Defina <span class="math display">\[\boldsymbol{B}_t=\boldsymbol{C}_t\boldsymbol{G}_{t+1}'\boldsymbol{R}_{t+1}^{-1},\]</span> para todo <span class="math inline">\(t\)</span>. Então, para qualquer <span class="math inline">\(k=0,\ldots,t\)</span>, <span class="math display">\[\begin{align}
+            \boldsymbol{\theta}_{t-k}|D_t\sim\hbox{Normal}(\boldsymbol{a}_t(-k),\boldsymbol{R}_{t}(-k)),
+        \end{align}\]</span> onde: <span class="math display">\[\begin{align}
+            \boldsymbol{a}_t(-k)&amp;=\boldsymbol{m}_{t-k} + \boldsymbol{B}_{t-k}\left[\boldsymbol{a}_t(-k+1)-\boldsymbol{a}_{t-k+1}\right]\\
+            \boldsymbol{R}_t(-k)&amp;=\boldsymbol{C}_{t-k} - \boldsymbol{B}_{t-k}\left[\boldsymbol{R}_{t-k+1}-\boldsymbol{R}_t(-k+1)\right]\boldsymbol{B}_{t-k}',
+        \end{align}\]</span> com <span class="math inline">\(\boldsymbol{a}_t(0)=\boldsymbol{m}_t\)</span> e <span class="math inline">\(\boldsymbol{R}_{t}(0)=\boldsymbol{C}_t.\)</span></p>
+</div>
+<p><strong>Demonstração:</strong> Note que o resultado é válido para <span class="math inline">\(k=0\)</span>, o que sugere uma demonstração por indução. Suponha que para <span class="math inline">\(k-1\)</span> é verdade que <span class="math display">\[\begin{align*}
+        \boldsymbol{\theta}_{t-k+1}|D_t\sim\hbox{Normal}(\boldsymbol{a}_t(-k+1),\boldsymbol{R}_{t}(-k+1)),
+    \end{align*}\]</span> para algum vetor <span class="math inline">\(\boldsymbol{a}_t(-k+1)\)</span> e matriz <span class="math inline">\(\boldsymbol{R}_t(-k+1)\)</span>. Agora, note que <span class="math display">\[\begin{align*}
+        &amp;f(\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_t)\propto f(\boldsymbol{y}_1,\ldots,\boldsymbol{y}_t,\boldsymbol{\theta}_{t-k},\boldsymbol{\theta}_{t-k+1})\\
+        &amp;=f(D_{t-k},\boldsymbol{y}_{t-k+1},\ldots,\boldsymbol{y}_t,\boldsymbol{\theta}_{t-k},\boldsymbol{\theta}_{t-k+1})\\
+        &amp;=f(\boldsymbol{y}_t,\ldots,\boldsymbol{y}_{t-k+1}|\boldsymbol{\theta}_{t-k},\boldsymbol{\theta}_{t-k+1},D_{t-k})f(\boldsymbol{\theta}_{t-k},\boldsymbol{\theta}_{t-k+1},D_{t-k})\\
+        &amp;\propto f(\boldsymbol{y}_t,\ldots,\boldsymbol{y}_{t-k+1}|\boldsymbol{\theta}_{t-k},\boldsymbol{\theta}_{t-k+1},D_{t-k})f(\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_{t-k}).
+    \end{align*}\]</span> Contudo, dado <span class="math inline">\(\boldsymbol{\theta}_{t-k+1}\)</span> o vetor <span class="math inline">\(\{\boldsymbol{y}_t,\ldots,\boldsymbol{y}_{t-k+1}\}\)</span> é independente de <span class="math inline">\(\boldsymbol{\theta}_{t-k}\)</span>. Então, <span class="math display">\[\begin{align*}
+        &amp;f(\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_t)\propto  \\ &amp;f(\boldsymbol{y}_t,\ldots,\boldsymbol{y}_{t-k+1}|\boldsymbol{\theta}_{t-k+1},D_{t-k})f(\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_{t-k})\\
+        &amp;\propto f(\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_{t-k}).
+    \end{align*}\]</span> Portanto, dado <span class="math inline">\(\boldsymbol{\theta}_{t-k+1}\)</span>, o vetor <span class="math inline">\(\boldsymbol{\theta}_{t-k}\)</span> é independente de <span class="math inline">\(\{\boldsymbol{y}_t,\ldots,\boldsymbol{y}_{t-k+1}\}\)</span>. Agora, note que <span class="math display">\[\begin{align*}
+        \boldsymbol{\theta}_{t-k}|D_{t-k} &amp;\sim \hbox{Normal}\left( \boldsymbol{m}_{t-k},\boldsymbol{C}_{t-k}\right)\\
+        \boldsymbol{\theta}_{t-k+1}|\boldsymbol{\theta}_{t-k},D_{t-k} &amp;\sim \hbox{Normal}\left( \boldsymbol{G}_{t-k+1}\boldsymbol{\theta}_{t-k},\boldsymbol{W}_{t-k+1}\right).
+    \end{align*}\]</span></p>
+<p>Portanto, pelo lema da reconstrução, <span class="math display">\[\begin{align*}
+        \left(\left.\begin{array}{c}
+            \boldsymbol{\theta}_{t-k} \\
+            \boldsymbol{\theta}_{t-k+1}
+        \end{array}\right| D_{t-k}\right)\sim N\left[\left(\begin{array}{c}\boldsymbol{m}_{t-k}\\ \boldsymbol{a}_{t-k+1}\end{array}\right),\left(\begin{array}{cc}
+            \boldsymbol{C}_{t-k} &amp; \boldsymbol{C}_{t-k}\boldsymbol{G}_{t-k+1}' \\
+            \boldsymbol{G}_{t-k+1}\boldsymbol{C}_{t-k}&amp; \boldsymbol{R}_{t-k+1}
+        \end{array}\right)\right]
+    \end{align*}\]</span> e, pelo lema da condicional, <span class="math display">\[\begin{align*}
+        \boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_{t-k}\sim\hbox{Normal}(\boldsymbol{h}_t(k),\boldsymbol{H}_t(k)),
+    \end{align*}\]</span> onde <span class="math display">\[\begin{align*}
+        \boldsymbol{B}_{t-k}&amp;=\boldsymbol{C}_{t-k}\boldsymbol{G}_{t-k+1}'\boldsymbol{R}_{t-k+1}^{-1}\\
+        \boldsymbol{h}_t(k)&amp;=\boldsymbol{m}_{t-k} + \boldsymbol{B}_{t-k}(\boldsymbol{\theta}_{t-k+1}-\boldsymbol{a}_{t-k+1})\\
+        \boldsymbol{H}_t(k)&amp;=\boldsymbol{C}_{t-k} - \boldsymbol{B}_{t-k}\boldsymbol{R}_{t-k+1}^{-1}\boldsymbol{B}_{t-k}'.
+    \end{align*}\]</span></p>
+<p>Por último, como <span class="math display">\[\begin{align*}
+        \boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_{t}&amp;\sim\hbox{Normal}(\boldsymbol{h}_t(k),\boldsymbol{H}_t(k))\\
+        \boldsymbol{\theta}_{t-k+1}|D_{t}&amp;\sim\hbox{Normal}(\boldsymbol{a}_t(-k+1),\boldsymbol{R}_t(-k+1)),
+    \end{align*}\]</span> podemos utilizar o lema da reconstrução e concluir que <span class="math display">\[\begin{align*}
+        \boldsymbol{\theta}_{t-k}|D_t&amp;\sim\hbox{Normal}(\boldsymbol{a}_t(k),\boldsymbol{R}_t(k)),
+    \end{align*}\]</span> onde <span class="math display">\[\begin{align*}
+        \boldsymbol{a}_t(-k)&amp;=\boldsymbol{m}_{t-k} + \boldsymbol{B}_{t-k}\left[\boldsymbol{a}_t(-k+1)-\boldsymbol{a}_{t-k+1}\right]\\
+        \boldsymbol{R}_t(-k)&amp;=\boldsymbol{C}_{t-k} - \boldsymbol{B}_{t-k}\left[\boldsymbol{R}_{t-k+1}-\boldsymbol{R}_t(-k+1)\right]\boldsymbol{B}_{t-k}'.
+    \end{align*}\]</span></p>
+</section>
+<section id="forward-filtering-backward-sampling-ffbs" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="forward-filtering-backward-sampling-ffbs"><span class="header-section-number">5.5</span> Forward filtering backward sampling (FFBS)</h2>
+<p>Considere que o modelo <span class="math inline">\(M_i:\{\boldsymbol{F},\boldsymbol{G},\boldsymbol{V},\boldsymbol{W} \}_t\)</span> possui alguma componente desconhecida na quádrupla. Denomine essa componente por <span class="math inline">\(\boldsymbol{\alpha}_t\)</span>.</p>
+<p>Podemos estimar essas componentes por simulação, utilizando algoritmos do tipo MCMC. Em particular, um amostrador de Gibbs pode ser implementado com as seguintes condicionais completas: <span class="math display">\[  \begin{align*}
+        \boldsymbol{\alpha}_{1:t}|\boldsymbol{\theta}_{0:t},D_t \\
+        \boldsymbol{\theta}_{0:t}|\boldsymbol{\alpha}_{1:t},D_t.
+    \end{align*}\]</span></p>
+<p>A distribuição de <span class="math inline">\(\boldsymbol{\alpha}_{1:t}|\boldsymbol{\theta}_{0:t},D_t\)</span> depende da componente em questão. Já a simulação de <span class="math inline">\(\boldsymbol{\theta}_{0:t}|\boldsymbol{\alpha}_{1:t},D_t\)</span> pode ser feita através do algoritmo FFBS. Antes de discuti-lo, sabemos que <span class="math display">\[\begin{align*}
+        f(\boldsymbol{\theta}_{0:t}|\boldsymbol{\alpha}_{1:t},D_t)=f(\theta_t|\boldsymbol{\alpha}_{1:t},D_t)\prod_{j=1}^tf(\boldsymbol{\theta}_j|\boldsymbol{\theta}_{j+1},\ldots,\boldsymbol{\theta}_t,\boldsymbol{\alpha}_{1,t},D_t).
+    \end{align*}\]</span> Mas, pela natureza markoviana da equação de evolução, teremos que <span class="math display">\[\begin{align*}
+    f(\boldsymbol{\theta}_{0:t}|\boldsymbol{\alpha}_{1:t},D_t)=f(\boldsymbol{\theta}_t|\boldsymbol{\alpha}_{1:t},D_t)\prod_{j=1}^tf(\boldsymbol{\theta}_j|\boldsymbol{\theta}_{j+1},D_t).
+\end{align*}\]</span></p>
+<p>Contudo, sabemos que <span class="math inline">\(\boldsymbol{\theta}_t|\boldsymbol{\alpha}_{1:t},D_t\sim\hbox{Normal}(\boldsymbol{m}_t,\boldsymbol{C}_t)\)</span>. Sabemos ainda, pela demonstração do Teorema da Suavizaçãoque <span class="math display">\[\begin{align*}
+    \boldsymbol{\theta}_t|\boldsymbol{\theta}_{t+1},\boldsymbol{\alpha}_{1:t},D_t \sim \hbox{Normal}(\boldsymbol{h}_t,\boldsymbol{H}_t),
+\end{align*}\]</span> onde <span class="math display">\[\begin{align*}
+    \boldsymbol{B}_t &amp;= \boldsymbol{C}_t\boldsymbol{G}'_{t+1}\boldsymbol{R}_{t+1}^{-1}\\
+    \boldsymbol{h}_t &amp;= \boldsymbol{m}_t + \boldsymbol{B}_t(\boldsymbol{\theta}_{t+1}-\boldsymbol{a}_t+1)\\
+    \boldsymbol{H}_t &amp;= \boldsymbol{C}_t + \boldsymbol{B}_t\boldsymbol{R}_{t+1}^{-1}\boldsymbol{B}_t'
+\end{align*}\]</span></p>
+<p>Podemos então formalizar o algoritmo FFBS. Para a <span class="math inline">\(i\)</span>-ésima iteração do MCMC a amostra <span class="math inline">\(\boldsymbol{\theta}_{0:t}^{(i)}\)</span> condicionada a <span class="math inline">\(\boldsymbol{\alpha}_{1:t}\)</span> é simulada a partir dos seguintes passos:</p>
+<ol type="1">
+<li>Encontre <span class="math inline">\(\boldsymbol{m}_t,\boldsymbol{C}_t\)</span>,<span class="math inline">\(\boldsymbol{a}_t\)</span> e <span class="math inline">\(\boldsymbol{R}_t\)</span> pelo filtro de Kalman.</li>
+<li>Para o tempo <span class="math inline">\(j=t\)</span>, simule <span class="math inline">\(\boldsymbol{\theta}_t^{(i)}\sim\hbox{Normal}(\boldsymbol{m}_t,\boldsymbol{C}_t)\)</span>.</li>
+<li>Para o tempo <span class="math inline">\(j\)</span>, com <span class="math inline">\(j=t-1,\ldots,0\)</span> simule <span class="math inline">\(\boldsymbol{\theta}_j^{(i)}\sim\hbox{Normal}(\boldsymbol{h}_j,\boldsymbol{H}_j)\)</span>.</li>
+</ol>
+</section>
+<section id="previsão" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="previsão"><span class="header-section-number">5.6</span> Previsão</h2>
+<p>Para os modelos lineares dinâmicos, temos duas distribuições para previsões:</p>
+<p><span class="math display">\[\begin{align*}
+    \bm{\theta}_{t+h}|y_{1:t}\\
+    y_{t+h}|y_{1:t}
+\end{align*}\]</span></p>
+<p>O Teorema abaixo mostra que estas distribuições também são normais.</p>
+<div id="thm-" class="alert alert-success theorem">
+<p><span class="theorem-title"><strong>Theorem 5.2</strong></span> &nbsp;</p>
+<pre><code>    Para um MLD,
+    \begin{itemize}
+        \item $\bm{\theta}_{t+h}|y_{1:t}\sim\hbox{Normal}(\bm{a}_t(h),\bm{R}_t(h))$
+        \item $y_{t+h}|y_{1:t}\sim\hbox{Normal}(f_t(h),Q_t(h))$
+    \end{itemize}       
+    onde
+    \begin{align*}
+        \bm{a}_t(h)&amp;=\bm{G}_{t+h}\bm{a}_t(h-1)\\ 
+        \bm{R}_t(h)&amp;=\bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h}\\  
+        f_t(h)&amp;=\bm{F}_{t+h}'\bm{a}_t(h) \\
+        Q_t(h)&amp;=\bm{F}_{t+h}'\bm{R}_t(h)\bm{F}_{t+h}+V_{t+h}
+    \end{align*}
+    com $\bm{a}_t(0)=\bm{m}_t$ e $\bm{R}_t(0)=\bm{C}_t$.</code></pre>
+</div>
+<p><strong>Demonstração:</strong> Sabemos que <span class="math display">\[\bm{\theta}_{t+1}|D_t\sim\hbox{Normal}(\bm{a}_t(1),\bm{R}_t(1)),\]</span> onde <span class="math display">\[  \begin{align*}
+        \bm{a}_t(1)&amp;=\bm{G}_{t+1}\bm{m}_t\\
+        \bm{R}_t(1)&amp;=\bm{G}_{t+1}\bm{C}_{t}\bm{G}_{t+1}'+\bm{W}_{t+1}.
+    \end{align*}\]</span></p>
+<p>Suponha que para <span class="math inline">\(h-1\geq 0\)</span> arbitrário é válido<br>
+<span class="math display">\[\bm{\theta}_{t+h-1}|D_t\sim\hbox{Normal}(\bm{a}_t(h-1),\bm{R}_t(h-1)).\]</span><br>
+Como <span class="math display">\[\bm{\theta}_{t+h}|\bm{\theta}_{t+h-1}\sim\hbox{Normal}(\bm{G}_{t+h}\bm{\theta}_{t+h-1},\bm{W}_{t+h}),\]</span> pelo lema da reconstrução da conjunta, teremos <span class="math display">\[\begin{align*}
+            \left(\left.\begin{array}{c}
+                \bm{\theta}_{t+h} \\
+                \bm{\theta}_{t+h-1}
+            \end{array}\right| D_t\right)\sim\left[\left(\begin{array}{c}
+                \bm{G}_{t+h}\bm{a}_t(h-1) \\ \bm{a}_t(h-1)
+            \end{array}\right),\left(\begin{array}{cc}
+                \bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h} &amp; \bm{G}_{t+h}\bm{R}_t(h-1) \\
+                \bm{R}_t(h-1)\bm{G}_{t+h}' &amp; \bm{R}_t(h-1)
+            \end{array}\right)\right].
+    \end{align*}\]</span> Fazendo <span class="math display">\[\begin{align*}
+        \bm{a}_t(h)&amp;=\bm{G}_{t+h}\bm{a}_t(h-1)\\
+        \bm{R}_t(h)&amp;=\bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h}\end{align*}\]</span> demonstramos <span class="math inline">\(a)\)</span> por indução.</p>
+<p>Para mostrar <span class="math inline">\(b)\)</span>, lembremos que a partir da equação das observações, <span class="math display">\[\bm{y}_{t+h}|\bm{\theta}_{t+h},D_t\sim\hbox{Normal}(\bm{F}_{t+h}'\bm{\theta}_{t+h},\bm{V}_{t+h}).\]</span> Além disso, mostramos que <span class="math inline">\(\bm{\theta}_{t+h}|D_t\sim\hbox{Normal}(\bm{a}_t(h),bm{R}_t(h))\)</span> logo, pelo lema da reconstrução da conjunta <span class="math display">\[\begin{align*}
+        \left(\left.\begin{array}{c}
+            \bm{y}_{t+h} \\
+            \bm{\theta}_{t+h}
+        \end{array}\right|D_t\right)\sim\left[\left(\begin{array}{c}
+            \bm{f}_t(h) \\ \bm{a}_t(h)
+        \end{array}\right),\left(\begin{array}{cc}
+            \bm{Q}_{t}(h) &amp; \bm{F}_{t+h}'\bm{R}_t(h) \\
+            \bm{R}_t(h)\bm{F}_{t+h} &amp; \bm{R}_t(h)
+        \end{array}\right)\right].
+    \end{align*}\]</span></p>
+<div id="thm-" class="alert alert-success theorem">
+<p><span class="theorem-title"><strong>Theorem 5.3</strong></span> Para o MLD <span class="math inline">\(\{\bm{F},\bm{G},\bm{V},\bm{W}\}\)</span>, <span class="math display">\[      \begin{align}
+            \bm{f}_t(h)&amp;=\bm{F}'\bm{G}^{h}\bm{m}_t,\\
+            \bm{Q}_t(h)&amp;=\bm{F}'\bm{G}^h\bm{C}_t\bm{G}^{'h}\bm{F}+ \sum_{j=0}^{h-1}\bm{F}'\bm{G}^{j}\bm{W}_{t+h-j}\bm{G}^{'j}\bm{F}+\bm{V}.
+        \end{align}\]</span></p>
+</div>
+
+
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -566,6 +852,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./modelo_linear.html" class="pagination-link" aria-label="Revisão sobre o modelo linear">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Revisão sobre o modelo linear</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./polinomial.html" class="pagination-link" aria-label="Modelo linear dinâmico polinomial">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modelo linear dinâmico polinomial</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

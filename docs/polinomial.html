@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; O modelo linear dinâmico – Introdução aos modelos lineares dinâmicos</title>
+<title>6&nbsp; Modelo linear dinâmico polinomial – Introdução aos modelos lineares dinâmicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -65,7 +31,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./references.html" rel="next">
-<link href="./modelo_linear.html" rel="prev">
+<link href="./mld_filtro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -144,7 +110,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mld.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./polinomial.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modelo linear dinâmico polinomial</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -201,8 +167,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./mld.html" class="sidebar-item-text sidebar-link active">
+  <a href="./mld_filtro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./polinomial.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modelo linear dinâmico polinomial</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -221,7 +193,8 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#o-modelo-linear-dinâmico" id="toc-o-modelo-linear-dinâmico" class="nav-link active" data-scroll-target="#o-modelo-linear-dinâmico"><span class="header-section-number">5.1</span> O modelo linear dinâmico</a></li>
+  <li><a href="#o-modelo-linear-dinâmico-polinomial-de-primeira-ordem" id="toc-o-modelo-linear-dinâmico-polinomial-de-primeira-ordem" class="nav-link active" data-scroll-target="#o-modelo-linear-dinâmico-polinomial-de-primeira-ordem"><span class="header-section-number">6.1</span> O modelo linear dinâmico polinomial de primeira ordem</a></li>
+  <li><a href="#o-modelo-linear-dinâmico-polinomial-de-segunda-ordem" id="toc-o-modelo-linear-dinâmico-polinomial-de-segunda-ordem" class="nav-link" data-scroll-target="#o-modelo-linear-dinâmico-polinomial-de-segunda-ordem"><span class="header-section-number">6.2</span> O modelo linear dinâmico polinomial de segunda ordem</a></li>
   </ul>
 </nav>
     </div>
@@ -230,7 +203,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Modelo linear dinâmico polinomial</span></h1>
 </div>
 
 
@@ -247,42 +220,40 @@ window.Quarto = {
 </header>
 
 
-<section id="o-modelo-linear-dinâmico" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="o-modelo-linear-dinâmico"><span class="header-section-number">5.1</span> O modelo linear dinâmico</h2>
-<p>Seja <span class="math inline">\(y_1,\ldots,t\)</span> uma série temporal. Seja <span class="math inline">\(D_j={y_1,\ldots,y_j}\)</span>. Dizemos que <span class="math inline">\(y_t\)</span> é um modelo linear dinâmico se</p>
-<p><span class="math display">\[\begin{align}
-y_t|\boldsymbol{\theta}_t,D_{t-1}&amp;\sim\hbox{Normal}(\boldsymbol{F}_t'\boldsymbol{\theta}_t,V_t)\\
-\boldsymbol{\theta}_t|\boldsymbol{\theta}_{t-1},D_{t-1}&amp;\sim\hbox{Normal}(\boldsymbol{G}_t\boldsymbol{\theta}_{t-1},\boldsymbol{W}_t)
-\end{align}\]</span></p>
-<p>A expressão acima, os <span class="math inline">\(\theta\)</span>’s são denominados estados. Para a completa especificação do modelo, devemos informar valores iniciais <span class="math inline">\(m_0\)</span> e <span class="math inline">\(C_0\)</span> que representam nossa opinião sobre os estados antes do tempo <span class="math inline">\(1\)</span>:</p>
-<p><span class="math display">\[\theta_0\sim\ N(m_0,C_0)\]</span> Escolhas diferentes para <span class="math inline">\(\boldsymbol{F}_t\)</span> e <span class="math inline">\(\boldsymbol{G}_t\)</span> permitem acomodar sinais diferentes.</p>
-<p>Pode-se mostrar que <span class="math inline">\(y_{t+h}|D_t\)</span> tem distribuição normal. Como <span class="math inline">\(t+h\)</span> é um tempo não observado, essa é a distribuição para previsões. Neste caso, a função de previsão para o horizonte <span class="math inline">\(h\)</span> é</p>
-<p><span class="math display">\[f_t(h)=E(Y_{t+h}|D_{t})\]</span> onde <span class="math inline">\(E(.)\)</span> sempre deve ser lido como <strong>média</strong>.</p>
-<p>O pacote para lidar com modelos lineares dinâmicos é o <code>dlm</code>. A função abaixo é utilizada para estimar as variâncias desconhecidas do modelo e deve sempre ser colocada no <em>environment</em> do <code>R</code>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(dlm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Carregando pacotes exigidos: dlm</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>modFim <span class="ot">&lt;-</span> <span class="cf">function</span>(y,mod){</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  ffbs <span class="ot">&lt;-</span> <span class="fu">dlmGibbsDIG</span>(y, <span class="at">mod =</span> mod, <span class="at">n.sample =</span> <span class="dv">5000</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">a.y=</span><span class="dv">1</span>,<span class="at">b.y=</span><span class="dv">100</span>,<span class="at">a.theta=</span><span class="dv">1</span>,<span class="at">b.theta=</span><span class="dv">100</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">save.states =</span> <span class="cn">FALSE</span>, <span class="at">thin =</span> <span class="dv">0</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>v_sim  <span class="ot">&lt;-</span> <span class="fu">sample</span>(ffbs<span class="sc">$</span>dV[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2500</span>)],<span class="dv">2500</span>,T)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">dim</span>(ffbs<span class="sc">$</span>dW)[<span class="dv">2</span>]</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>w_sim <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>q){</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a> w_sim <span class="ot">&lt;-</span> <span class="fu">c</span>(w_sim, <span class="fu">mean</span>(<span class="fu">sample</span>(ffbs<span class="sc">$</span>dW[,j][<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2500</span>)],<span class="dv">2500</span>,T)))</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># declarando as variâncias na quádrupla</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span>V <span class="ot">&lt;-</span> <span class="fu">mean</span>(v_sim)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span>W <span class="ot">&lt;-</span> <span class="fu">diag</span>( w_sim)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(mod)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Também pode-se mostrar que <span class="math inline">\(\theta_{t-h}|D_t\)</span> tem distribuição normal. Como se trata da distribuição dos estados após verificar toda a série temporal, esta é a distribuição para a suavização.</p>
+<p>O modelo dinâmico polinomial de ordem <span class="math inline">\(p\)</span> é dado pela quádrupla <span class="math inline">\(\{\boldsymbol{F},\boldsymbol{G},.,.\}\)</span> onde <span class="math inline">\(\boldsymbol{F}'=(1,\boldsymbol{0}'_{p-1})\)</span> - e <span class="math inline">\(\boldsymbol{0}_{p-1}\)</span> é um vetor coluna de comprimento <span class="math inline">\(p-1\)</span> composto somente por zeros - e <span class="math inline">\(\boldsymbol{G}\)</span> é uma matriz <span class="math inline">\(p\times p\)</span>, triangular superior com todos os elementos não nulos iguais a 1.</p>
+<p>Observe que a matriz <span class="math inline">\(\boldsymbol{G}\)</span> pode ser escrita como <span class="math inline">\(\textbf{I}_p+\boldsymbol{N}\)</span> onde <span class="math inline">\(\boldsymbol{N}_{i,j}=1\)</span> se <span class="math inline">\(i&lt;j\)</span> e <span class="math inline">\(\boldsymbol{N}_{i,j}=0\)</span>. Então, para <span class="math inline">\(h\)</span> natural, teremos que</p>
+<p><span class="math display">\[\boldsymbol{G}^h = (\textbf{I}_p+\boldsymbol{N})^h=\sum_{i=0}^h {h\choose i}\boldsymbol{N}^i.\]</span></p>
+<p>Contudo, a matriz <span class="math inline">\(\boldsymbol{N}\)</span> é nilipotente, com <span class="math inline">\(\boldsymbol{N}^p=\textbf{0}_{p\times p}\)</span>. Deste modo, A matrix</p>
+<p><span class="math display">\[\boldsymbol{G}^h = (\textbf{I}_p+\boldsymbol{N})^h=\sum_{i=0}^p {h\choose i}\boldsymbol{N}^i.\]</span></p>
+<p>Portanto, a função de previsão deste modelo é dada por <span class="math display">\[f_t(h)=\boldsymbol{F}'\boldsymbol{G}^h\boldsymbol{m}_t =\boldsymbol{F}'\sum_{i=0}^{p-1}{h\choose i}\boldsymbol{N}^i\boldsymbol{m}_t=\sum_{i=0}^{p-1}{h\choose i}\boldsymbol{F}'\boldsymbol{N}^i\boldsymbol{m}_t\]</span> que sempre será um polinômio de grau <span class="math inline">\(p-1\)</span>.</p>
+<p>Os MLD polinomiais são uma alternativa atrativa para modelos com tendência ou nível aleatório.</p>
+<section id="o-modelo-linear-dinâmico-polinomial-de-primeira-ordem" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="o-modelo-linear-dinâmico-polinomial-de-primeira-ordem"><span class="header-section-number">6.1</span> O modelo linear dinâmico polinomial de primeira ordem</h2>
+<pre><code>O modelo linear de primeira ordem é dado por $\{1,1,.,.\}$ e possui função de previsão dada por
+
+$$f_t(h)=F'G^hm_t = m_t.$$
+
+Este modelo é interessante para analisar séries com oscilação de nível, mas é útil apenas para previsões um passo a frente. 
+
+Para $t$ suficientemente grande, esse modelo converge para o \textbf{Método de Holt}</code></pre>
+</section>
+<section id="o-modelo-linear-dinâmico-polinomial-de-segunda-ordem" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="o-modelo-linear-dinâmico-polinomial-de-segunda-ordem"><span class="header-section-number">6.2</span> O modelo linear dinâmico polinomial de segunda ordem</h2>
+<pre><code>Para o modelo linear dinâmico polinomial de ordem 2, temos 
+
+$$\boldsymbol{F}'=(1,0)$$
+e
+ $$\boldsymbol{G}=\left(\begin{array}{cc} 1 &amp; 1 \\ 0 &amp; 1 \end{array}\right)$$
+
+Neste caso
+
+     $$\boldsymbol{G}^h=\left(\begin{array}{cc} 1 &amp; h \\ 0 &amp; 1 \end{array}\right)$$</code></pre>
+<p>e</p>
+<p><span class="math display">\[\begin{align*}
+        f_t(h)&amp;=(1,0)\left(\begin{array}{cc}1&amp;h \\0&amp;1 \end{array}\right)\boldsymbol{m}_t= m_{1,t}+h m_{2,t},
+    \end{align*}\]</span></p>
+<pre><code>Note que $m_{1,t}$ representa o nível da série no tempo $t$, enquanto que $m_{2,t}$ representa a tendência de crescimento/decrescimento.  </code></pre>
+<p>Para <span class="math inline">\(t\)</span> suficientemente grande, esse modelo converge para o método de Crescimento linear de Holt.</p>
 
 
 </section>
@@ -710,8 +681,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./modelo_linear.html" class="pagination-link" aria-label="Revisão sobre o modelo linear">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Revisão sobre o modelo linear</span></span>
+      <a href="./mld_filtro.html" class="pagination-link" aria-label="O modelo linear dinâmico">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

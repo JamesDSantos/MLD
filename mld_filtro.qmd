@@ -119,3 +119,215 @@ $$\boldsymbol{\theta}_t|D_t\sim\hbox{N}(\boldsymbol{a}_t+\boldsymbol{R}_t\boldsy
 		\boldsymbol{m}_t&= \boldsymbol{a}_t + \boldsymbol{A}_t(\boldsymbol{y}_t - \boldsymbol{f}_t)\\
 		\boldsymbol{C}_t &=\boldsymbol{R}_t - \boldsymbol{A}_t\boldsymbol{Q}_t\boldsymbol{A}_t'.
                                 \end{align}$$
+                                
+                                
+
+## Suavização
+
+Considere a estrutura
+		$$y_t = f(t)+\varepsilon_t,$$
+		onde $f(.)$ é um sinal e $\varepsilon_t$ um ruído.
+
+Em séries temporais, o termo suavização refere-se aos métodos cujo objetivo é a eliminação do ruído para melhor visualização do sinal. Tais técnicas procuram estimar o nível $f(t)$ através de médias ponderadas dos vizinhos de $y_t$.Note que o objetivo da suavização não é previsão, logo para estimar $f(t)$ em princípio $y_1,\ldots,y_n$ com $n\geq t$ podem ser utilizados. Por isso, também é comum denominar a suavização como análise retrospectiva.
+
+Para os MLDs, esta é feita através da distribuição de
+		$$\boldsymbol{\theta}_{t-k}|D_t,$$
+		para $1\leq k<t$.
+	\end{itemize}
+	
+
+::: {#thm- .alert .alert-success}	
+
+Considere o MLD $\{\boldsymbol{F},\boldsymbol{G},\boldsymbol{V},\boldsymbol{W}\}_t.$ Defina
+		$$\boldsymbol{B}_t=\boldsymbol{C}_t\boldsymbol{G}_{t+1}'\boldsymbol{R}_{t+1}^{-1},$$
+para todo $t$. Então, para qualquer $k=0,\ldots,t$, 
+$$\begin{align}
+			\boldsymbol{\theta}_{t-k}|D_t\sim\hbox{Normal}(\boldsymbol{a}_t(-k),\boldsymbol{R}_{t}(-k)),
+		\end{align}$$
+		onde:
+		$$\begin{align}
+			\boldsymbol{a}_t(-k)&=\boldsymbol{m}_{t-k} + \boldsymbol{B}_{t-k}\left[\boldsymbol{a}_t(-k+1)-\boldsymbol{a}_{t-k+1}\right]\\
+			\boldsymbol{R}_t(-k)&=\boldsymbol{C}_{t-k} - \boldsymbol{B}_{t-k}\left[\boldsymbol{R}_{t-k+1}-\boldsymbol{R}_t(-k+1)\right]\boldsymbol{B}_{t-k}',
+		\end{align}$$
+com $\boldsymbol{a}_t(0)=\boldsymbol{m}_t$ e $\boldsymbol{R}_{t}(0)=\boldsymbol{C}_t.$
+:::
+
+**Demonstração:**  Note que o resultado é válido para $k=0$, o que sugere uma demonstração por indução. Suponha que para $k-1$ é verdade que
+$$\begin{align*}
+		\boldsymbol{\theta}_{t-k+1}|D_t\sim\hbox{Normal}(\boldsymbol{a}_t(-k+1),\boldsymbol{R}_{t}(-k+1)),
+	\end{align*}$$
+para algum vetor $\boldsymbol{a}_t(-k+1)$ e matriz $\boldsymbol{R}_t(-k+1)$. Agora, note que
+$$\begin{align*}
+		&f(\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_t)\propto f(\boldsymbol{y}_1,\ldots,\boldsymbol{y}_t,\boldsymbol{\theta}_{t-k},\boldsymbol{\theta}_{t-k+1})\\
+		&=f(D_{t-k},\boldsymbol{y}_{t-k+1},\ldots,\boldsymbol{y}_t,\boldsymbol{\theta}_{t-k},\boldsymbol{\theta}_{t-k+1})\\
+		&=f(\boldsymbol{y}_t,\ldots,\boldsymbol{y}_{t-k+1}|\boldsymbol{\theta}_{t-k},\boldsymbol{\theta}_{t-k+1},D_{t-k})f(\boldsymbol{\theta}_{t-k},\boldsymbol{\theta}_{t-k+1},D_{t-k})\\
+		&\propto f(\boldsymbol{y}_t,\ldots,\boldsymbol{y}_{t-k+1}|\boldsymbol{\theta}_{t-k},\boldsymbol{\theta}_{t-k+1},D_{t-k})f(\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_{t-k}).
+	\end{align*}$$
+Contudo, dado $\boldsymbol{\theta}_{t-k+1}$ o vetor $\{\boldsymbol{y}_t,\ldots,\boldsymbol{y}_{t-k+1}\}$ é independente de $\boldsymbol{\theta}_{t-k}$. Então,
+$$\begin{align*}
+		&f(\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_t)\propto  \\ &f(\boldsymbol{y}_t,\ldots,\boldsymbol{y}_{t-k+1}|\boldsymbol{\theta}_{t-k+1},D_{t-k})f(\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_{t-k})\\
+		&\propto f(\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_{t-k}).
+	\end{align*}$$
+Portanto, dado $\boldsymbol{\theta}_{t-k+1}$, o vetor $\boldsymbol{\theta}_{t-k}$ é independente de $\{\boldsymbol{y}_t,\ldots,\boldsymbol{y}_{t-k+1}\}$. 
+Agora, note que
+$$\begin{align*}
+		\boldsymbol{\theta}_{t-k}|D_{t-k} &\sim \hbox{Normal}\left( \boldsymbol{m}_{t-k},\boldsymbol{C}_{t-k}\right)\\
+		\boldsymbol{\theta}_{t-k+1}|\boldsymbol{\theta}_{t-k},D_{t-k} &\sim \hbox{Normal}\left( \boldsymbol{G}_{t-k+1}\boldsymbol{\theta}_{t-k},\boldsymbol{W}_{t-k+1}\right).
+	\end{align*}$$
+
+Portanto, pelo lema da reconstrução,
+$$\begin{align*}
+		\left(\left.\begin{array}{c}
+			\boldsymbol{\theta}_{t-k} \\
+			\boldsymbol{\theta}_{t-k+1}
+		\end{array}\right| D_{t-k}\right)\sim N\left[\left(\begin{array}{c}\boldsymbol{m}_{t-k}\\ \boldsymbol{a}_{t-k+1}\end{array}\right),\left(\begin{array}{cc}
+			\boldsymbol{C}_{t-k} & \boldsymbol{C}_{t-k}\boldsymbol{G}_{t-k+1}' \\
+			\boldsymbol{G}_{t-k+1}\boldsymbol{C}_{t-k}& \boldsymbol{R}_{t-k+1}
+		\end{array}\right)\right]
+	\end{align*}$$
+e, pelo lema da condicional,
+$$\begin{align*}
+		\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_{t-k}\sim\hbox{Normal}(\boldsymbol{h}_t(k),\boldsymbol{H}_t(k)),
+	\end{align*}$$
+onde
+$$\begin{align*}
+		\boldsymbol{B}_{t-k}&=\boldsymbol{C}_{t-k}\boldsymbol{G}_{t-k+1}'\boldsymbol{R}_{t-k+1}^{-1}\\
+		\boldsymbol{h}_t(k)&=\boldsymbol{m}_{t-k} + \boldsymbol{B}_{t-k}(\boldsymbol{\theta}_{t-k+1}-\boldsymbol{a}_{t-k+1})\\
+		\boldsymbol{H}_t(k)&=\boldsymbol{C}_{t-k} - \boldsymbol{B}_{t-k}\boldsymbol{R}_{t-k+1}^{-1}\boldsymbol{B}_{t-k}'.
+	\end{align*}$$
+	
+
+Por último, como 
+$$\begin{align*}
+		\boldsymbol{\theta}_{t-k}|\boldsymbol{\theta}_{t-k+1},D_{t}&\sim\hbox{Normal}(\boldsymbol{h}_t(k),\boldsymbol{H}_t(k))\\
+		\boldsymbol{\theta}_{t-k+1}|D_{t}&\sim\hbox{Normal}(\boldsymbol{a}_t(-k+1),\boldsymbol{R}_t(-k+1)),
+	\end{align*}$$
+podemos utilizar o lema da reconstrução e concluir que 
+$$\begin{align*}
+		\boldsymbol{\theta}_{t-k}|D_t&\sim\hbox{Normal}(\boldsymbol{a}_t(k),\boldsymbol{R}_t(k)),
+	\end{align*}$$
+onde
+$$\begin{align*}
+		\boldsymbol{a}_t(-k)&=\boldsymbol{m}_{t-k} + \boldsymbol{B}_{t-k}\left[\boldsymbol{a}_t(-k+1)-\boldsymbol{a}_{t-k+1}\right]\\
+		\boldsymbol{R}_t(-k)&=\boldsymbol{C}_{t-k} - \boldsymbol{B}_{t-k}\left[\boldsymbol{R}_{t-k+1}-\boldsymbol{R}_t(-k+1)\right]\boldsymbol{B}_{t-k}'.
+	\end{align*}$$
+
+
+## Forward filtering backward sampling  (FFBS)
+
+Considere que o modelo $M_i:\{\boldsymbol{F},\boldsymbol{G},\boldsymbol{V},\boldsymbol{W} \}_t$ possui alguma componente desconhecida na quádrupla. Denomine essa componente por $\boldsymbol{\alpha}_t$.
+	
+Podemos estimar essas componentes por simulação, utilizando algoritmos do tipo MCMC. Em particular, um amostrador de Gibbs pode ser implementado com as seguintes condicionais completas:
+$$	\begin{align*}
+		\boldsymbol{\alpha}_{1:t}|\boldsymbol{\theta}_{0:t},D_t \\
+		\boldsymbol{\theta}_{0:t}|\boldsymbol{\alpha}_{1:t},D_t.
+	\end{align*}$$
+
+A distribuição de $\boldsymbol{\alpha}_{1:t}|\boldsymbol{\theta}_{0:t},D_t$ depende da componente em questão. Já a simulação de $\boldsymbol{\theta}_{0:t}|\boldsymbol{\alpha}_{1:t},D_t$ pode ser feita através do algoritmo FFBS. Antes de discuti-lo, sabemos que
+$$\begin{align*}
+		f(\boldsymbol{\theta}_{0:t}|\boldsymbol{\alpha}_{1:t},D_t)=f(\theta_t|\boldsymbol{\alpha}_{1:t},D_t)\prod_{j=1}^tf(\boldsymbol{\theta}_j|\boldsymbol{\theta}_{j+1},\ldots,\boldsymbol{\theta}_t,\boldsymbol{\alpha}_{1,t},D_t).
+	\end{align*}$$
+Mas, pela natureza markoviana da equação de evolução, teremos que
+$$\begin{align*}
+	f(\boldsymbol{\theta}_{0:t}|\boldsymbol{\alpha}_{1:t},D_t)=f(\boldsymbol{\theta}_t|\boldsymbol{\alpha}_{1:t},D_t)\prod_{j=1}^tf(\boldsymbol{\theta}_j|\boldsymbol{\theta}_{j+1},D_t).
+\end{align*}$$
+
+Contudo, sabemos que $\boldsymbol{\theta}_t|\boldsymbol{\alpha}_{1:t},D_t\sim\hbox{Normal}(\boldsymbol{m}_t,\boldsymbol{C}_t)$. Sabemos ainda, pela demonstração do Teorema da Suavizaçãoque
+$$\begin{align*}
+	\boldsymbol{\theta}_t|\boldsymbol{\theta}_{t+1},\boldsymbol{\alpha}_{1:t},D_t \sim \hbox{Normal}(\boldsymbol{h}_t,\boldsymbol{H}_t),
+\end{align*}$$
+onde
+$$\begin{align*}
+	\boldsymbol{B}_t &= \boldsymbol{C}_t\boldsymbol{G}'_{t+1}\boldsymbol{R}_{t+1}^{-1}\\
+	\boldsymbol{h}_t &= \boldsymbol{m}_t + \boldsymbol{B}_t(\boldsymbol{\theta}_{t+1}-\boldsymbol{a}_t+1)\\
+	\boldsymbol{H}_t &= \boldsymbol{C}_t + \boldsymbol{B}_t\boldsymbol{R}_{t+1}^{-1}\boldsymbol{B}_t'
+\end{align*}$$
+
+Podemos então formalizar o algoritmo FFBS. Para a $i$-ésima iteração do MCMC a amostra $\boldsymbol{\theta}_{0:t}^{(i)}$ condicionada a $\boldsymbol{\alpha}_{1:t}$ é simulada a partir dos seguintes passos:
+
+1. Encontre $\boldsymbol{m}_t,\boldsymbol{C}_t$,$\boldsymbol{a}_t$ e $\boldsymbol{R}_t$ pelo filtro de Kalman.
+2. Para o tempo $j=t$, simule $\boldsymbol{\theta}_t^{(i)}\sim\hbox{Normal}(\boldsymbol{m}_t,\boldsymbol{C}_t)$.
+3. Para o tempo $j$, com $j=t-1,\ldots,0$ simule $\boldsymbol{\theta}_j^{(i)}\sim\hbox{Normal}(\boldsymbol{h}_j,\boldsymbol{H}_j)$.
+
+## Previsão
+
+Para os modelos lineares dinâmicos, temos duas distribuições para previsões:
+
+$$\begin{align*}
+	\bm{\theta}_{t+h}|y_{1:t}\\
+	y_{t+h}|y_{1:t}
+\end{align*}$$
+
+O Teorema abaixo mostra que estas distribuições também são normais. 
+	
+::: {#thm- .alert .alert-success}
+		Para um MLD,
+		\begin{itemize}
+			\item $\bm{\theta}_{t+h}|y_{1:t}\sim\hbox{Normal}(\bm{a}_t(h),\bm{R}_t(h))$
+			\item $y_{t+h}|y_{1:t}\sim\hbox{Normal}(f_t(h),Q_t(h))$
+		\end{itemize}		
+		onde
+		\begin{align*}
+			\bm{a}_t(h)&=\bm{G}_{t+h}\bm{a}_t(h-1)\\ 
+			\bm{R}_t(h)&=\bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h}\\  
+			f_t(h)&=\bm{F}_{t+h}'\bm{a}_t(h) \\
+			Q_t(h)&=\bm{F}_{t+h}'\bm{R}_t(h)\bm{F}_{t+h}+V_{t+h}
+		\end{align*}
+		com $\bm{a}_t(0)=\bm{m}_t$ e $\bm{R}_t(0)=\bm{C}_t$.
+:::
+
+**Demonstração:** Sabemos que 
+	$$\bm{\theta}_{t+1}|D_t\sim\hbox{Normal}(\bm{a}_t(1),\bm{R}_t(1)),$$
+	onde
+$$	\begin{align*}
+		\bm{a}_t(1)&=\bm{G}_{t+1}\bm{m}_t\\
+		\bm{R}_t(1)&=\bm{G}_{t+1}\bm{C}_{t}\bm{G}_{t+1}'+\bm{W}_{t+1}.
+	\end{align*}$$
+
+Suponha que para $h-1\geq 0$ arbitrário é válido  
+	$$\bm{\theta}_{t+h-1}|D_t\sim\hbox{Normal}(\bm{a}_t(h-1),\bm{R}_t(h-1)).$$	
+	Como
+	$$\bm{\theta}_{t+h}|\bm{\theta}_{t+h-1}\sim\hbox{Normal}(\bm{G}_{t+h}\bm{\theta}_{t+h-1},\bm{W}_{t+h}),$$
+	pelo lema da reconstrução da conjunta, teremos 
+$$\begin{align*}
+			\left(\left.\begin{array}{c}
+				\bm{\theta}_{t+h} \\ 
+				\bm{\theta}_{t+h-1} 
+			\end{array}\right| D_t\right)\sim\left[\left(\begin{array}{c}
+				\bm{G}_{t+h}\bm{a}_t(h-1) \\ \bm{a}_t(h-1)
+			\end{array}\right),\left(\begin{array}{cc}
+				\bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h} & \bm{G}_{t+h}\bm{R}_t(h-1) \\
+				\bm{R}_t(h-1)\bm{G}_{t+h}' & \bm{R}_t(h-1)
+			\end{array}\right)\right].
+	\end{align*}$$
+Fazendo
+$$\begin{align*}
+		\bm{a}_t(h)&=\bm{G}_{t+h}\bm{a}_t(h-1)\\ 
+		\bm{R}_t(h)&=\bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h}\end{align*}$$
+	demonstramos $a)$ por indução.
+
+Para mostrar $b)$, lembremos que a partir da equação das observações, 
+	$$\bm{y}_{t+h}|\bm{\theta}_{t+h},D_t\sim\hbox{Normal}(\bm{F}_{t+h}'\bm{\theta}_{t+h},\bm{V}_{t+h}).$$
+	Além disso, mostramos que $\bm{\theta}_{t+h}|D_t\sim\hbox{Normal}(\bm{a}_t(h),bm{R}_t(h))$
+	logo, pelo lema da reconstrução da conjunta
+$$\begin{align*}
+		\left(\left.\begin{array}{c}
+			\bm{y}_{t+h} \\ 
+			\bm{\theta}_{t+h} 
+		\end{array}\right|D_t\right)\sim\left[\left(\begin{array}{c}
+			\bm{f}_t(h) \\ \bm{a}_t(h)
+		\end{array}\right),\left(\begin{array}{cc}
+			\bm{Q}_{t}(h) & \bm{F}_{t+h}'\bm{R}_t(h) \\
+			\bm{R}_t(h)\bm{F}_{t+h} & \bm{R}_t(h)
+		\end{array}\right)\right].
+	\end{align*}$$
+
+
+::: {#thm- .alert .alert-success} 
+Para o MLD $\{\bm{F},\bm{G},\bm{V},\bm{W}\}$,
+$$		\begin{align}
+			\bm{f}_t(h)&=\bm{F}'\bm{G}^{h}\bm{m}_t,\\
+			\bm{Q}_t(h)&=\bm{F}'\bm{G}^h\bm{C}_t\bm{G}^{'h}\bm{F}+ \sum_{j=0}^{h-1}\bm{F}'\bm{G}^{j}\bm{W}_{t+h-j}\bm{G}^{'j}\bm{F}+\bm{V}.
+		\end{align}$$
+:::
+

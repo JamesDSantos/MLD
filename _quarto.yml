@@ -12,7 +12,8 @@ book:
     - estacionaria.qmd
     - sinal.qmd
     - modelo_linear.qmd
-    - mld.qmd
+    - mld_filtro.qmd
+    - polinomial.qmd
     - references.qmd
 
 bibliography: references.bib
