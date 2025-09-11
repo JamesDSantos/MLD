@@ -1,0 +1,172 @@
+# Modelos lineares dinâmicos sazonais
+
+## Modelos tradicionais no domnínio da frequência
+
+Dizemos que a função real $g(.)$ é periódica, com período $p> 1$, se
+
+$$\begin{equation}
+        g(t)=g(t+kp),
+    \end{equation}$$ para todos os inteiros $k,t\geq 0$
+
+::: {#exm- .alert .alert-info}
+**Função periódica.** A função
+
+$$\begin{align}
+        g(t)= \left\{\begin{array}{ll}
+            -1,&\;\;t=1,4,7,\ldots \\
+            0,&\;\;t=2,5,8,\ldots \\
+            1,&\;\;t=3,6,9,\ldots
+        \end{array}
+        \right.
+    \end{align}$$ é periódica com $p=3$.
+:::
+
+Pela definição, $p$ é interpretado como o tempo necessário para que o padrão recomece. Para qualquer $g(.)$ periódica e $h\geq 0$, $$\begin{equation}
+        \sum_{j=0}^{p-1}g(j+h) = c
+    \end{equation}$$ onde $$\begin{equation}
+        c=\sum_{j=0}^{p-1}g(j),
+    \end{equation}$$ Portanto, para qualquer série $\{y_t\}$ podemos ter o análogo $z_t=y_t-c$ e assumir sem perda de generalidade que $$\begin{equation}
+        \sum_{j=0}^{p-1}g(j+h) = 0.
+    \end{equation}$$
+
+### O modelo de fatores sazonais
+
+Considere uma série temporal com a seguinte estrutura: $$\begin{equation}
+        y_t = g(t)+\varepsilon_t,
+    \end{equation}$$ onde $g(.)$ é uma função periódica de período $p$ e $\varepsilon_t\sim \hbox{Normal}(0,\nu)$. Definimos um fator sazonal por $$\begin{eqnarray}
+        \psi_j = g(j),\;\;j=0,\ldots,p-1,
+    \end{eqnarray}$$ onde $\psi_{p-1}=-\sum_{j=0}^{p-2}\psi_j$. A função de verossimilhança é $$\begin{equation}
+        f(y_1,\ldots,y_n|\boldsymbol{\psi},\nu)=\left(\frac{1}{2\pi\nu}\right)^{\frac{n}{2}}\exp\left\{-\frac{1}{2\nu}(\boldsymbol{y-\boldsymbol{F}\boldsymbol{\psi}})'(\boldsymbol{y-\boldsymbol{F}\boldsymbol{\psi}})\right\}
+    \end{equation}$$ onde $\boldsymbol{F}$ é a matriz que indica os fatores sazonais para cada tempo $t$. Portanto, a análise deste modelo é a mesma de uma ANOVA com um fator. \\end{frame}
+
+### O modelo de regressão harmônica
+
+O harmônico 1 é definido por $$\begin{equation}
+        g(t) = A\cos( 2\pi \omega t + \phi),
+    \end{equation}$$ onde $\omega = 1/p$ representa a frequência (número de ciclos por unidade de tempo). $A$ e $\phi$ são denominados amplitude e fase. É trivial mostrar que $$\begin{equation}
+        g(t) = \underbrace{\left( \cos(2\pi \omega t) \;\; \sin(2\pi\omega t)\right)}_{\textbf{F}_t'}\underbrace{\left(\begin{array}{c}
+                \beta_1 \\ \beta_2 
+            \end{array}\right)}_{\boldsymbol{\beta}},
+    \end{equation}$$ onde $$\begin{align}
+        \beta_1&= A\cos(\phi) \\
+        \beta_2&=-A\sin(\phi).
+    \end{align}$$
+
+Além disso, sempre é possível obter $(A,\phi)$ a partir de $\boldsymbol{\beta}$. Em particular, $$\begin{equation}
+        A= \sqrt{\beta_1^2 + \beta_2^2}.
+\end{equation}$$ Dado que estamos assumindo que $p$ é conhecido, o modelo linear resultante é denominado regressão harmônica (com um harmônico). É importante ressaltar que o modelo será identificável somente se $\omega< 1/2$. Isto implica que o menor período detectável é 3.
+
+Se $p$ for desconhecido existem duas estratégias comuns:
+
+1.  Analisar o periodograma $$\begin{equation}
+             I(\omega)=\frac{n}{2}\hat{A}(\omega)^2,
+         \end{equation}$$ onde $\hat{A}(\omega)$ é a amplitude estimada através dos estimadores de máxima verossimilhança para $\beta_1$ e $\beta_2$. Em geral, observa-se um gráfico de $\{\omega,I(\omega)\}$, com $\omega = (1,\ldots,\lfloor (n-1)/2 \rfloor )/n$. Quanto maior for do valor de $I(\omega')$ maior é a evidências de que $p=1/\omega'$.
+
+2.  Considerar $p$ como um parâmetro desconhecido (o problema pode facilmente ser tratado com um amostrador de Gibbs).
+
+Vamos voltar a assumir que $p$ é conhecido. O harmônico 1 modela um comportamento sazonal que leva $p$ unidades de tempo para completar o padrão sazonal. Entretanto, é possível que existam componentes adicionais no comportamento sazonal com frequências maiores. Considere então as seguintes frequências de Fourrier: $$\begin{equation}
+        \omega_j = \frac{j}{p},\;\;j=1,\ldots,q .
+    \end{equation}$$ onde $q=\lfloor\frac{p}{2}\rfloor$. Definimos o $j$-ésimo harmônico por $$\begin{equation}
+        g_j(t) = \beta_{1,j}\cos(2\pi \omega_j t ) + \beta_{2,j}\sin(2\pi\omega),
+    \end{equation}$$ e o modelo de regressão harmônica é dado por $$\begin{equation}
+        y_t = \sum_{j=1}^q\left[\beta_{1,j}\cos(2\pi \omega_j t ) + \beta_{2,j}\sin(2\pi\omega_j t)\right] + \varepsilon_t
+    \end{equation}$$ onde $\varepsilon_t\sim \hbox{Normal}(0,\nu)$.
+
+## O modelo linear dinâmico de fatores sazonais (forma livre)
+
+Vimos anteriormente que os fatores sazonais são dados por $$\psi_j=g(j),\;\;j=0,\ldots,p-1,$$ onde $g(.)$ é uma função periódica com período $p$. Lembremos ainda que existem apenas $p-1$ fatores, por causa da restrição $$\sum_{j=0}^{p-1}g(j)=0.$$
+
+Para construir um modelo dinâmico que comporte a estrutura de fatores, sem perda de generalidade considere que o tempo $t-1$ é representado pelo fator $0$ e seja $$\boldsymbol{\theta}_{t-1}=\left(\begin{array}{c}
+                          \psi_{0} \\
+                          \psi_{1} \\
+                          \vdots \\
+                          \psi_{p-1}
+                          \end{array}\right)$$
+
+Seja $\boldsymbol{E}'_p=(1,\boldsymbol{0}_{p-1}')$.
+
+Note que $\boldsymbol{E}_{p}'\boldsymbol{\theta}_{t-1}=\psi_0$. Se quisermos que $\boldsymbol{E}_{p}$ seja a primeira componente da quádrupla do MLD, devemos escolher $\boldsymbol{G}_t$ tal que $$\boldsymbol{\theta}_t=\boldsymbol{G}_t\boldsymbol{\theta}_{t-1}=\boldsymbol{G}_t\left(\begin{array}{c}
+        \psi_{0} \\
+        \psi_{1} \\
+        \vdots \\
+        \psi_{p-2}\\
+        \psi_{p-1}
+    \end{array}\right)_{t-1}=\left(\begin{array}{c}
+        \psi_{1} \\
+        \psi_{2} \\
+        \vdots \\
+        \psi_{p-1}\\
+        \psi_{0}
+    \end{array}\right)_t$$
+
+
+Isto pode ser feito utilizando a matriz de permutação 
+
+$$\textbf{P}=\left(\begin{array}{cc}
+    0 & \textbf{I}_{p-1} \\
+    1 & \textbf{0}_{p-1}'
+```
+
+\\end{array}\right).\$\$
+
+O MLD resultante é $\{\boldsymbol{E}_p,\boldsymbol{P},.,\}$ e a função de previsão é dada por
+
+$$f_t(h)=\boldsymbol{E}_p\boldsymbol{P}^h \boldsymbol{m}_t=m_{k,t},$$
+
+onde $$k = (h+p\hbox{ mod }p) +1$$
+
+Como alternativa, podemos utilizar a matriz
+
+$$\boldsymbol{G}=\left(\begin{array}{cc}
+               \textbf{0}_{p-2} & \textbf{I}_{p-2} \\
+               -1 & -\textbf{1}_{p-2}
+               \end{array}\right),$$ que também é uma matriz de permutação, com a restrição de soma nula já incorporada. É essa representação que está implementada no pacote \texttt{dlm}
+
+::: {.alert .alert-info}
+**Temperatura no Castelo de Nottinghan**
+
+Inserir o exemplo aqui
+:::
+
+## O modelo linear dinâmico sazonal com sazonalidade em série de Fourrier
+
+Quando a sazonalidade, de período $p$, pode ser explicada por uma onda, vimos que podemos empregar o uso dos harmônicos: $$g_j(t) = A_j\cos\left(\frac{2\pi j}{p}t + \phi\right)=b_{1,j}\cos\left(\frac{2\pi j}{p}t\right)+b_{2,j}\sin\left(\frac{2\pi j}{p}t\right).$$ onde \$j=0,\ldots,\lceil p/2 \rceil \$. Note que os fatores sazonais podem ser recuperados. Por exemplo, o $i$-ésimo fator sazonal é descrito como
+
+$$\psi_i = \sum_{j=0}^{\lceil p/2 \rceil} g_j(i)=\sum_{j=0}^{\lceil p/2 \rceil}b_{1,j}\cos\left(\frac{2\pi j}{p}i\right)+b_{2,j}\sin\left(\frac{2\pi j}{p}i\right)$$
+
+Definindo o número de harmônicos como $q$, onde $1\leq q \leq \lceil p/2 \rceil$, procuramos por um modelo que satisfaz $$y_t= \sum_{j=1}^q a_{t,j}\cos\left(\frac{2\pi j}{p}t\right)+b_{t,j}\sin\left(\frac{2\pi j}{p}t\right)+\nu_t,$$ ou seja, que tenha as componentes da regressão harmônica dinâmicas.
+
+As amplitudes dinâmicas ($\alpha_{j,t}$) e as fases ($\phi_{j,t}$) podem ser recuperadas usando $$\alpha_{j,t} = \sqrt{a_{j,t}^2+b_{j,t}}^2$$ e $$\phi_{j,t}=\cos^{-1}\left(\frac{a_{j,t}}{\alpha_{j,t}}\right)$$
+
+Para o harmônico $j$, considere a quádrupla $\{\boldsymbol{E}_2,\boldsymbol{G}_j,.,.\}$ onde\
+$$\begin{align*}
+\boldsymbol{G}_{j} = \left(\begin{array}{cc} 
+                   \cos(\gamma_j) & \sin(\gamma_j)\\
+                   -\sin(\gamma_j) & \cos(\gamma_j)
+                   \end{array}\right).
+\end{align*}$$ e $\gamma_j=2\pi j/p$. É sempre verdade que
+
+$$\boldsymbol{G}_{j}^t=\left(\begin{array}{cc} 
+                     \cos(\gamma_jt) & \sin(\gamma_jt)\\
+                     -\sin(\gamma_jt) & \cos(\gamma_jt)
+                     \end{array}\right)$$
+
+Sem perda de generalidade, assuma que $\boldsymbol{W}_t$ é a matriz nula. Então
+
+$$\begin{align*}
+\boldsymbol{\theta}_{t}&= \boldsymbol{G}_j\boldsymbol{\theta}_{t-1}=\cdots = \boldsymbol{G}_j^t\boldsymbol{\theta}_0
+\end{align*}$$ Então, $$\begin{align*}
+y_t&=\boldsymbol{E}_2'\boldsymbol{\theta}_t +\nu_t= \boldsymbol{E}_p'\boldsymbol{G}_j^t\boldsymbol{\theta}_0 +\nu_t\\
+&=\theta_{0,1}\cos(\gamma_j t) + \theta_{0,2}\sin(\gamma_j t)+\nu,
+\end{align*}$$ ou seja, o modelo de regressão harmônica clássico com o $j$-ésimo harmônico. Fazendo $\boldsymbol{W}_t$ diferente da matriz nula, temos que $\boldsymbol{\theta}_t$ são as componentes dinâmicas do modelo de regressão harmônica.
+
+O MLD resultante é dado por $\{\boldsymbol{E}_2,\boldsymbol{G}_{2,j},.,\}$. Entretanto, este modelo compreende apenas o $j$-ésimo harmônico. Considerando então que $y_{i,h}$ segue um MLD $\{\boldsymbol{E}_2,\boldsymbol{G}_{2,h},.,.\}$, onde $h=1,\ldots,q$, podemos aplicar o Teorema da superposição para mostrar que $y_t=\sum_{j=1}^{q}y_{j,t}$ é um MLD com quádrupla $\{\boldsymbol{F},\boldsymbol{G},.,.\}$ onde
+
+$$\boldsymbol{F}=\left(\boldsymbol{E}_2,\ldots,\boldsymbol{E}_2\right)$$ $$\boldsymbol{G}=\hbox{Block diag}\left(\boldsymbol{G}_{2,1},\ldots,\boldsymbol{G}_{2,q}\right).$$
+
+Nota técnica: se $j=p/2$, temos que trocar $\boldsymbol{E}_2'$ por (1,-1).
+
+:::{#exm- .alert .alert-info}
+**Nascimentos em Nova York**
+
+:::

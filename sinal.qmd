@@ -176,7 +176,7 @@ acf(nottem, lag = 36)
 :::
 
 ::: {.alert .alert-warning}
-<strong>Exercício 3</strong> Em 2017, um epidemiologista estava interessado na série de suicídios no Mato Grosso do Sul. O banco de dados utilizado é dado a seguir. Construa uma série mensal e estude seu comportamento
+<strong>Exercício 3</strong> Os dados abaixo representam os óbitod por suicídios no Mato Grosso do Sul. O banco de dados utilizado é dado a seguir. Construa uma série mensal e estude seu comportamento
 
 ```{r}
 url <- 'https://drive.google.com/uc?authuser=0&id=1DMSgrQDl0636Lw0Y0MYJHJrgw_2uXntM&export=download'

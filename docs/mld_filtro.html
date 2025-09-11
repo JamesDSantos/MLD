@@ -179,6 +179,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./mld_sazonal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -371,60 +377,57 @@ f(y_{t+k}|y_{1:t})&amp;=\int  f(y_{t+k}|\boldsymbol{\theta})f(\boldsymbol{\theta
 <h2 data-number="5.6" class="anchored" data-anchor-id="previsão"><span class="header-section-number">5.6</span> Previsão</h2>
 <p>Para os modelos lineares dinâmicos, temos duas distribuições para previsões:</p>
 <p><span class="math display">\[\begin{align*}
-    \bm{\theta}_{t+h}|y_{1:t}\\
+    \boldsymbol{\theta}_{t+h}|y_{1:t}\\
     y_{t+h}|y_{1:t}
 \end{align*}\]</span></p>
 <p>O Teorema abaixo mostra que estas distribuições também são normais.</p>
 <div id="thm-" class="alert alert-success theorem">
-<p><span class="theorem-title"><strong>Theorem 5.2</strong></span> &nbsp;</p>
-<pre><code>    Para um MLD,
-    \begin{itemize}
-        \item $\bm{\theta}_{t+h}|y_{1:t}\sim\hbox{Normal}(\bm{a}_t(h),\bm{R}_t(h))$
-        \item $y_{t+h}|y_{1:t}\sim\hbox{Normal}(f_t(h),Q_t(h))$
-    \end{itemize}       
-    onde
-    \begin{align*}
-        \bm{a}_t(h)&amp;=\bm{G}_{t+h}\bm{a}_t(h-1)\\ 
-        \bm{R}_t(h)&amp;=\bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h}\\  
-        f_t(h)&amp;=\bm{F}_{t+h}'\bm{a}_t(h) \\
-        Q_t(h)&amp;=\bm{F}_{t+h}'\bm{R}_t(h)\bm{F}_{t+h}+V_{t+h}
-    \end{align*}
-    com $\bm{a}_t(0)=\bm{m}_t$ e $\bm{R}_t(0)=\bm{C}_t$.</code></pre>
+<p><span class="theorem-title"><strong>Theorem 5.2</strong></span> Para um MLD,</p>
+<ol type="1">
+<li><p><span class="math inline">\(\boldsymbol{\theta}_{t+h}|y_{1:t}\sim\hbox{Normal}(\boldsymbol{a}_t(h),\boldsymbol{R}_t(h))\)</span></p></li>
+<li><p><span class="math inline">\(y_{t+h}|y_{1:t}\sim\hbox{Normal}(f_t(h),Q_t(h))\)</span></p></li>
+</ol>
+<p>onde <span class="math display">\[\begin{align*}
+            \boldsymbol{a}_t(h)&amp;=\boldsymbol{G}_{t+h}\boldsymbol{a}_t(h-1)\\
+            \boldsymbol{R}_t(h)&amp;=\boldsymbol{G}_{t+h}\boldsymbol{R}_t(h-1)\boldsymbol{G}_{t+h}' +\boldsymbol{W}_{t+h}\\  
+            f_t(h)&amp;=\boldsymbol{F}_{t+h}'\boldsymbol{a}_t(h) \\
+            Q_t(h)&amp;=\boldsymbol{F}_{t+h}'\boldsymbol{R}_t(h)\boldsymbol{F}_{t+h}+V_{t+h}
+        \end{align*}\]</span> com <span class="math inline">\(\boldsymbol{a}_t(0)=\boldsymbol{m}_t\)</span> e <span class="math inline">\(\boldsymbol{R}_t(0)=\boldsymbol{C}_t\)</span>.</p>
 </div>
-<p><strong>Demonstração:</strong> Sabemos que <span class="math display">\[\bm{\theta}_{t+1}|D_t\sim\hbox{Normal}(\bm{a}_t(1),\bm{R}_t(1)),\]</span> onde <span class="math display">\[  \begin{align*}
-        \bm{a}_t(1)&amp;=\bm{G}_{t+1}\bm{m}_t\\
-        \bm{R}_t(1)&amp;=\bm{G}_{t+1}\bm{C}_{t}\bm{G}_{t+1}'+\bm{W}_{t+1}.
+<p><strong>Demonstração:</strong> Sabemos que <span class="math display">\[\boldsymbol{\theta}_{t+1}|D_t\sim\hbox{Normal}(\boldsymbol{a}_t(1),\boldsymbol{R}_t(1)),\]</span> onde <span class="math display">\[  \begin{align*}
+        \boldsymbol{a}_t(1)&amp;=\boldsymbol{G}_{t+1}\boldsymbol{m}_t\\
+        \boldsymbol{R}_t(1)&amp;=\boldsymbol{G}_{t+1}\boldsymbol{C}_{t}\boldsymbol{G}_{t+1}'+\boldsymbol{W}_{t+1}.
     \end{align*}\]</span></p>
 <p>Suponha que para <span class="math inline">\(h-1\geq 0\)</span> arbitrário é válido<br>
-<span class="math display">\[\bm{\theta}_{t+h-1}|D_t\sim\hbox{Normal}(\bm{a}_t(h-1),\bm{R}_t(h-1)).\]</span><br>
-Como <span class="math display">\[\bm{\theta}_{t+h}|\bm{\theta}_{t+h-1}\sim\hbox{Normal}(\bm{G}_{t+h}\bm{\theta}_{t+h-1},\bm{W}_{t+h}),\]</span> pelo lema da reconstrução da conjunta, teremos <span class="math display">\[\begin{align*}
+<span class="math display">\[\boldsymbol{\theta}_{t+h-1}|D_t\sim\hbox{Normal}(\boldsymbol{a}_t(h-1),\boldsymbol{R}_t(h-1)).\]</span><br>
+Como <span class="math display">\[\boldsymbol{\theta}_{t+h}|\boldsymbol{\theta}_{t+h-1}\sim\hbox{Normal}(\boldsymbol{G}_{t+h}\boldsymbol{\theta}_{t+h-1},\boldsymbol{W}_{t+h}),\]</span> pelo lema da reconstrução da conjunta, teremos <span class="math display">\[\begin{align*}
             \left(\left.\begin{array}{c}
-                \bm{\theta}_{t+h} \\
-                \bm{\theta}_{t+h-1}
+                \boldsymbol{\theta}_{t+h} \\
+                \boldsymbol{\theta}_{t+h-1}
             \end{array}\right| D_t\right)\sim\left[\left(\begin{array}{c}
-                \bm{G}_{t+h}\bm{a}_t(h-1) \\ \bm{a}_t(h-1)
+                \boldsymbol{G}_{t+h}\boldsymbol{a}_t(h-1) \\ \boldsymbol{a}_t(h-1)
             \end{array}\right),\left(\begin{array}{cc}
-                \bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h} &amp; \bm{G}_{t+h}\bm{R}_t(h-1) \\
-                \bm{R}_t(h-1)\bm{G}_{t+h}' &amp; \bm{R}_t(h-1)
+                \boldsymbol{G}_{t+h}\boldsymbol{R}_t(h-1)\boldsymbol{G}_{t+h}' +\boldsymbol{W}_{t+h} &amp; \boldsymbol{G}_{t+h}\boldsymbol{R}_t(h-1) \\
+                \boldsymbol{R}_t(h-1)\boldsymbol{G}_{t+h}' &amp; \boldsymbol{R}_t(h-1)
             \end{array}\right)\right].
     \end{align*}\]</span> Fazendo <span class="math display">\[\begin{align*}
-        \bm{a}_t(h)&amp;=\bm{G}_{t+h}\bm{a}_t(h-1)\\
-        \bm{R}_t(h)&amp;=\bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h}\end{align*}\]</span> demonstramos <span class="math inline">\(a)\)</span> por indução.</p>
-<p>Para mostrar <span class="math inline">\(b)\)</span>, lembremos que a partir da equação das observações, <span class="math display">\[\bm{y}_{t+h}|\bm{\theta}_{t+h},D_t\sim\hbox{Normal}(\bm{F}_{t+h}'\bm{\theta}_{t+h},\bm{V}_{t+h}).\]</span> Além disso, mostramos que <span class="math inline">\(\bm{\theta}_{t+h}|D_t\sim\hbox{Normal}(\bm{a}_t(h),bm{R}_t(h))\)</span> logo, pelo lema da reconstrução da conjunta <span class="math display">\[\begin{align*}
+        \boldsymbol{a}_t(h)&amp;=\boldsymbol{G}_{t+h}\boldsymbol{a}_t(h-1)\\
+        \boldsymbol{R}_t(h)&amp;=\boldsymbol{G}_{t+h}\boldsymbol{R}_t(h-1)\boldsymbol{G}_{t+h}' +\boldsymbol{W}_{t+h}\end{align*}\]</span> demonstramos <span class="math inline">\(a)\)</span> por indução.</p>
+<p>Para mostrar <span class="math inline">\(b)\)</span>, lembremos que a partir da equação das observações, <span class="math display">\[\boldsymbol{y}_{t+h}|\boldsymbol{\theta}_{t+h},D_t\sim\hbox{Normal}(\boldsymbol{F}_{t+h}'\boldsymbol{\theta}_{t+h},\boldsymbol{V}_{t+h}).\]</span> Além disso, mostramos que <span class="math inline">\(\boldsymbol{\theta}_{t+h}|D_t\sim\hbox{Normal}(\boldsymbol{a}_t(h),bm{R}_t(h))\)</span> logo, pelo lema da reconstrução da conjunta <span class="math display">\[\begin{align*}
         \left(\left.\begin{array}{c}
-            \bm{y}_{t+h} \\
-            \bm{\theta}_{t+h}
+            \boldsymbol{y}_{t+h} \\
+            \boldsymbol{\theta}_{t+h}
         \end{array}\right|D_t\right)\sim\left[\left(\begin{array}{c}
-            \bm{f}_t(h) \\ \bm{a}_t(h)
+            \boldsymbol{f}_t(h) \\ \boldsymbol{a}_t(h)
         \end{array}\right),\left(\begin{array}{cc}
-            \bm{Q}_{t}(h) &amp; \bm{F}_{t+h}'\bm{R}_t(h) \\
-            \bm{R}_t(h)\bm{F}_{t+h} &amp; \bm{R}_t(h)
+            \boldsymbol{Q}_{t}(h) &amp; \boldsymbol{F}_{t+h}'\boldsymbol{R}_t(h) \\
+            \boldsymbol{R}_t(h)\boldsymbol{F}_{t+h} &amp; \boldsymbol{R}_t(h)
         \end{array}\right)\right].
     \end{align*}\]</span></p>
 <div id="thm-" class="alert alert-success theorem">
-<p><span class="theorem-title"><strong>Theorem 5.3</strong></span> Para o MLD <span class="math inline">\(\{\bm{F},\bm{G},\bm{V},\bm{W}\}\)</span>, <span class="math display">\[      \begin{align}
-            \bm{f}_t(h)&amp;=\bm{F}'\bm{G}^{h}\bm{m}_t,\\
-            \bm{Q}_t(h)&amp;=\bm{F}'\bm{G}^h\bm{C}_t\bm{G}^{'h}\bm{F}+ \sum_{j=0}^{h-1}\bm{F}'\bm{G}^{j}\bm{W}_{t+h-j}\bm{G}^{'j}\bm{F}+\bm{V}.
+<p><span class="theorem-title"><strong>Theorem 5.3</strong></span> Para o MLD <span class="math inline">\(\{\boldsymbol{F},\boldsymbol{G},\boldsymbol{V},\boldsymbol{W}\}\)</span>, <span class="math display">\[      \begin{align}
+            \boldsymbol{f}_t(h)&amp;=\boldsymbol{F}'\boldsymbol{G}^{h}\boldsymbol{m}_t,\\
+            \boldsymbol{Q}_t(h)&amp;=\boldsymbol{F}'\boldsymbol{G}^h\boldsymbol{C}_t\boldsymbol{G}^{'h}\boldsymbol{F}+ \sum_{j=0}^{h-1}\boldsymbol{F}'\boldsymbol{G}^{j}\boldsymbol{W}_{t+h-j}\boldsymbol{G}^{'j}\boldsymbol{F}+\boldsymbol{V}.
         \end{align}\]</span></p>
 </div>
 

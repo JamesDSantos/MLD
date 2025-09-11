@@ -46,10 +46,11 @@ $$\begin{align*}
 		f_t(h)&=(1,0)\left(\begin{array}{cc}1&h \\0&1 \end{array}\right)\boldsymbol{m}_t= m_{1,t}+h m_{2,t},
 	\end{align*}$$
 	
-	Note que $m_{1,t}$ representa o nível da série no tempo $t$, enquanto que $m_{2,t}$ representa a tendência de crescimento/decrescimento.  
+	Note que $m_{1,t}$ representa o nível da série no tempo $t$, enquanto que $m_{2,t}$ representa a inclinação da tendência (crescimento/decrescimento).  
 	
 	
 Para $t$ suficientemente grande, esse modelo converge para o método de Crescimento linear de Holt.
+
 
 
 

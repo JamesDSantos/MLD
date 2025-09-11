@@ -14,6 +14,7 @@ book:
     - modelo_linear.qmd
     - mld_filtro.qmd
     - polinomial.qmd
+    - mld_sazonal.qmd
     - references.qmd
 
 bibliography: references.bib

@@ -254,80 +254,81 @@ Podemos então formalizar o algoritmo FFBS. Para a $i$-ésima iteração do MCMC
 Para os modelos lineares dinâmicos, temos duas distribuições para previsões:
 
 $$\begin{align*}
-	\bm{\theta}_{t+h}|y_{1:t}\\
+	\boldsymbol{\theta}_{t+h}|y_{1:t}\\
 	y_{t+h}|y_{1:t}
 \end{align*}$$
 
 O Teorema abaixo mostra que estas distribuições também são normais. 
 	
 ::: {#thm- .alert .alert-success}
-		Para um MLD,
-		\begin{itemize}
-			\item $\bm{\theta}_{t+h}|y_{1:t}\sim\hbox{Normal}(\bm{a}_t(h),\bm{R}_t(h))$
-			\item $y_{t+h}|y_{1:t}\sim\hbox{Normal}(f_t(h),Q_t(h))$
-		\end{itemize}		
-		onde
-		\begin{align*}
-			\bm{a}_t(h)&=\bm{G}_{t+h}\bm{a}_t(h-1)\\ 
-			\bm{R}_t(h)&=\bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h}\\  
-			f_t(h)&=\bm{F}_{t+h}'\bm{a}_t(h) \\
-			Q_t(h)&=\bm{F}_{t+h}'\bm{R}_t(h)\bm{F}_{t+h}+V_{t+h}
-		\end{align*}
-		com $\bm{a}_t(0)=\bm{m}_t$ e $\bm{R}_t(0)=\bm{C}_t$.
+Para um MLD,
+
+1. $\boldsymbol{\theta}_{t+h}|y_{1:t}\sim\hbox{Normal}(\boldsymbol{a}_t(h),\boldsymbol{R}_t(h))$
+
+2.  $y_{t+h}|y_{1:t}\sim\hbox{Normal}(f_t(h),Q_t(h))$		
+
+onde
+$$\begin{align*}
+			\boldsymbol{a}_t(h)&=\boldsymbol{G}_{t+h}\boldsymbol{a}_t(h-1)\\ 
+			\boldsymbol{R}_t(h)&=\boldsymbol{G}_{t+h}\boldsymbol{R}_t(h-1)\boldsymbol{G}_{t+h}' +\boldsymbol{W}_{t+h}\\  
+			f_t(h)&=\boldsymbol{F}_{t+h}'\boldsymbol{a}_t(h) \\
+			Q_t(h)&=\boldsymbol{F}_{t+h}'\boldsymbol{R}_t(h)\boldsymbol{F}_{t+h}+V_{t+h}
+		\end{align*}$$
+		com $\boldsymbol{a}_t(0)=\boldsymbol{m}_t$ e $\boldsymbol{R}_t(0)=\boldsymbol{C}_t$.
 :::
 
 **Demonstração:** Sabemos que 
-	$$\bm{\theta}_{t+1}|D_t\sim\hbox{Normal}(\bm{a}_t(1),\bm{R}_t(1)),$$
+	$$\boldsymbol{\theta}_{t+1}|D_t\sim\hbox{Normal}(\boldsymbol{a}_t(1),\boldsymbol{R}_t(1)),$$
 	onde
 $$	\begin{align*}
-		\bm{a}_t(1)&=\bm{G}_{t+1}\bm{m}_t\\
-		\bm{R}_t(1)&=\bm{G}_{t+1}\bm{C}_{t}\bm{G}_{t+1}'+\bm{W}_{t+1}.
+		\boldsymbol{a}_t(1)&=\boldsymbol{G}_{t+1}\boldsymbol{m}_t\\
+		\boldsymbol{R}_t(1)&=\boldsymbol{G}_{t+1}\boldsymbol{C}_{t}\boldsymbol{G}_{t+1}'+\boldsymbol{W}_{t+1}.
 	\end{align*}$$
 
 Suponha que para $h-1\geq 0$ arbitrário é válido  
-	$$\bm{\theta}_{t+h-1}|D_t\sim\hbox{Normal}(\bm{a}_t(h-1),\bm{R}_t(h-1)).$$	
+	$$\boldsymbol{\theta}_{t+h-1}|D_t\sim\hbox{Normal}(\boldsymbol{a}_t(h-1),\boldsymbol{R}_t(h-1)).$$	
 	Como
-	$$\bm{\theta}_{t+h}|\bm{\theta}_{t+h-1}\sim\hbox{Normal}(\bm{G}_{t+h}\bm{\theta}_{t+h-1},\bm{W}_{t+h}),$$
+	$$\boldsymbol{\theta}_{t+h}|\boldsymbol{\theta}_{t+h-1}\sim\hbox{Normal}(\boldsymbol{G}_{t+h}\boldsymbol{\theta}_{t+h-1},\boldsymbol{W}_{t+h}),$$
 	pelo lema da reconstrução da conjunta, teremos 
 $$\begin{align*}
 			\left(\left.\begin{array}{c}
-				\bm{\theta}_{t+h} \\ 
-				\bm{\theta}_{t+h-1} 
+				\boldsymbol{\theta}_{t+h} \\ 
+				\boldsymbol{\theta}_{t+h-1} 
 			\end{array}\right| D_t\right)\sim\left[\left(\begin{array}{c}
-				\bm{G}_{t+h}\bm{a}_t(h-1) \\ \bm{a}_t(h-1)
+				\boldsymbol{G}_{t+h}\boldsymbol{a}_t(h-1) \\ \boldsymbol{a}_t(h-1)
 			\end{array}\right),\left(\begin{array}{cc}
-				\bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h} & \bm{G}_{t+h}\bm{R}_t(h-1) \\
-				\bm{R}_t(h-1)\bm{G}_{t+h}' & \bm{R}_t(h-1)
+				\boldsymbol{G}_{t+h}\boldsymbol{R}_t(h-1)\boldsymbol{G}_{t+h}' +\boldsymbol{W}_{t+h} & \boldsymbol{G}_{t+h}\boldsymbol{R}_t(h-1) \\
+				\boldsymbol{R}_t(h-1)\boldsymbol{G}_{t+h}' & \boldsymbol{R}_t(h-1)
 			\end{array}\right)\right].
 	\end{align*}$$
 Fazendo
 $$\begin{align*}
-		\bm{a}_t(h)&=\bm{G}_{t+h}\bm{a}_t(h-1)\\ 
-		\bm{R}_t(h)&=\bm{G}_{t+h}\bm{R}_t(h-1)\bm{G}_{t+h}' +\bm{W}_{t+h}\end{align*}$$
+		\boldsymbol{a}_t(h)&=\boldsymbol{G}_{t+h}\boldsymbol{a}_t(h-1)\\ 
+		\boldsymbol{R}_t(h)&=\boldsymbol{G}_{t+h}\boldsymbol{R}_t(h-1)\boldsymbol{G}_{t+h}' +\boldsymbol{W}_{t+h}\end{align*}$$
 	demonstramos $a)$ por indução.
 
 Para mostrar $b)$, lembremos que a partir da equação das observações, 
-	$$\bm{y}_{t+h}|\bm{\theta}_{t+h},D_t\sim\hbox{Normal}(\bm{F}_{t+h}'\bm{\theta}_{t+h},\bm{V}_{t+h}).$$
-	Além disso, mostramos que $\bm{\theta}_{t+h}|D_t\sim\hbox{Normal}(\bm{a}_t(h),bm{R}_t(h))$
+	$$\boldsymbol{y}_{t+h}|\boldsymbol{\theta}_{t+h},D_t\sim\hbox{Normal}(\boldsymbol{F}_{t+h}'\boldsymbol{\theta}_{t+h},\boldsymbol{V}_{t+h}).$$
+	Além disso, mostramos que $\boldsymbol{\theta}_{t+h}|D_t\sim\hbox{Normal}(\boldsymbol{a}_t(h),bm{R}_t(h))$
 	logo, pelo lema da reconstrução da conjunta
 $$\begin{align*}
 		\left(\left.\begin{array}{c}
-			\bm{y}_{t+h} \\ 
-			\bm{\theta}_{t+h} 
+			\boldsymbol{y}_{t+h} \\ 
+			\boldsymbol{\theta}_{t+h} 
 		\end{array}\right|D_t\right)\sim\left[\left(\begin{array}{c}
-			\bm{f}_t(h) \\ \bm{a}_t(h)
+			\boldsymbol{f}_t(h) \\ \boldsymbol{a}_t(h)
 		\end{array}\right),\left(\begin{array}{cc}
-			\bm{Q}_{t}(h) & \bm{F}_{t+h}'\bm{R}_t(h) \\
-			\bm{R}_t(h)\bm{F}_{t+h} & \bm{R}_t(h)
+			\boldsymbol{Q}_{t}(h) & \boldsymbol{F}_{t+h}'\boldsymbol{R}_t(h) \\
+			\boldsymbol{R}_t(h)\boldsymbol{F}_{t+h} & \boldsymbol{R}_t(h)
 		\end{array}\right)\right].
 	\end{align*}$$
 
 
 ::: {#thm- .alert .alert-success} 
-Para o MLD $\{\bm{F},\bm{G},\bm{V},\bm{W}\}$,
+Para o MLD $\{\boldsymbol{F},\boldsymbol{G},\boldsymbol{V},\boldsymbol{W}\}$,
 $$		\begin{align}
-			\bm{f}_t(h)&=\bm{F}'\bm{G}^{h}\bm{m}_t,\\
-			\bm{Q}_t(h)&=\bm{F}'\bm{G}^h\bm{C}_t\bm{G}^{'h}\bm{F}+ \sum_{j=0}^{h-1}\bm{F}'\bm{G}^{j}\bm{W}_{t+h-j}\bm{G}^{'j}\bm{F}+\bm{V}.
+			\boldsymbol{f}_t(h)&=\boldsymbol{F}'\boldsymbol{G}^{h}\boldsymbol{m}_t,\\
+			\boldsymbol{Q}_t(h)&=\boldsymbol{F}'\boldsymbol{G}^h\boldsymbol{C}_t\boldsymbol{G}^{'h}\boldsymbol{F}+ \sum_{j=0}^{h-1}\boldsymbol{F}'\boldsymbol{G}^{j}\boldsymbol{W}_{t+h-j}\boldsymbol{G}^{'j}\boldsymbol{F}+\boldsymbol{V}.
 		\end{align}$$
 :::
 
