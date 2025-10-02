@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Modelos lineares dinâmicos sazonais – Introdução aos modelos lineares dinâmicos</title>
+<title>6&nbsp; Variâncias desconhecidas: lidando com V_t e W_t – Introdução aos modelos lineares dinâmicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
-<link href="./polinomial.html" rel="prev">
+<link href="./polinomial.html" rel="next">
+<link href="./mld_filtro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -111,7 +111,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mld_sazonal.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./variancias_desconhecidas.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variâncias desconhecidas: lidando com <span class="math inline">\(V_t\)</span> e <span class="math inline">\(W_t\)</span></span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -174,7 +174,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./variancias_desconhecidas.html" class="sidebar-item-text sidebar-link">
+  <a href="./variancias_desconhecidas.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variâncias desconhecidas: lidando com <span class="math inline">\(V_t\)</span> e <span class="math inline">\(W_t\)</span></span></span></a>
   </div>
 </li>
@@ -186,7 +186,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./mld_sazonal.html" class="sidebar-item-text sidebar-link active">
+  <a href="./mld_sazonal.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></span></a>
   </div>
 </li>
@@ -206,13 +206,8 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#modelos-tradicionais-no-domnínio-da-frequência" id="toc-modelos-tradicionais-no-domnínio-da-frequência" class="nav-link active" data-scroll-target="#modelos-tradicionais-no-domnínio-da-frequência"><span class="header-section-number">8.1</span> Modelos tradicionais no domnínio da frequência</a>
-  <ul class="collapse">
-  <li><a href="#o-modelo-de-fatores-sazonais" id="toc-o-modelo-de-fatores-sazonais" class="nav-link" data-scroll-target="#o-modelo-de-fatores-sazonais"><span class="header-section-number">8.1.1</span> O modelo de fatores sazonais</a></li>
-  <li><a href="#o-modelo-de-regressão-harmônica" id="toc-o-modelo-de-regressão-harmônica" class="nav-link" data-scroll-target="#o-modelo-de-regressão-harmônica"><span class="header-section-number">8.1.2</span> O modelo de regressão harmônica</a></li>
-  </ul></li>
-  <li><a href="#o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre" id="toc-o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre" class="nav-link" data-scroll-target="#o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre"><span class="header-section-number">8.2</span> O modelo linear dinâmico de fatores sazonais (forma livre)</a></li>
-  <li><a href="#o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier" id="toc-o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier" class="nav-link" data-scroll-target="#o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier"><span class="header-section-number">8.3</span> O modelo linear dinâmico sazonal com representação em série de Fourrier</a></li>
+  <li><a href="#o-modelo-linear-dinâmico-com-variância-observacional-constante" id="toc-o-modelo-linear-dinâmico-com-variância-observacional-constante" class="nav-link active" data-scroll-target="#o-modelo-linear-dinâmico-com-variância-observacional-constante"><span class="header-section-number">6.1</span> O modelo linear dinâmico com variância observacional constante</a></li>
+  <li><a href="#fatores-de-desconto" id="toc-fatores-de-desconto" class="nav-link" data-scroll-target="#fatores-de-desconto"><span class="header-section-number">6.2</span> Fatores de desconto</a></li>
   </ul>
 </nav>
     </div>
@@ -221,7 +216,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variâncias desconhecidas: lidando com <span class="math inline">\(V_t\)</span> e <span class="math inline">\(W_t\)</span></span></h1>
 </div>
 
 
@@ -238,143 +233,136 @@ window.Quarto = {
 </header>
 
 
-<section id="modelos-tradicionais-no-domnínio-da-frequência" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="modelos-tradicionais-no-domnínio-da-frequência"><span class="header-section-number">8.1</span> Modelos tradicionais no domnínio da frequência</h2>
-<p>Dizemos que a função real <span class="math inline">\(g(.)\)</span> é periódica, com período <span class="math inline">\(p&gt; 1\)</span>, se</p>
-<p><span class="math display">\[\begin{equation}
-        g(t)=g(t+kp),
-    \end{equation}\]</span> para todos os inteiros <span class="math inline">\(k,t\geq 0\)</span></p>
-<div id="exm-" class="alert alert-info theorem example">
-<p><span class="theorem-title"><strong>Example 8.1</strong></span> <strong>Função periódica.</strong> A função</p>
-<p><span class="math display">\[\begin{align}
-        g(t)= \left\{\begin{array}{ll}
-            -1,&amp;\;\;t=1,4,7,\ldots \\
-            0,&amp;\;\;t=2,5,8,\ldots \\
-            1,&amp;\;\;t=3,6,9,\ldots
-        \end{array}
-        \right.
-    \end{align}\]</span> é periódica com <span class="math inline">\(p=3\)</span>.</p>
-</div>
-<p>Pela definição, <span class="math inline">\(p\)</span> é interpretado como o tempo necessário para que o padrão recomece. Para qualquer <span class="math inline">\(g(.)\)</span> periódica e <span class="math inline">\(h\geq 0\)</span>, <span class="math display">\[\begin{equation}
-        \sum_{j=0}^{p-1}g(j+h) = c
-    \end{equation}\]</span> onde <span class="math display">\[\begin{equation}
-        c=\sum_{j=0}^{p-1}g(j),
-    \end{equation}\]</span> Portanto, para qualquer série <span class="math inline">\(\{y_t\}\)</span> podemos ter o análogo <span class="math inline">\(z_t=y_t-c\)</span> e assumir sem perda de generalidade que <span class="math display">\[\begin{equation}
-        \sum_{j=0}^{p-1}g(j+h) = 0.
-    \end{equation}\]</span></p>
-<section id="o-modelo-de-fatores-sazonais" class="level3" data-number="8.1.1">
-<h3 data-number="8.1.1" class="anchored" data-anchor-id="o-modelo-de-fatores-sazonais"><span class="header-section-number">8.1.1</span> O modelo de fatores sazonais</h3>
-<p>Considere uma série temporal com a seguinte estrutura: <span class="math display">\[\begin{equation}
-        y_t = g(t)+\varepsilon_t,
-    \end{equation}\]</span> onde <span class="math inline">\(g(.)\)</span> é uma função periódica de período <span class="math inline">\(p\)</span> e <span class="math inline">\(\varepsilon_t\sim \hbox{Normal}(0,\nu)\)</span>. Definimos um fator sazonal por <span class="math display">\[\begin{eqnarray}
-        \psi_j = g(j),\;\;j=0,\ldots,p-1,
-    \end{eqnarray}\]</span> onde <span class="math inline">\(\psi_{p-1}=-\sum_{j=0}^{p-2}\psi_j\)</span>. A função de verossimilhança é <span class="math display">\[\begin{equation}
-        f(y_1,\ldots,y_n|\boldsymbol{\psi},\nu)=\left(\frac{1}{2\pi\nu}\right)^{\frac{n}{2}}\exp\left\{-\frac{1}{2\nu}(\boldsymbol{y-\boldsymbol{F}\boldsymbol{\psi}})'(\boldsymbol{y-\boldsymbol{F}\boldsymbol{\psi}})\right\}
-    \end{equation}\]</span> onde <span class="math inline">\(\boldsymbol{F}\)</span> é a matriz que indica os fatores sazonais para cada tempo <span class="math inline">\(t\)</span>. Portanto, a análise deste modelo é a mesma de uma ANOVA com um fator. \end{frame}</p>
-</section>
-<section id="o-modelo-de-regressão-harmônica" class="level3" data-number="8.1.2">
-<h3 data-number="8.1.2" class="anchored" data-anchor-id="o-modelo-de-regressão-harmônica"><span class="header-section-number">8.1.2</span> O modelo de regressão harmônica</h3>
-<p>O harmônico 1 é definido por <span class="math display">\[\begin{equation}
-        g(t) = A\cos( 2\pi \omega t + \phi),
-    \end{equation}\]</span> onde <span class="math inline">\(\omega = 1/p\)</span> representa a frequência (número de ciclos por unidade de tempo). <span class="math inline">\(A\)</span> e <span class="math inline">\(\phi\)</span> são denominados amplitude e fase. É trivial mostrar que <span class="math display">\[\begin{equation}
-        g(t) = \underbrace{\left( \cos(2\pi \omega t) \;\; \sin(2\pi\omega t)\right)}_{\textbf{F}_t'}\underbrace{\left(\begin{array}{c}
-                \beta_1 \\ \beta_2
-            \end{array}\right)}_{\boldsymbol{\beta}},
-    \end{equation}\]</span> onde <span class="math display">\[\begin{align}
-        \beta_1&amp;= A\cos(\phi) \\
-        \beta_2&amp;=-A\sin(\phi).
-    \end{align}\]</span></p>
-<p>Além disso, sempre é possível obter <span class="math inline">\((A,\phi)\)</span> a partir de <span class="math inline">\(\boldsymbol{\beta}\)</span>. Em particular, <span class="math display">\[\begin{equation}
-        A= \sqrt{\beta_1^2 + \beta_2^2}.
-\end{equation}\]</span> Dado que estamos assumindo que <span class="math inline">\(p\)</span> é conhecido, o modelo linear resultante é denominado regressão harmônica (com um harmônico). É importante ressaltar que o modelo será identificável somente se <span class="math inline">\(\omega&lt; 1/2\)</span>. Isto implica que o menor período detectável é 3.</p>
-<p>Se <span class="math inline">\(p\)</span> for desconhecido existem duas estratégias comuns:</p>
-<ol type="1">
-<li><p>Analisar o periodograma <span class="math display">\[\begin{equation}
-         I(\omega)=\frac{n}{2}\hat{A}(\omega)^2,
-     \end{equation}\]</span> onde <span class="math inline">\(\hat{A}(\omega)\)</span> é a amplitude estimada através dos estimadores de máxima verossimilhança para <span class="math inline">\(\beta_1\)</span> e <span class="math inline">\(\beta_2\)</span>. Em geral, observa-se um gráfico de <span class="math inline">\(\{\omega,I(\omega)\}\)</span>, com <span class="math inline">\(\omega = (1,\ldots,\lfloor (n-1)/2 \rfloor )/n\)</span>. Quanto maior for do valor de <span class="math inline">\(I(\omega')\)</span> maior é a evidências de que <span class="math inline">\(p=1/\omega'\)</span>.</p></li>
-<li><p>Considerar <span class="math inline">\(p\)</span> como um parâmetro desconhecido (o problema pode facilmente ser tratado com um amostrador de Gibbs).</p></li>
-</ol>
-<p>Vamos voltar a assumir que <span class="math inline">\(p\)</span> é conhecido. O harmônico 1 modela um comportamento sazonal que leva <span class="math inline">\(p\)</span> unidades de tempo para completar o padrão sazonal. Entretanto, é possível que existam componentes adicionais no comportamento sazonal com frequências maiores. Considere então as seguintes frequências de Fourrier: <span class="math display">\[\begin{equation}
-        \omega_j = \frac{j}{p},\;\;j=1,\ldots,q .
-    \end{equation}\]</span> onde <span class="math inline">\(q=\lfloor\frac{p}{2}\rfloor\)</span>. Definimos o <span class="math inline">\(j\)</span>-ésimo harmônico por <span class="math display">\[\begin{equation}
-        g_j(t) = \beta_{1,j}\cos(2\pi \omega_j t ) + \beta_{2,j}\sin(2\pi\omega),
-    \end{equation}\]</span> e o modelo de regressão harmônica é dado por <span class="math display">\[\begin{equation}
-        y_t = \sum_{j=1}^q\left[\beta_{1,j}\cos(2\pi \omega_j t ) + \beta_{2,j}\sin(2\pi\omega_j t)\right] + \varepsilon_t
-    \end{equation}\]</span> onde <span class="math inline">\(\varepsilon_t\sim \hbox{Normal}(0,\nu)\)</span>.</p>
-</section>
-</section>
-<section id="o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre"><span class="header-section-number">8.2</span> O modelo linear dinâmico de fatores sazonais (forma livre)</h2>
-<p>Vimos anteriormente que os fatores sazonais são dados por <span class="math display">\[\psi_j=g(j),\;\;j=0,\ldots,p-1,\]</span> onde <span class="math inline">\(g(.)\)</span> é uma função periódica com período <span class="math inline">\(p\)</span>. Lembremos ainda que existem apenas <span class="math inline">\(p-1\)</span> fatores, por causa da restrição <span class="math display">\[\sum_{j=0}^{p-1}g(j)=0.\]</span></p>
-<p>Para construir um modelo dinâmico que comporte a estrutura de fatores, sem perda de generalidade considere que o tempo <span class="math inline">\(t-1\)</span> é representado pelo fator <span class="math inline">\(0\)</span> e seja <span class="math display">\[\boldsymbol{\theta}_{t-1}=\left(\begin{array}{c}
-                          \psi_{0} \\
-                          \psi_{1} \\
-                          \vdots \\
-                          \psi_{p-1}
-                          \end{array}\right)\]</span></p>
-<p>Seja <span class="math inline">\(\boldsymbol{E}'_p=(1,\boldsymbol{0}_{p-1}')\)</span>.</p>
-<p>Note que <span class="math inline">\(\boldsymbol{E}_{p}'\boldsymbol{\theta}_{t-1}=\psi_0\)</span>. Se quisermos que <span class="math inline">\(\boldsymbol{E}_{p}\)</span> seja a primeira componente da quádrupla do MLD, devemos escolher <span class="math inline">\(\boldsymbol{G}_t\)</span> tal que <span class="math display">\[\boldsymbol{\theta}_t=\boldsymbol{G}_t\boldsymbol{\theta}_{t-1}=\boldsymbol{G}_t\left(\begin{array}{c}
-        \psi_{0} \\
-        \psi_{1} \\
-        \vdots \\
-        \psi_{p-2}\\
-        \psi_{p-1}
-    \end{array}\right)_{t-1}=\left(\begin{array}{c}
-        \psi_{1} \\
-        \psi_{2} \\
-        \vdots \\
-        \psi_{p-1}\\
-        \psi_{0}
-    \end{array}\right)_t\]</span></p>
-<p>Isto pode ser feito utilizando a matriz de permutação</p>
-<p><span class="math display">\[\boldsymbol{P}=\left(\begin{array}{cc}
-    0 &amp; \boldsymbol{I}_{p-1} \\
-    1 &amp; \boldsymbol{0}_{p-1}'
-\end{array}\right).\]</span></p>
-<p>O MLD resultante é <span class="math inline">\(\{\boldsymbol{E}_p,\boldsymbol{P},.,\}\)</span> e a função de previsão é dada por</p>
-<p><span class="math display">\[f_t(h)=\boldsymbol{E}_p\boldsymbol{P}^h \boldsymbol{m}_t=m_{k,t},\]</span></p>
-<p>onde <span class="math display">\[k = (h+p\hbox{ mod }p) +1\]</span></p>
-<p>Como alternativa, podemos utilizar a matriz</p>
-<p><span class="math display">\[\boldsymbol{G}=\left(\begin{array}{cc}
-               \textbf{0}_{p-2} &amp; \textbf{I}_{p-2} \\
-               -1 &amp; -\textbf{1}_{p-2}
-               \end{array}\right),\]</span></p>
-<p>que também é uma matriz de permutação, com a restrição de soma nula já incorporada. É essa representação que está implementada no pacote </p>
-<div class="alert alert-info">
-<p><strong>Temperatura no Castelo de Nottinghan</strong></p>
-<p>Inserir o exemplo aqui</p>
-</div>
-</section>
-<section id="o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier"><span class="header-section-number">8.3</span> O modelo linear dinâmico sazonal com representação em série de Fourrier</h2>
-<p>Quando a sazonalidade, de período <span class="math inline">\(p\)</span>, pode ser explicada por uma onda, vimos que podemos empregar o uso dos harmônicos: <span class="math display">\[g_j(t) = A_j\cos\left(\frac{2\pi j}{p}t + \phi\right)=b_{1,j}\cos\left(\frac{2\pi j}{p}t\right)+b_{2,j}\sin\left(\frac{2\pi j}{p}t\right).\]</span> onde $j=0,,p/2 $. Note que os fatores sazonais podem ser recuperados. Por exemplo, o <span class="math inline">\(i\)</span>-ésimo fator sazonal é descrito como</p>
-<p><span class="math display">\[\psi_i = \sum_{j=0}^{\lceil p/2 \rceil} g_j(i)=\sum_{j=0}^{\lceil p/2 \rceil}b_{1,j}\cos\left(\frac{2\pi j}{p}i\right)+b_{2,j}\sin\left(\frac{2\pi j}{p}i\right)\]</span></p>
-<p>Definindo o número de harmônicos como <span class="math inline">\(q\)</span>, onde <span class="math inline">\(1\leq q \leq \lceil p/2 \rceil\)</span>, procuramos por um modelo que satisfaz <span class="math display">\[y_t= \sum_{j=1}^q a_{t,j}\cos\left(\frac{2\pi j}{p}t\right)+b_{t,j}\sin\left(\frac{2\pi j}{p}t\right)+\nu_t,\]</span> ou seja, que tenha as componentes da regressão harmônica dinâmicas.</p>
-<p>As amplitudes dinâmicas (<span class="math inline">\(\alpha_{j,t}\)</span>) e as fases (<span class="math inline">\(\phi_{j,t}\)</span>) podem ser recuperadas usando <span class="math display">\[\alpha_{j,t} = \sqrt{a_{j,t}^2+b_{j,t}}^2\]</span> e <span class="math display">\[\phi_{j,t}=\cos^{-1}\left(\frac{a_{j,t}}{\alpha_{j,t}}\right)\]</span></p>
-<p>Para o harmônico <span class="math inline">\(j\)</span>, considere a quádrupla <span class="math inline">\(\{\boldsymbol{E}_2,\boldsymbol{G}_j,.,.\}\)</span> onde<br>
-<span class="math display">\[\begin{align*}
-\boldsymbol{G}_{j} = \left(\begin{array}{cc}
-                   \cos(\gamma_j) &amp; \sin(\gamma_j)\\
-                   -\sin(\gamma_j) &amp; \cos(\gamma_j)
-                   \end{array}\right).
-\end{align*}\]</span> e <span class="math inline">\(\gamma_j=2\pi j/p\)</span>. É sempre verdade que</p>
-<p><span class="math display">\[\boldsymbol{G}_{j}^t=\left(\begin{array}{cc}
-                     \cos(\gamma_jt) &amp; \sin(\gamma_jt)\\
-                     -\sin(\gamma_jt) &amp; \cos(\gamma_jt)
-                     \end{array}\right)\]</span></p>
-<p>Sem perda de generalidade, assuma que <span class="math inline">\(\boldsymbol{W}_t\)</span> é a matriz nula. Então</p>
+<section id="o-modelo-linear-dinâmico-com-variância-observacional-constante" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="o-modelo-linear-dinâmico-com-variância-observacional-constante"><span class="header-section-number">6.1</span> O modelo linear dinâmico com variância observacional constante</h2>
+<p>Seja <span class="math inline">\(y_t\)</span> uma série temporal univariada e considere o caso no qual <span class="math inline">\(V_t\)</span> é desconhecida, mas constante, ou seja <span class="math inline">\(V_t=V\)</span> para todo <span class="math inline">\(t\)</span>. Como uma das componentes da quádrupla é desconhecida, o modelo não é mais um MLD. Contudo, ainda podemos definir um MLD condicionado à <span class="math inline">\(V\)</span>. Vamos reparametrizar esse modelo com as seguintes componentes:</p>
+<ul>
+<li>Equações das Observações condicionadas a <span class="math inline">\(V\)</span>:</li>
+</ul>
+<p><span class="math display">\[\boldsymbol{y}_t|\boldsymbol{\theta}_t,V\sim \sim\hbox{Normal}(\boldsymbol{F}_t'\boldsymbol{\theta}_t,V)\]</span></p>
+<ul>
+<li>Equações dos Estados condicionadas a <span class="math inline">\(\boldsymbol{V}\)</span>:</li>
+</ul>
+<p><span class="math display">\[\boldsymbol{\theta}_t|\boldsymbol{\theta}_{t-1},V\sim\hbox{Normal}(\boldsymbol{G}_t\boldsymbol{\theta}_{t},V\boldsymbol{W}_t^\star)\]</span></p>
+<ul>
+<li>Informação inicial: considerando a precisão <span class="math inline">\(\phi=1/V\)</span>,</li>
+</ul>
 <p><span class="math display">\[\begin{align*}
-\boldsymbol{\theta}_{t}&amp;= \boldsymbol{G}_j\boldsymbol{\theta}_{t-1}=\cdots = \boldsymbol{G}_j^t\boldsymbol{\theta}_0
-\end{align*}\]</span> Então, <span class="math display">\[\begin{align*}
-y_t&amp;=\boldsymbol{E}_2'\boldsymbol{\theta}_t +\nu_t= \boldsymbol{E}_p'\boldsymbol{G}_j^t\boldsymbol{\theta}_0 +\nu_t\\
-&amp;=\theta_{0,1}\cos(\gamma_j t) + \theta_{0,2}\sin(\gamma_j t)+\nu,
-\end{align*}\]</span> ou seja, o modelo de regressão harmônica clássico com o <span class="math inline">\(j\)</span>-ésimo harmônico. Fazendo <span class="math inline">\(\boldsymbol{W}_t\)</span> diferente da matriz nula, temos que <span class="math inline">\(\boldsymbol{\theta}_t\)</span> são as componentes dinâmicas do modelo de regressão harmônica.</p>
-<p>O MLD resultante é dado por <span class="math inline">\(\{\boldsymbol{E}_2,\boldsymbol{G}_{2,j},.,\}\)</span>. Entretanto, este modelo compreende apenas o <span class="math inline">\(j\)</span>-ésimo harmônico. Considerando então que <span class="math inline">\(y_{i,h}\)</span> segue um MLD <span class="math inline">\(\{\boldsymbol{E}_2,\boldsymbol{G}_{2,h},.,.\}\)</span>, onde <span class="math inline">\(h=1,\ldots,q\)</span>, podemos aplicar o Teorema da superposição para mostrar que <span class="math inline">\(y_t=\sum_{j=1}^{q}y_{j,t}\)</span> é um MLD com quádrupla <span class="math inline">\(\{\boldsymbol{F},\boldsymbol{G},.,.\}\)</span> onde</p>
-<p><span class="math display">\[\boldsymbol{F}=\left(\boldsymbol{E}_2,\ldots,\boldsymbol{E}_2\right)\]</span> <span class="math display">\[\boldsymbol{G}=\hbox{Block diag}\left(\boldsymbol{G}_{2,1},\ldots,\boldsymbol{G}_{2,q}\right).\]</span></p>
-<p>Nota técnica: se <span class="math inline">\(j=p/2\)</span>, temos que trocar <span class="math inline">\(\boldsymbol{E}_2'\)</span> por (1,-1).</p>
-<div id="exm-" class="alert alert-info theorem example">
-<p><span class="theorem-title"><strong>Example 8.2</strong></span> <strong>Nascimentos em Nova York</strong></p>
+        \boldsymbol{\theta}_0|D_0,V&amp;\sim\hbox{Normal}(\boldsymbol{m}_0,V\boldsymbol{C}_0^\star)\\
+        \phi|D_0 &amp;\sim\hbox{Gama}\left(\frac{n_0}{2},\frac{n_0S_0}{2}\right)
+    \end{align*}\]</span></p>
+<p>Na definição acima, a matriz de covariância da evolução agora é descrita como <span class="math inline">\(V\boldsymbol{W}_t\)</span> e o mesmo acontece com a matriz de covariância de <span class="math inline">\(\theta_0\)</span>. Note que não existem prejuízos nas definições. Por exemplo, fazendo <span class="math inline">\(\boldsymbol{W}_t=V\boldsymbol{W}_t^\star\)</span> nós voltamos ao modelo de evolução usual.</p>
+<p>Os hiper parâmetros da precisão são <span class="math inline">\(n_0/2\)</span> e <span class="math inline">\(n_0s_0/2\)</span>. Teremos <span class="math display">\[E[\phi|y_0]=\frac{1}{s_0}\]</span> onde <span class="math inline">\(S_0\)</span> faz (aproximadamente) o papel de informação a priori sobre a média de <span class="math inline">\(V\)</span>. Além disso, <span class="math display">\[Var[\phi|y_0]=\frac{2}{n_0s_0^2}\]</span> e <span class="math inline">\(n_0\)</span> regula nossa crença em <span class="math inline">\(\phi\)</span>: quanto menor for <span class="math inline">\(n_0\)</span> mais difusa será a distribuição de <span class="math inline">\(\phi\)</span>. Valores típicos para uma priori pouco informativa são <span class="math inline">\(n_0=0,01\)</span> e <span class="math inline">\(s_0=0,01\)</span></p>
+<div class="alert alert-success">
+<p><strong>Proposição.</strong> O MLD condicioando à <span class="math inline">\(V_t=V\)</span> para todo <span class="math inline">\(t\)</span>, possui as seguintes alterações no filtro de Kalman:</p>
+<ol type="1">
+<li><p>Priori para o tempo <span class="math inline">\(t\)</span>:<br>
+<span class="math display">\[\boldsymbol{\theta}_t|D_{t-1},V\sim\hbox{Normal}(\boldsymbol{a}_t,V\boldsymbol{R}_t^\star),\]</span> onde <span class="math display">\[\begin{align}
+\boldsymbol{a}_t&amp;=\boldsymbol{G}_t\boldsymbol{m}_{t-1}\\
+\boldsymbol{R}_t^\star&amp;=\boldsymbol{W}_t^\star+\boldsymbol{G}_t\boldsymbol{C}_{t-1}^\star\boldsymbol{G}_t'.\end{align}\]</span></p></li>
+<li><p>Previsão 1 passo à frente:</p></li>
+</ol>
+<p><span class="math display">\[y_t|D_{t-1},V\sim\hbox{Normal}(f_t,VQ_t^\star)\]</span> onde <span class="math display">\[\begin{align}
+f_t&amp;=\boldsymbol{F}_t\boldsymbol{a}_t\\ Q_t^\star&amp;= 1+\boldsymbol{F}_t'\boldsymbol{R}_t^\star\boldsymbol{F}_t
+\end{align}\]</span></p>
+<ol start="3" type="1">
+<li>Posteriori para o tempo <span class="math inline">\(t\)</span>: <span class="math inline">\(\boldsymbol{\theta}_t|D_t,V\sim\hbox{Normal}(\boldsymbol{m}_t,V\boldsymbol{C}_t^\star)\)</span>, onde</li>
+</ol>
+<p><span class="math display">\[\begin{align*}
+            \boldsymbol{A}_t &amp;= \boldsymbol{R}_t^\star\boldsymbol{F}_t/Q_t^\star\\
+            \boldsymbol{m}_t &amp; =\boldsymbol{a}_t+\boldsymbol{A}_t(y_t-f_t)\\
+            \boldsymbol{C}_t^\star&amp;=\boldsymbol{R}_t^\star-\boldsymbol{A}_t\boldsymbol{A}_t'Q_t^\star
+        \end{align*}\]</span></p>
 </div>
+<p>Observe que a posteriori para <span class="math inline">\(\phi\)</span> no tempo <span class="math inline">\(t\)</span> pode ser facilmente atualizada via conjugação, como mostra o teorema abaixo</p>
+<div id="thm-" class="alert alert-success theorem">
+<p><span class="theorem-title"><strong>Theorem 6.1</strong></span> <strong>Posteriori para <span class="math inline">\(\phi\)</span> no tempo <span class="math inline">\(t\)</span>.</strong> Para cada <span class="math inline">\(t&gt;0\)</span>,</p>
+<p><span class="math display">\[\phi|D_{t}\sim\hbox{Gama}\left(\frac{n_t}{2},\frac{n_ts_t}{2}\right)\]</span> onde</p>
+<p><span class="math display">\[\begin{align}
+    n_t&amp;=n_{t-1}+1\\
+    s_t&amp;=\frac{n_{t-1}}{n_t}s_{t-1}+\frac{(y_t-f_t)^2}{n_tQ_t^\star}\end{align}\]</span></p>
+</div>
+<p><strong>Demonstração.</strong></p>
+<p>Sabemos que <span class="math inline">\(\phi|D_0\sim\hbox{Gama}(n_0/2,n_0s_0/2)\)</span> . Suponha que <span class="math inline">\(\phi|D_{t-1}\sim\hbox{Gama}(n_{t-1}/2,n_{t-1}s_{t-1}/2)\)</span>. Então</p>
+<p><span class="math display">\[\begin{align*}
+        f(\phi|D_{t})&amp;\propto f(D_t,\phi)=f(y_t|\phi,D_{t-1})f(\phi|D_{t-1})\\
+        &amp;\propto \phi^{1/2}\exp\left\{-\frac{\phi}{2Q_t^\star}(y_t-f_t)^2\right\}\times \phi^{n_{t-1}/2-1}\exp\left\{-\frac{n_{t-1}s_{t-1}}{2}\phi\right\}
+        \\
+        &amp;\propto \phi^{\frac{n_{t-1}+1}{2}-1}\exp\left\{-\frac{\phi}{2}\left[\frac{(y_t-f_t)^2}{Q_t^\star}+n_{t-1}s_{t-1}\right]\right\}
+    \end{align*}\]</span></p>
+<p>A demonstração termina fazendo <span class="math inline">\(n_t=n_{t-1}+1\)</span> e fazendo <span class="math display">\[\frac{(y_t-f_t)^2}{Q_t^\star}+n_{t-1}s_{t-1}=n_t\left[\frac{(y_t-f_t)^2}{n_tQ_t^\star}+\frac{n_{t-1}}{n_t}s_{t-1}\right].\]</span> Portanto, <span class="math inline">\(\phi|D_{t}\sim\hbox{Gama}(n_t/2,n_ts_t/2)\)</span>. <span class="math inline">\(\blacksquare\)</span></p>
+<p>Observe pela Proposição 1 que todas as componentes do filtro de Kalman condicionadas à <span class="math inline">\(V\)</span> possuem distribuição normal. Sem perda de generalidade, considere que uma componente em particular, <span class="math inline">\(\boldsymbol{x}\)</span> tem distribuição Normal<span class="math inline">\((\boldsymbol{\mu},V\Sigma)\)</span>. Como <span class="math inline">\(V^{-1}=\phi\sim\hbox{Gama}(n/2,ns/2)\)</span>, teremos</p>
+<p><span class="math display">\[\boldsymbol{x}=\int_0^\infty \phi^{\frac{n-1}{2}}e^{-\frac{\phi}{2}\left[ns +(\boldsymbol{x}-\boldsymbol{\mu})'\Sigma^{-1} (\boldsymbol{x}-\boldsymbol{\mu})\right]}d\phi\propto \left\{1+\frac{1}{n}(\boldsymbol{x}-\boldsymbol{\mu})'(s\Sigma)^{-1} (\boldsymbol{x}-\boldsymbol{\mu})\right\}^{-\frac{n-1}{2}}\]</span> ou seja, <span class="math inline">\(\boldsymbol{x}\sim t_{n}(\boldsymbol{\mu}, s^2\Sigma)\)</span>. Podemos então enunciar a atualização incondicionada à <span class="math inline">\(V\)</span>.</p>
+<div id="thm-" class="alert alert-success theorem">
+<p><span class="theorem-title"><strong>Theorem 6.2</strong></span> <strong>Atualização do MLD incondicionado à <span class="math inline">\(V\)</span>:</strong> Para uma série temporal univariada <span class="math inline">\(y_t\)</span>, seja <span class="math inline">\(\{\boldsymbol{F}_t,\boldsymbol{G}_t,V,V\boldsymbol{W}_t\}\)</span> um MLD com <span class="math inline">\(V^{-1}=\phi|D_0\sim\hbox{Gama}(n_0/2, n_0s_0/2)\)</span>. Então</p>
+<ol type="1">
+<li><p>Priori para o tempo <span class="math inline">\(t\)</span>: <span class="math inline">\(\boldsymbol{\theta}_t|D_{t-1}\sim t_{n_{t-1}}(\boldsymbol{a}_t,s_{t-1}^2\boldsymbol{R}_t),\)</span>$ onde <span class="math display">\[\begin{align}
+\boldsymbol{a}_t&amp;=\boldsymbol{G}_t\boldsymbol{m}_{t-1}\\
+\boldsymbol{R}_t&amp;=s_{t-1}\boldsymbol{R}_{t}^\star\end{align}\]</span>.</p></li>
+<li><p>Previsão um passo à frente: <span class="math inline">\(y_t|D_{t-1}\sim t_{n_{t-1}}(f_t,Q_t),\)</span> onde <span class="math display">\[\begin{align}
+f_t&amp;= \boldsymbol{F}_t'\boldsymbol{a}_t\\
+Q_t&amp;= s_{t-1}Q_t^\star
+\end{align}\]</span> <span class="math inline">\(Q_t=S_{t-1}Q_{t}^\star\)</span>.</p></li>
+<li><p>Posterioris para o tempo <span class="math inline">\(t\)</span>: <span class="math inline">\(\boldsymbol{\theta}_t|D_{t}\sim t_{n_{t}}(\boldsymbol{m}_t,\boldsymbol{C}_t)\)</span> e <span class="math inline">\(\phi|D_t\sim\hbox{Gama}(n_t/2, n_ts_t/2)\)</span>, onde</p></li>
+</ol>
+<p><span class="math display">\[\begin{align}
+\boldsymbol{A}_t&amp;=\boldsymbol{R}_t\boldsymbol{F}_tQ_t^{-1}\\
+\boldsymbol{m}_t&amp;= \boldsymbol{a}_t + \boldsymbol{A}_t( y_t - f_t)\\
+\boldsymbol{C}_t&amp;=s_t\boldsymbol{C}_t^\star=s_t[\boldsymbol{R}_t^\star-\boldsymbol{A}_tQ_t^{\star}\boldsymbol{A}_t']=\frac{s_t}{s_{t-1}}[\boldsymbol{R}_t-\boldsymbol{A}_tQ_t\boldsymbol{A}_t']
+\end{align}\]</span></p>
+</div>
+<p>Observe que resultados análogos podem ser obtidos para a suavização e previsão, como mostram os seguintes teoremas.</p>
+<div id="thm-" class="alert alert-success theorem">
+<p><span class="theorem-title"><strong>Theorem 6.3</strong></span> <strong>Suavização.</strong> Seja <span class="math inline">\(y_t\)</span> um modelo linear dinâmico com quádrupla <span class="math inline">\(\{\boldsymbol{F}_t,\boldsymbol{G}_t,V,V\boldsymbol{W}_t\}\)</span>, com <span class="math inline">\(V^{-1}=\phi|D_0\sim\hbox{Gama}(n_0/2,n_0s_0/2)\)</span>. Então para o modelo condicionado à <span class="math inline">\(V\)</span>, teremos que, para qualquer <span class="math inline">\(k=0,\ldots,t\)</span>:</p>
+<p><span class="math display">\[\boldsymbol{\theta}_{t-k}|V,D_t\sim\hbox{Normal}(\boldsymbol{a}_t(-k),V\boldsymbol{R}_t^\star(-k)),\]</span> onde <span class="math display">\[\begin{align}
+\boldsymbol{B}_t&amp;=\boldsymbol{C_t}^\star\boldsymbol{G}_{t+1}'\boldsymbol{R}_{t+1}^{\star'}\\
+\boldsymbol{a}_t(-k)&amp;=\boldsymbol{m}_{t-k}+\boldsymbol{B}_{t-k}[\boldsymbol{a}_t(-k+1)-\boldsymbol{a}_{t-k+1}]\\
+\boldsymbol{R}_t^{\star}(-k)&amp;=\boldsymbol{C}_{t-k}^{\star}-\boldsymbol{B}_{t-k}[\boldsymbol{R}_{t-k+1}^{\star}-\boldsymbol{R}_t^{\star}(-k+1)]\boldsymbol{B_{t-k}}'
+\end{align}\]</span> enquanto que o modelo incondicional à <span class="math inline">\(V\)</span> é dado por</p>
+<p><span class="math display">\[\boldsymbol{\theta}_{t-k}|D_t\sim\hbox{t}_{n_t}(\boldsymbol{a}_t(-k),\boldsymbol{R}_t(-k)),\]</span> onde <span class="math display">\[\begin{align}
+\boldsymbol{R}_t(-k)&amp;=s_t \boldsymbol{R}_t^{\star}(-k)
+\end{align}\]</span></p>
+</div>
+<div id="thm-" class="alert alert-success theorem">
+<p><span class="theorem-title"><strong>Theorem 6.4</strong></span> <strong>Previsão.</strong> Seja <span class="math inline">\(y_t\)</span> um modelo linear dinâmico com quádrupla <span class="math inline">\(\{\boldsymbol{F}_t,\boldsymbol{G}_t,V,V\boldsymbol{W}_t\}\)</span>, com <span class="math inline">\(V^{-1}=\phi|D_0\sim\hbox{Gama}(n_0/2,n_0s_0/2)\)</span>. Então para o modelo condicionado à <span class="math inline">\(V\)</span>, teremos que, para qualquer <span class="math inline">\(h&gt;0\)</span>:</p>
+<ol type="1">
+<li><span class="math inline">\(\boldsymbol{\theta}_{t+h}|V,D_t\sim\hbox{Normal}(\boldsymbol{a}_t(h),V\boldsymbol{R}_t^\star(h))\)</span></li>
+<li><span class="math inline">\(y_{t+h}|V,D_t\sim\hbox{Normal}(f_t(h),VQ_t^\star(h))\)</span> onde <span class="math display">\[\begin{align}
+\boldsymbol{a}_t(h)&amp;=\boldsymbol{G}_{t+h}\boldsymbol{a}_{t}(h-1)\\
+f_t(h)&amp;=\boldsymbol{F}'_{t+h}\boldsymbol{a}_{t}(h)\\
+\boldsymbol{R}_t^{\star}(h)&amp;=\boldsymbol{G}_{t+h}\boldsymbol{R}_{t}^\star(h-1)\boldsymbol{G}_{t+h}'+\boldsymbol{W}_{t-k}\\
+Q_t^\star(h)&amp;=\boldsymbol{F}_{t+h}'\boldsymbol{R}_{t}^\star(h)\boldsymbol{F}_{t+h}+1
+\end{align}\]</span> enquanto que o modelo incondicional à <span class="math inline">\(V\)</span> é dado por</li>
+</ol>
+<p><span class="math display">\[y_{t+h}|D_t\sim\hbox{t}_{n_t}({f}_t(h),Q_t(h)),\]</span> onde <span class="math display">\[\begin{align}
+Q_t(h)&amp;=s_t Q_t^{\star}(h).
+\end{align}\]</span></p>
+</div>
+</section>
+<section id="fatores-de-desconto" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="fatores-de-desconto"><span class="header-section-number">6.2</span> Fatores de desconto</h2>
+<p>Nessa seção lidaremos com a variância <span class="math inline">\(\boldsymbol{W}_t\)</span> desconhecida. Por motivação, considere o modelo <span class="math inline">\(\{1,1,V_t,W_t\}\)</span>. Neste caso, teremos <span class="math display">\[\begin{align*}
+    R_t &amp;= Var(\theta_t|D_{t-1})\\
+    &amp;= E(Var(\theta_t|\theta_{t-1})) + Var(E(\theta_t|\theta_{t-1}))\\
+    &amp;= W_t + C_{t-1}
+\end{align*}\]</span></p>
+<p>Assim, <span class="math inline">\(W_t\)</span> representa o aumento da incerteza sobre <span class="math inline">\(\theta_{t}\)</span> entre a informação no tempo <span class="math inline">\(t-1\)</span> e a priori no tempo <span class="math inline">\(t\)</span>. Como <span class="math inline">\(W_t\geq0\)</span>, existe <span class="math inline">\(\alpha_t\geq1\)</span> tal que <span class="math display">\[R_t=\alpha_t C_{t-1}.\]</span></p>
+<p>Assuma que <span class="math inline">\(\alpha_t=\alpha\)</span> é constante para todo <span class="math inline">\(t\)</span>. Podemos então determinar a variação da informação sobre <span class="math inline">\(\theta_{t}\)</span> entre a a posteriori no tempo <span class="math inline">\(t-1\)</span> e priori no tempo <span class="math inline">\(t\)</span> a partir da razão <span class="math display">\[\frac{C_{t-1}}{R_t}=\frac{1}{\alpha}:=\delta.\]</span> A quantidade <span class="math inline">\(\delta\in(0,1]\)</span> é denominada .</p>
+<p>De modo geral, um fator de descontos é interpretado como a porcentagem (da variação) da informação passada entre <span class="math inline">\(\theta_{t-1}|D_{t-1}\)</span> para <span class="math inline">\(\theta_{t}|D_{t-1}\)</span>. Neste caso, teremos que <span class="math display">\[R_t = \frac{C_{t-1}}{\delta}\]</span> ou ainda, <span class="math display">\[W_t = C_{t-1}\left(\frac{1}{\delta}-1\right)\]</span></p>
+<p>Pela última relação, podemos ver que manter <span class="math inline">\(\delta\approx 1\)</span> faz com que <span class="math inline">\(W_t\approx 0\)</span>, o que é razoável em termos práticos quando o sinal é pouco ruidoso. Podemos notar ainda que, no filtro de Kalman,</p>
+<p><span class="math display">\[A_t= R_tQ_t^{-1}=\left[\frac{C_{t-1}}{\delta}\right]\frac{1}{V_t+C_{t-1}/\delta}=\frac{C_{t-1}}{\delta V_t+C_{t-1}},\]</span></p>
+<p>e, como<br>
+<span class="math display">\[\begin{align*}
+    m_{t+1}&amp;=a_{t}+A_t(y_t-f_t)
+\end{align*}\]</span> logo, fatores de descontos próximos de 0 eliminam o peso de <span class="math inline">\(y_t\)</span> para compor a posteriori.</p>
+<p>No caso geral, para quádrupla <span class="math inline">\(\{\boldsymbol{F}_t,\boldsymbol{G}_t,\boldsymbol{V}_t,\boldsymbol{W}_t\}\)</span>, temos <span class="math display">\[\boldsymbol{R}_t = \boldsymbol{W}_t +\boldsymbol{G}_t\boldsymbol{C}_{t-1}\boldsymbol{G}_t'.\]</span> Podemos utilizar a estratégia de descontos de modo similar ao que foi feito anteriormente: <span class="math display">\[\boldsymbol{R}_t = \frac{1}{\delta}\boldsymbol{G}_t\boldsymbol{C}_{t-1}\boldsymbol{G}_t'.\]</span></p>
+<p>Neste caso, <span class="math display">\[\boldsymbol{W}_t = \left(\frac{1}{\delta}-1\right)\boldsymbol{G}_t\boldsymbol{C}_{t-1}\boldsymbol{G}_t'.\]</span></p>
+<p>Algumas regras práticas:</p>
+<ul>
+<li><p>Estaremos interessados em utilizar fatores de descontos altos, tipicamente dentro do intervalo <span class="math inline">\([0,8;1]\)</span>, para garantir que a informação proveniente dos dados está sendo considerada na composição da posteriori.</p></li>
+<li><p>Em geral, utilizamos um fator de descontos constante para toda a série.</p></li>
+<li><p>Fatores de descontos baixos serão desejados quando houver uma mudança súbita na série - neste caso, ter uma variância inflada e tomar o último valor de <span class="math inline">\(y_t\)</span> como estimativa para o nível é uma boa estratégia para a adaptação rápida do sistema.</p></li>
+</ul>
 
 
 </section>
@@ -781,13 +769,13 @@ y_t&amp;=\boldsymbol{E}_2'\boldsymbol{\theta}_t +\nu_t= \boldsymbol{E}_p'\boldsy
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./polinomial.html" class="pagination-link" aria-label="Modelo linear dinâmico polinomial">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Modelo linear dinâmico polinomial</span></span>
+      <a href="./mld_filtro.html" class="pagination-link" aria-label="O modelo linear dinâmico">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">O modelo linear dinâmico</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./polinomial.html" class="pagination-link" aria-label="Modelo linear dinâmico polinomial">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Modelo linear dinâmico polinomial</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -100,14 +100,12 @@ Note que $\boldsymbol{E}_{p}'\boldsymbol{\theta}_{t-1}=\psi_0$. Se quisermos que
     \end{array}\right)_t$$
 
 
-Isto pode ser feito utilizando a matriz de permutação 
+Isto pode ser feito utilizando a matriz de permutação
 
-$$\textbf{P}=\left(\begin{array}{cc}
-    0 & \textbf{I}_{p-1} \\
-    1 & \textbf{0}_{p-1}'
-```
-
-\\end{array}\right).\$\$
+$$\boldsymbol{P}=\left(\begin{array}{cc}
+    0 & \boldsymbol{I}_{p-1} \\
+    1 & \boldsymbol{0}_{p-1}'
+\end{array}\right).$$
 
 O MLD resultante é $\{\boldsymbol{E}_p,\boldsymbol{P},.,\}$ e a função de previsão é dada por
 
@@ -120,7 +118,9 @@ Como alternativa, podemos utilizar a matriz
 $$\boldsymbol{G}=\left(\begin{array}{cc}
                \textbf{0}_{p-2} & \textbf{I}_{p-2} \\
                -1 & -\textbf{1}_{p-2}
-               \end{array}\right),$$ que também é uma matriz de permutação, com a restrição de soma nula já incorporada. É essa representação que está implementada no pacote \texttt{dlm}
+               \end{array}\right),$$ 
+               
+que também é uma matriz de permutação, com a restrição de soma nula já incorporada. É essa representação que está implementada no pacote \texttt{dlm}
 
 ::: {.alert .alert-info}
 **Temperatura no Castelo de Nottinghan**
@@ -128,7 +128,7 @@ $$\boldsymbol{G}=\left(\begin{array}{cc}
 Inserir o exemplo aqui
 :::
 
-## O modelo linear dinâmico sazonal com sazonalidade em série de Fourrier
+## O modelo linear dinâmico sazonal com representação em série de Fourrier
 
 Quando a sazonalidade, de período $p$, pode ser explicada por uma onda, vimos que podemos empregar o uso dos harmônicos: $$g_j(t) = A_j\cos\left(\frac{2\pi j}{p}t + \phi\right)=b_{1,j}\cos\left(\frac{2\pi j}{p}t\right)+b_{2,j}\sin\left(\frac{2\pi j}{p}t\right).$$ onde \$j=0,\ldots,\lceil p/2 \rceil \$. Note que os fatores sazonais podem ser recuperados. Por exemplo, o $i$-ésimo fator sazonal é descrito como
 

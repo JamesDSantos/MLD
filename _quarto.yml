@@ -13,6 +13,7 @@ book:
     - sinal.qmd
     - modelo_linear.qmd
     - mld_filtro.qmd
+    - variancias_desconhecidas.qmd
     - polinomial.qmd
     - mld_sazonal.qmd
     - references.qmd
