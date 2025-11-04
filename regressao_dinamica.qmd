@@ -1,0 +1,38 @@
+# Regresssão Dinâmica
+
+Para $y_t$, seja $\boldsymbol{F}_t'=(x_{t,1},\ldots,x_{t,q})$ o vetor de variáveis regressoras associadas. Então, o modelo linear dinâmico de regressão múltipla é definido pela quádrupla $\{\boldsymbol{F}_t,\boldsymbol{I}_q,V_t,\boldsymbol{W}_t\}$.
+
+Para cada $t$, as equações do modelo são:
+
+* Equação das observações: $y_t=\boldsymbol{F}_t'\boldsymbol{\theta}_t+v_t$, com $v_t\sim\hbox{Normal}(0,V_t)$
+
+* Equação do sistema: $\boldsymbol{\theta}_t=\boldsymbol{G}_t\boldsymbol{\theta}_{t-1}+\boldsymbol{w}_t$, com $\boldsymbol{w}_t\sim\hbox{Normal}(\boldsymbol{0},\boldsymbol{W}_t)$.
+
+Note que esse modelo é uma generalização do modelo de regressão múltipla, que pode ser obtido fazendo $\boldsymbol{W}_t=\boldsymbol{0}$.
+
+Assim como o modelo de regressão múltipla, sua versão dinâmica permite uma série de modelos particulares, como por exemplo:
+
+1. Regressão simples: nesse caso, $\boldsymbol{F}_t'=(1,x_t)$, implicando nos estados $\boldsymbol{\theta}_t=(\alpha_t,\beta_t)$, com $\alpha_t$ representando um intercepto que se comporta como um MLD polinomial de ordem 1 e um coeficiente de regressão dinâmica representado por $\beta_t$.
+
+2. Regressão múltipla: nesse caso, $\boldsymbol{F}_t'=(1,x_t,z_t)$, implicando nos estados $\boldsymbol{\theta}_t=(\alpha_t,\beta_t,\gamma_t)$, com $\alpha_t$ interpretado como na regressão simples e dois coeficientes de regressão dinâmica $\beta_t$ e $\gamma_t$ associados à regressoras $X$ e $Z$.
+
+3. Variáveis defasadas: é possível que uma variável $X$ possua poder preditivo para o tempo atual quanto para o futuro. Considerando uma defasagem $k$, a média da equação das observações é dada por
+
+$$\mu_t=\boldsymbol{F}_t'\boldsymbol{\theta}_t=\sum_{j=0}^{k}\theta_{t,j+1}x_{t-j}$$
+
+4. Superfícies de resposta dinâmicas: polinômios de ordens maiores podem ser acrescentados, gerando um modelo de superfície de resposta. Por exemplo, o modelo com média da equação das observações
+
+$$\mu_t=\beta_t x_t+\gamma_t z_t$$
+pode ser expandido para incluir os termos quadráticos $x_t^2$ e $z^2_t$ e o produto cruzado $x_t z_t$.
+
+5. Variáveis classificadoras: variáveis classificadoras, ou fatores, podem ser incluídas utilizando variáveis binárias (*dummy*). Tais variáveis podem ser úteis para representar comportamentos atípicos mas esperados, como o volume de vendas em certos feriados para séries temporais diárias ou as falas de um presidente sobre alguma empresa na bolsa de valores e para a análise de intervenção (quando sabemos que a série é afetada por alguma causa nova).
+
+Para os fatores de descontos, é recomendado:
+
+* Utilizar um fator de descontos para cada variável regressora
+
+* Utilizar um único fator de descontos para variáveis com fatores de calssificação.
+
+
+
+

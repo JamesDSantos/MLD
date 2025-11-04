@@ -16,6 +16,8 @@ book:
     - variancias_desconhecidas.qmd
     - polinomial.qmd
     - mld_sazonal.qmd
+    - regressao_dinamica.qmd
+    - intervencao.qmd
     - references.qmd
 
 bibliography: references.bib

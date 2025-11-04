@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Modelos lineares dinâmicos sazonais – Introdução aos modelos lineares dinâmicos</title>
+<title>10&nbsp; Monitoramento e intervenção – Introdução aos modelos lineares dinâmicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./regressao_dinamica.html" rel="next">
-<link href="./polinomial.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./regressao_dinamica.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -111,7 +146,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mld_sazonal.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intervencao.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Monitoramento e intervenção</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -186,7 +221,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./mld_sazonal.html" class="sidebar-item-text sidebar-link active">
+  <a href="./mld_sazonal.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></span></a>
   </div>
 </li>
@@ -198,7 +233,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intervencao.html" class="sidebar-item-text sidebar-link">
+  <a href="./intervencao.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Monitoramento e intervenção</span></span></a>
   </div>
 </li>
@@ -218,13 +253,8 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#modelos-tradicionais-no-domnínio-da-frequência" id="toc-modelos-tradicionais-no-domnínio-da-frequência" class="nav-link active" data-scroll-target="#modelos-tradicionais-no-domnínio-da-frequência"><span class="header-section-number">8.1</span> Modelos tradicionais no domnínio da frequência</a>
-  <ul class="collapse">
-  <li><a href="#o-modelo-de-fatores-sazonais" id="toc-o-modelo-de-fatores-sazonais" class="nav-link" data-scroll-target="#o-modelo-de-fatores-sazonais"><span class="header-section-number">8.1.1</span> O modelo de fatores sazonais</a></li>
-  <li><a href="#o-modelo-de-regressão-harmônica" id="toc-o-modelo-de-regressão-harmônica" class="nav-link" data-scroll-target="#o-modelo-de-regressão-harmônica"><span class="header-section-number">8.1.2</span> O modelo de regressão harmônica</a></li>
-  </ul></li>
-  <li><a href="#o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre" id="toc-o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre" class="nav-link" data-scroll-target="#o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre"><span class="header-section-number">8.2</span> O modelo linear dinâmico de fatores sazonais (forma livre)</a></li>
-  <li><a href="#o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier" id="toc-o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier" class="nav-link" data-scroll-target="#o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier"><span class="header-section-number">8.3</span> O modelo linear dinâmico sazonal com representação em série de Fourrier</a></li>
+  <li><a href="#valores-ausentes-e-outliers" id="toc-valores-ausentes-e-outliers" class="nav-link active" data-scroll-target="#valores-ausentes-e-outliers"><span class="header-section-number">10.1</span> Valores ausentes e outliers</a></li>
+  <li><a href="#monitoramento" id="toc-monitoramento" class="nav-link" data-scroll-target="#monitoramento"><span class="header-section-number">10.2</span> Monitoramento</a></li>
   </ul>
 </nav>
     </div>
@@ -233,7 +263,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Monitoramento e intervenção</span></h1>
 </div>
 
 
@@ -250,143 +280,81 @@ window.Quarto = {
 </header>
 
 
-<section id="modelos-tradicionais-no-domnínio-da-frequência" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="modelos-tradicionais-no-domnínio-da-frequência"><span class="header-section-number">8.1</span> Modelos tradicionais no domnínio da frequência</h2>
-<p>Dizemos que a função real <span class="math inline">\(g(.)\)</span> é periódica, com período <span class="math inline">\(p&gt; 1\)</span>, se</p>
-<p><span class="math display">\[\begin{equation}
-        g(t)=g(t+kp),
-    \end{equation}\]</span> para todos os inteiros <span class="math inline">\(k,t\geq 0\)</span></p>
+<section id="valores-ausentes-e-outliers" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="valores-ausentes-e-outliers"><span class="header-section-number">10.1</span> Valores ausentes e outliers</h2>
+<p>Não é incomum encontrar valores ausentes em séries temporais. Existem diveresas técnicas de imputação, como substituir os valores ausentes por previsões ou por alguma técnica de suavização, como a média dos vizinhos.</p>
+<p>Suponha que a observação <span class="math inline">\(y_t\)</span> está ausente. Em modelos lineares dinâmicos, consideramos simplesmete que não existe informação da amostra no tempo <span class="math inline">\(t\)</span>, logo a posteriori para o tempo <span class="math inline">\(t\)</span> é igual a priori no tempo <span class="math inline">\(t\)</span>, onde seja, <span class="math inline">\(\theta_t|D_t\sim\hbox{Normal}(\boldsymbol{m}_t,\bldsymbol{C}_t)\)</span>, onde <span class="math inline">\(\boldsymbol{m}_t=\boldsymbol{a}_t\)</span> e <span class="math inline">\(\boldsymbol{C}_t=\boldsymbol{R}_t\)</span>.</p>
+<p>Em modelos lineares dinâmicos, um outlier é caracterizado por um valor observado atípico e esporádico. Isso implica que tal valor deve estar na cauda da distribuição <span class="math inline">\(y_t|D_{t-1}\)</span>. Considere o erro de previsão padronizado, dado por</p>
+<p><span class="math display">\[\tilde{e}_t=\frac{y_t-f_t}{\sqrt{Q_t}} \sim\hbox{Normal}(0,1) \]</span> É usual assumir que <span class="math inline">\(y_t\)</span> é um outlier quando <span class="math inline">\(|\tilde{e}_t|&gt;c\)</span>. Escolhendo <span class="math inline">\(c=2,5\)</span>, temos que <span class="math inline">\(P(|\tilde{e}_t|&gt;c)\approx 0,99\)</span>.</p>
+<p>Um outrlier cria um conflito entre fontes de informação. O exemplo abaixo ilustra o conflito entre a priori para o tempo <span class="math inline">\(t\)</span> e a equação das observações, levando a uma posteriori que não faz sentido para as duas fontes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>o <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.new</span>()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.window</span>(<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span><span class="sc">+</span>o),<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,.<span class="dv">6</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x), <span class="at">add =</span> T)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x,o), <span class="at">add =</span> T)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x,o<span class="sc">/</span><span class="dv">2</span>,<span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)), <span class="at">add =</span> T)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> <span class="fu">c</span>(<span class="dv">0</span>,o,o<span class="sc">/</span><span class="dv">2</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="fu">expression</span>(a[t]) ,<span class="fu">expression</span>(y[t]), <span class="fu">expression</span>(m[t])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intervencao_files/figure-html/fig_conflito-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Conflito entre as fontes de informação na presença de um outlier</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Como o outlier é exporádico, uma solução simples, após identificá-lo, é considerar que a informação da amostra é inútil. Desse modo, ele pode ser tratado como um dado ausente.</p>
 <div id="exm-" class="alert alert-info theorem example">
-<p><span class="theorem-title"><strong>Example 8.1</strong></span> <strong>Função periódica.</strong> A função</p>
-<p><span class="math display">\[\begin{align}
-        g(t)= \left\{\begin{array}{ll}
-            -1,&amp;\;\;t=1,4,7,\ldots \\
-            0,&amp;\;\;t=2,5,8,\ldots \\
-            1,&amp;\;\;t=3,6,9,\ldots
-        \end{array}
-        \right.
-    \end{align}\]</span> é periódica com <span class="math inline">\(p=3\)</span>.</p>
-</div>
-<p>Pela definição, <span class="math inline">\(p\)</span> é interpretado como o tempo necessário para que o padrão recomece. Para qualquer <span class="math inline">\(g(.)\)</span> periódica e <span class="math inline">\(h\geq 0\)</span>, <span class="math display">\[\begin{equation}
-        \sum_{j=0}^{p-1}g(j+h) = c
-    \end{equation}\]</span> onde <span class="math display">\[\begin{equation}
-        c=\sum_{j=0}^{p-1}g(j),
-    \end{equation}\]</span> Portanto, para qualquer série <span class="math inline">\(\{y_t\}\)</span> podemos ter o análogo <span class="math inline">\(z_t=y_t-c\)</span> e assumir sem perda de generalidade que <span class="math display">\[\begin{equation}
-        \sum_{j=0}^{p-1}g(j+h) = 0.
-    \end{equation}\]</span></p>
-<section id="o-modelo-de-fatores-sazonais" class="level3" data-number="8.1.1">
-<h3 data-number="8.1.1" class="anchored" data-anchor-id="o-modelo-de-fatores-sazonais"><span class="header-section-number">8.1.1</span> O modelo de fatores sazonais</h3>
-<p>Considere uma série temporal com a seguinte estrutura: <span class="math display">\[\begin{equation}
-        y_t = g(t)+\varepsilon_t,
-    \end{equation}\]</span> onde <span class="math inline">\(g(.)\)</span> é uma função periódica de período <span class="math inline">\(p\)</span> e <span class="math inline">\(\varepsilon_t\sim \hbox{Normal}(0,\nu)\)</span>. Definimos um fator sazonal por <span class="math display">\[\begin{eqnarray}
-        \psi_j = g(j),\;\;j=0,\ldots,p-1,
-    \end{eqnarray}\]</span> onde <span class="math inline">\(\psi_{p-1}=-\sum_{j=0}^{p-2}\psi_j\)</span>. A função de verossimilhança é <span class="math display">\[\begin{equation}
-        f(y_1,\ldots,y_n|\boldsymbol{\psi},\nu)=\left(\frac{1}{2\pi\nu}\right)^{\frac{n}{2}}\exp\left\{-\frac{1}{2\nu}(\boldsymbol{y-\boldsymbol{F}\boldsymbol{\psi}})'(\boldsymbol{y-\boldsymbol{F}\boldsymbol{\psi}})\right\}
-    \end{equation}\]</span> onde <span class="math inline">\(\boldsymbol{F}\)</span> é a matriz que indica os fatores sazonais para cada tempo <span class="math inline">\(t\)</span>. Portanto, a análise deste modelo é a mesma de uma ANOVA com um fator. \end{frame}</p>
-</section>
-<section id="o-modelo-de-regressão-harmônica" class="level3" data-number="8.1.2">
-<h3 data-number="8.1.2" class="anchored" data-anchor-id="o-modelo-de-regressão-harmônica"><span class="header-section-number">8.1.2</span> O modelo de regressão harmônica</h3>
-<p>O harmônico 1 é definido por <span class="math display">\[\begin{equation}
-        g(t) = A\cos( 2\pi \omega t + \phi),
-    \end{equation}\]</span> onde <span class="math inline">\(\omega = 1/p\)</span> representa a frequência (número de ciclos por unidade de tempo). <span class="math inline">\(A\)</span> e <span class="math inline">\(\phi\)</span> são denominados amplitude e fase. É trivial mostrar que <span class="math display">\[\begin{equation}
-        g(t) = \underbrace{\left( \cos(2\pi \omega t) \;\; \sin(2\pi\omega t)\right)}_{\textbf{F}_t'}\underbrace{\left(\begin{array}{c}
-                \beta_1 \\ \beta_2
-            \end{array}\right)}_{\boldsymbol{\beta}},
-    \end{equation}\]</span> onde <span class="math display">\[\begin{align}
-        \beta_1&amp;= A\cos(\phi) \\
-        \beta_2&amp;=-A\sin(\phi).
-    \end{align}\]</span></p>
-<p>Além disso, sempre é possível obter <span class="math inline">\((A,\phi)\)</span> a partir de <span class="math inline">\(\boldsymbol{\beta}\)</span>. Em particular, <span class="math display">\[\begin{equation}
-        A= \sqrt{\beta_1^2 + \beta_2^2}.
-\end{equation}\]</span> Dado que estamos assumindo que <span class="math inline">\(p\)</span> é conhecido, o modelo linear resultante é denominado regressão harmônica (com um harmônico). É importante ressaltar que o modelo será identificável somente se <span class="math inline">\(\omega&lt; 1/2\)</span>. Isto implica que o menor período detectável é 3.</p>
-<p>Se <span class="math inline">\(p\)</span> for desconhecido existem duas estratégias comuns:</p>
-<ol type="1">
-<li><p>Analisar o periodograma <span class="math display">\[\begin{equation}
-         I(\omega)=\frac{n}{2}\hat{A}(\omega)^2,
-     \end{equation}\]</span> onde <span class="math inline">\(\hat{A}(\omega)\)</span> é a amplitude estimada através dos estimadores de máxima verossimilhança para <span class="math inline">\(\beta_1\)</span> e <span class="math inline">\(\beta_2\)</span>. Em geral, observa-se um gráfico de <span class="math inline">\(\{\omega,I(\omega)\}\)</span>, com <span class="math inline">\(\omega = (1,\ldots,\lfloor (n-1)/2 \rfloor )/n\)</span>. Quanto maior for do valor de <span class="math inline">\(I(\omega')\)</span> maior é a evidências de que <span class="math inline">\(p=1/\omega'\)</span>.</p></li>
-<li><p>Considerar <span class="math inline">\(p\)</span> como um parâmetro desconhecido (o problema pode facilmente ser tratado com um amostrador de Gibbs).</p></li>
-</ol>
-<p>Vamos voltar a assumir que <span class="math inline">\(p\)</span> é conhecido. O harmônico 1 modela um comportamento sazonal que leva <span class="math inline">\(p\)</span> unidades de tempo para completar o padrão sazonal. Entretanto, é possível que existam componentes adicionais no comportamento sazonal com frequências maiores. Considere então as seguintes frequências de Fourrier: <span class="math display">\[\begin{equation}
-        \omega_j = \frac{j}{p},\;\;j=1,\ldots,q .
-    \end{equation}\]</span> onde <span class="math inline">\(q=\lfloor\frac{p}{2}\rfloor\)</span>. Definimos o <span class="math inline">\(j\)</span>-ésimo harmônico por <span class="math display">\[\begin{equation}
-        g_j(t) = \beta_{1,j}\cos(2\pi \omega_j t ) + \beta_{2,j}\sin(2\pi\omega),
-    \end{equation}\]</span> e o modelo de regressão harmônica é dado por <span class="math display">\[\begin{equation}
-        y_t = \sum_{j=1}^q\left[\beta_{1,j}\cos(2\pi \omega_j t ) + \beta_{2,j}\sin(2\pi\omega_j t)\right] + \varepsilon_t
-    \end{equation}\]</span> onde <span class="math inline">\(\varepsilon_t\sim \hbox{Normal}(0,\nu)\)</span>.</p>
-</section>
-</section>
-<section id="o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre"><span class="header-section-number">8.2</span> O modelo linear dinâmico de fatores sazonais (forma livre)</h2>
-<p>Vimos anteriormente que os fatores sazonais são dados por <span class="math display">\[\psi_j=g(j),\;\;j=0,\ldots,p-1,\]</span> onde <span class="math inline">\(g(.)\)</span> é uma função periódica com período <span class="math inline">\(p\)</span>. Lembremos ainda que existem apenas <span class="math inline">\(p-1\)</span> fatores, por causa da restrição <span class="math display">\[\sum_{j=0}^{p-1}g(j)=0.\]</span></p>
-<p>Para construir um modelo dinâmico que comporte a estrutura de fatores, sem perda de generalidade considere que o tempo <span class="math inline">\(t-1\)</span> é representado pelo fator <span class="math inline">\(0\)</span> e seja <span class="math display">\[\boldsymbol{\theta}_{t-1}=\left(\begin{array}{c}
-                          \psi_{0} \\
-                          \psi_{1} \\
-                          \vdots \\
-                          \psi_{p-1}
-                          \end{array}\right)\]</span></p>
-<p>Seja <span class="math inline">\(\boldsymbol{E}'_p=(1,\boldsymbol{0}_{p-1}')\)</span>.</p>
-<p>Note que <span class="math inline">\(\boldsymbol{E}_{p}'\boldsymbol{\theta}_{t-1}=\psi_0\)</span>. Se quisermos que <span class="math inline">\(\boldsymbol{E}_{p}\)</span> seja a primeira componente da quádrupla do MLD, devemos escolher <span class="math inline">\(\boldsymbol{G}_t\)</span> tal que <span class="math display">\[\boldsymbol{\theta}_t=\boldsymbol{G}_t\boldsymbol{\theta}_{t-1}=\boldsymbol{G}_t\left(\begin{array}{c}
-        \psi_{0} \\
-        \psi_{1} \\
-        \vdots \\
-        \psi_{p-2}\\
-        \psi_{p-1}
-    \end{array}\right)_{t-1}=\left(\begin{array}{c}
-        \psi_{1} \\
-        \psi_{2} \\
-        \vdots \\
-        \psi_{p-1}\\
-        \psi_{0}
-    \end{array}\right)_t\]</span></p>
-<p>Isto pode ser feito utilizando a matriz de permutação</p>
-<p><span class="math display">\[\boldsymbol{P}=\left(\begin{array}{cc}
-    0 &amp; \boldsymbol{I}_{p-1} \\
-    1 &amp; \boldsymbol{0}_{p-1}'
-\end{array}\right).\]</span></p>
-<p>O MLD resultante é <span class="math inline">\(\{\boldsymbol{E}_p,\boldsymbol{P},.,\}\)</span> e a função de previsão é dada por</p>
-<p><span class="math display">\[f_t(h)=\boldsymbol{E}_p\boldsymbol{P}^h \boldsymbol{m}_t=m_{k,t},\]</span></p>
-<p>onde <span class="math display">\[k = (h+p\hbox{ mod }p) +1\]</span></p>
-<p>Como alternativa, podemos utilizar a matriz</p>
-<p><span class="math display">\[\boldsymbol{G}=\left(\begin{array}{cc}
-               \textbf{0}_{p-2} &amp; \textbf{I}_{p-2} \\
-               -1 &amp; -\textbf{1}_{p-2}
-               \end{array}\right),\]</span></p>
-<p>que também é uma matriz de permutação, com a restrição de soma nula já incorporada. É essa representação que está implementada no pacote </p>
-<div class="alert alert-info">
-<p><strong>Temperatura no Castelo de Nottinghan</strong></p>
-<p>Inserir o exemplo aqui</p>
+<p><span class="theorem-title"><strong>Example 10.1</strong></span> ` em construção</p>
 </div>
 </section>
-<section id="o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier"><span class="header-section-number">8.3</span> O modelo linear dinâmico sazonal com representação em série de Fourrier</h2>
-<p>Quando a sazonalidade, de período <span class="math inline">\(p\)</span>, pode ser explicada por uma onda, vimos que podemos empregar o uso dos harmônicos: <span class="math display">\[g_j(t) = A_j\cos\left(\frac{2\pi j}{p}t + \phi\right)=b_{1,j}\cos\left(\frac{2\pi j}{p}t\right)+b_{2,j}\sin\left(\frac{2\pi j}{p}t\right).\]</span> onde $j=0,,p/2 $. Note que os fatores sazonais podem ser recuperados. Por exemplo, o <span class="math inline">\(i\)</span>-ésimo fator sazonal é descrito como</p>
-<p><span class="math display">\[\psi_i = \sum_{j=0}^{\lceil p/2 \rceil} g_j(i)=\sum_{j=0}^{\lceil p/2 \rceil}b_{1,j}\cos\left(\frac{2\pi j}{p}i\right)+b_{2,j}\sin\left(\frac{2\pi j}{p}i\right)\]</span></p>
-<p>Definindo o número de harmônicos como <span class="math inline">\(q\)</span>, onde <span class="math inline">\(1\leq q \leq \lceil p/2 \rceil\)</span>, procuramos por um modelo que satisfaz <span class="math display">\[y_t= \sum_{j=1}^q a_{t,j}\cos\left(\frac{2\pi j}{p}t\right)+b_{t,j}\sin\left(\frac{2\pi j}{p}t\right)+\nu_t,\]</span> ou seja, que tenha as componentes da regressão harmônica dinâmicas.</p>
-<p>As amplitudes dinâmicas (<span class="math inline">\(\alpha_{j,t}\)</span>) e as fases (<span class="math inline">\(\phi_{j,t}\)</span>) podem ser recuperadas usando <span class="math display">\[\alpha_{j,t} = \sqrt{a_{j,t}^2+b_{j,t}}^2\]</span> e <span class="math display">\[\phi_{j,t}=\cos^{-1}\left(\frac{a_{j,t}}{\alpha_{j,t}}\right)\]</span></p>
-<p>Para o harmônico <span class="math inline">\(j\)</span>, considere a quádrupla <span class="math inline">\(\{\boldsymbol{E}_2,\boldsymbol{G}_j,.,.\}\)</span> onde<br>
-<span class="math display">\[\begin{align*}
-\boldsymbol{G}_{j} = \left(\begin{array}{cc}
-                   \cos(\gamma_j) &amp; \sin(\gamma_j)\\
-                   -\sin(\gamma_j) &amp; \cos(\gamma_j)
-                   \end{array}\right).
-\end{align*}\]</span> e <span class="math inline">\(\gamma_j=2\pi j/p\)</span>. É sempre verdade que</p>
-<p><span class="math display">\[\boldsymbol{G}_{j}^t=\left(\begin{array}{cc}
-                     \cos(\gamma_jt) &amp; \sin(\gamma_jt)\\
-                     -\sin(\gamma_jt) &amp; \cos(\gamma_jt)
-                     \end{array}\right)\]</span></p>
-<p>Sem perda de generalidade, assuma que <span class="math inline">\(\boldsymbol{W}_t\)</span> é a matriz nula. Então</p>
-<p><span class="math display">\[\begin{align*}
-\boldsymbol{\theta}_{t}&amp;= \boldsymbol{G}_j\boldsymbol{\theta}_{t-1}=\cdots = \boldsymbol{G}_j^t\boldsymbol{\theta}_0
-\end{align*}\]</span> Então, <span class="math display">\[\begin{align*}
-y_t&amp;=\boldsymbol{E}_2'\boldsymbol{\theta}_t +\nu_t= \boldsymbol{E}_p'\boldsymbol{G}_j^t\boldsymbol{\theta}_0 +\nu_t\\
-&amp;=\theta_{0,1}\cos(\gamma_j t) + \theta_{0,2}\sin(\gamma_j t)+\nu,
-\end{align*}\]</span> ou seja, o modelo de regressão harmônica clássico com o <span class="math inline">\(j\)</span>-ésimo harmônico. Fazendo <span class="math inline">\(\boldsymbol{W}_t\)</span> diferente da matriz nula, temos que <span class="math inline">\(\boldsymbol{\theta}_t\)</span> são as componentes dinâmicas do modelo de regressão harmônica.</p>
-<p>O MLD resultante é dado por <span class="math inline">\(\{\boldsymbol{E}_2,\boldsymbol{G}_{2,j},.,\}\)</span>. Entretanto, este modelo compreende apenas o <span class="math inline">\(j\)</span>-ésimo harmônico. Considerando então que <span class="math inline">\(y_{i,h}\)</span> segue um MLD <span class="math inline">\(\{\boldsymbol{E}_2,\boldsymbol{G}_{2,h},.,.\}\)</span>, onde <span class="math inline">\(h=1,\ldots,q\)</span>, podemos aplicar o Teorema da superposição para mostrar que <span class="math inline">\(y_t=\sum_{j=1}^{q}y_{j,t}\)</span> é um MLD com quádrupla <span class="math inline">\(\{\boldsymbol{F},\boldsymbol{G},.,.\}\)</span> onde</p>
-<p><span class="math display">\[\boldsymbol{F}=\left(\boldsymbol{E}_2,\ldots,\boldsymbol{E}_2\right)\]</span> <span class="math display">\[\boldsymbol{G}=\hbox{Block diag}\left(\boldsymbol{G}_{2,1},\ldots,\boldsymbol{G}_{2,q}\right).\]</span></p>
-<p>Nota técnica: se <span class="math inline">\(j=p/2\)</span>, temos que trocar <span class="math inline">\(\boldsymbol{E}_2'\)</span> por (1,-1).</p>
-<div id="exm-" class="alert alert-info theorem example">
-<p><span class="theorem-title"><strong>Example 8.2</strong></span> <strong>Nascimentos em Nova York</strong></p>
+<section id="monitoramento" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="monitoramento"><span class="header-section-number">10.2</span> Monitoramento</h2>
+<p>Informações que alteram o nível podem ser incorporadas ao processo através de uma intervenção. O objetivo é permitir que o modelo se adapte rapidamente às informações futuras.</p>
+<p>O monitoramento de uma série temporal tem como objetivo detectar outliers e mudanças no comportamento da série. Para isso, comparamos o modelo de referência, <span class="math inline">\(M_0\)</span>, que assume que as observações seguem o comportamento normal da série, contra um modelo alternativo, <span class="math inline">\(M_1\)</span>, que considera mais provável a ocorrência de valores anômalos (extremos).</p>
+<p>A comparação entre os modelos <span class="math inline">\(M_0\)</span> contra o modelo <span class="math inline">\(M_1\)</span> é realizada através do Fator de Bayes baseado em <span class="math inline">\(y_t\)</span>, definido como</p>
+<p><span class="math display">\[H_t=\frac{f_{M_0}(y_t |D_{t-1} )}{f_{M_1} (y_t |D_{t-1} ) }\]</span>. Seguindo a escala de Jeffreys, um valor de <span class="math inline">\(H_t &lt;0,135\)</span>$ (H_t&lt; -2)$ indica fortes evidências contra o modelo <span class="math inline">\(M_0\)</span>. Observe que <span class="math inline">\(H_t\)</span> baixo dá evidências de que <span class="math inline">\(y_t\)</span> é um outlier.</p>
+<p>Para detectar evidências sobre <span class="math inline">\(M_0\)</span> com os últimos <span class="math inline">\(k\)</span> valores observados, utilizamos o Fator de Bayes cumulativo, definido como</p>
+<p><span class="math display">\[H_t (k)=\prod_{v=t-k+1}^t H_v =\frac{ f_{M_0} (y_t,…,y_{t-k+1} |D_{t-k} )}{f_{M_1}(y_t,…,y_{t-k+1} |D_{t-k} ) }.\]</span></p>
+<p>Note quw <span class="math inline">\(H_t(1)=H_t\)</span> e <span class="math inline">\(H_{t}(k)=H_t H_{t-1}(k-1)\)</span>. Um valor pequeno de <span class="math inline">\(H_t (k)\)</span>, com <span class="math inline">\(k&gt;1\)</span>, indica que as últimas <span class="math inline">\(k\)</span> observações dão evidências de mudança (em favor de <span class="math inline">\(M_1\)</span>).</p>
+<p>Embora o fator de Bayes acumulado seja uma ferramenta útil para a adequação do modelo <span class="math inline">\(M_0\)</span>, ele falha em responder rapidamente a mudanças locais. Para ilustrar esse conceito e os demais desta seção, considere que, para <span class="math inline">\(t_6\)</span>, observamos <span class="math inline">\(H_1=\cdots=H_5=2\)</span> e <span class="math inline">\(H_6=0,1\)</span> (ou seja <span class="math inline">\(y_6\)</span> é um outlier). Observe que</p>
+<p><span class="math display">\[H_5(5)=\prod_{v=1}^5 H_v=32,\]</span> logo, a evidência acumulada está à favor de <span class="math inline">\(M_0\)</span>. Contudo, a evidência acumulada para o tempo <span class="math inline">\(t=6\)</span> é <span class="math display">\[H_6(6)=H_6H_{(5)}(5)=\frac{1}{10}32=3,2,\]</span> que ainda dá evidências a favor de <span class="math inline">\(M_0\)</span>. Deste modo, o impacto do outlier <span class="math inline">\(y_6\)</span> deve ser muito extremo para ser detectado pelo fator de Bayes acumulado. Na prática, ao se utilizar <span class="math inline">\(H_t(t)\)</span>, as observações anteriores vão mascarar a informação dadas por <span class="math inline">\(y_t\)</span>.</p>
+<p>Para identificar o ponto de mudança mais provável, podemos identificar o grupo de observações sequenciais mais discrepantes ao minimizar <span class="math inline">\(H_t(k)\)</span> com respeito à <span class="math inline">\(k\)</span>, fazendo</p>
+<p><span class="math display">\[L_t=\min_{1\leq k\leq t}H_t(k).\]</span> com <span class="math inline">\(L_1=H_1\)</span>. No nosso exemplo, teremos</p>
+<p><span class="math display">\[\begin{align}H_6(1)&amp;=H_6=0,1 \\ H_6(2)&amp;=H_6 H_5 = 0,2 \\ H_6(3)&amp;=H_6H_5H_4=0,4\\ H_6(4)&amp;=H_6H_5H_4H_3=0,8\\ H_6(5)&amp;=H_6H_5H_4H_3H_2=1,6\\H_6(6)&amp;=3,2\end{align}\]</span> de modo que <span class="math inline">\(L_6=0,1\)</span>. Deste modo, sabemos que ocorreu alguma mudança no tempo <span class="math inline">\(t=6\)</span>. É simples mostrar que <span class="math inline">\(L_1=\cdots=L_5=2\)</span>, o que implica que a mudança não ocorreu antes de <span class="math inline">\(t=6\)</span>.</p>
+<p>O seguinte teorema tras alguns elementos importantes.</p>
+<div id="thm-" class="alert alert-success theorem">
+<p><span class="theorem-title"><strong>Theorem 10.1</strong></span> Seja <span class="math display">\[L_t=\min_{1\leq k\leq t}H_t(k)\,\]</span> com <span class="math inline">\(L_1=H_1\)</span>. Então, <span class="math display">\[L_t=H_t\min\{1,L_{t-1}\}\]</span> para <span class="math inline">\(t&gt;1\)</span>. O mínimo no tempo <span class="math inline">\(t\)</span> é definido por <span class="math inline">\(l_t\)</span>, ou seja <span class="math inline">\(L_t=H_t(l_t)\)</span>, onde <span class="math inline">\(l_t\)</span> é atualizado como segue</p>
+<p><span class="math display">\[l_t=\left\{\begin{array}{ll}1+l_{t-1},&amp;\hbox{ se }L_{t-1}&lt;1,\\ 1,&amp;\hbox{ se }L_{t-1}\geq 1.\end{array}\right.\]</span></p>
 </div>
+<p>Vejamos como a variável <span class="math inline">\(l_t\)</span> pode ser utilizada. Se <span class="math inline">\(L_t\)</span> é baixo o suficiente para trazer evidências contra <span class="math inline">\(M_0\)</span>, então</p>
+<ul>
+<li><p>Se <span class="math inline">\(l_t=1\)</span>, então <span class="math inline">\(L_t=H_t(1)=H_t\)</span>. Isto implica que apenas a observação <span class="math inline">\(y_t\)</span> gerou o aviso do monitor. Essa observação pode ser um outlier ou o sinal de que alguma mudança deve começar a partir do tempo <span class="math inline">\(t\)</span></p></li>
+<li><p>Se <span class="math inline">\(l_t&gt;1\)</span>, então existem diversas observações contribuindo para os fatores de Bayes em <span class="math inline">\(L_t\)</span>, sugerindo que a série se afastou do modelo <span class="math inline">\(M_0\)</span> em algum lugar no passado. Isto implica que apenas a observação <span class="math inline">\(y_t\)</span> gerou o aviso do monitor. O tempo de mudança sugerido é <span class="math inline">\(t-t_t+1\)</span>.</p></li>
+</ul>
+<p>Portanto, o monitoramento é realizado observando a dupla <span class="math inline">\((L_t,t_t)\)</span>.</p>
+<p>A análise de monitoramento, o modelo <span class="math inline">\(M_0\)</span> é dado pela distribuição da previsão um passo a frente usual, ou seja, <span class="math inline">\(y_t|D_{t-1}\sim\hbox{Normal}(f_t,Q_t)\)</span>. Podemos definir os seguintes modelos alternativos <span class="math inline">\(M_1\)</span>:</p>
+<ul>
+<li><p><span class="math inline">\(M_1:\)</span> um modelo se deslocando <span class="math inline">\(h_t&gt;0\)</span> unidades para a direita em relação à <span class="math inline">\(M_0\)</span>, ou seja <span class="math inline">\(y|D_{t-1}\sim\hbox{Normal}(f_t+h_t,Q_t)\)</span>.</p></li>
+<li><p><span class="math inline">\(M_1':\)</span> um modelo se deslocando <span class="math inline">\(h&gt;0\)</span> unidades para a esquerda em relação à <span class="math inline">\(M_0\)</span>, ou seja <span class="math inline">\(y|D_{t-1}\sim\hbox{Normal}(f_t-h_t,Q_t)\)</span>.</p></li>
+</ul>
+<p>Ao monitorar <span class="math inline">\(M_0\)</span> contra <span class="math inline">\(M_1\)</span> e <span class="math inline">\(M_0\)</span> contra <span class="math inline">\(M_1'\)</span>, estaremos verificando se há evidências de intervenção tanto para a direita quanto para a esquerda. Considerando o caso <span class="math inline">\(M_0\)</span> contra <span class="math inline">\(M_1\)</span>, teremos que</p>
+<p><span class="math display">\[H_t=\frac{\frac{1}{\sqrt{2\pi Q_t}}e^{-\frac{1}{2Q_t}(y_t-f_t)^2}}{\frac{1}{\sqrt{2\pi Q_t}}e^{-\frac{1}{2Q_t}(y_t-f_t-h_t)^2}}=\exp\left\{-\frac{1}{2Q_t}[2h_t(y_t-f_t)- h^2_t]\right\}\]</span> ou ainda <span class="math display">\[\log H_t=-\frac{1}{2Q_t}[2h_t(y_t-f_t)- h_t^2].\]</span></p>
+<p>Note que <span class="math inline">\(h_t\)</span> é um afastamento em relação à média, sendo razoável defini-lo em função do desvio padrão. Então, seja <span class="math inline">\(h_t=d\sqrt{Q_t}\)</span>, com <span class="math inline">\(d&gt;0\)</span>, Observe que</p>
+<p><span class="math display">\[\log H_t = -\frac{1}{2Q_t}[2d\sqrt{Q_t}(y_t-f_t)- d^2 Q_t]\Rightarrow \log H_t=\frac{d ^2}{2}-d\tilde{e}_t\]</span> onde, sob <span class="math inline">\(M_0\)</span>, <span class="math inline">\(\tilde{e}_t\sim\hbox{Normal}(0,1)\)</span>. Supondo <span class="math inline">\(\log H_t &lt; -2\)</span>, teremos que</p>
+<ul>
+<li><p>Se <span class="math inline">\(d=1\)</span>, então <span class="math inline">\(d^2/2 -d\tilde{e}_t &lt; -2\Rightarrow e_t&gt;2,5\)</span>. Portanto, um resíduo padronizado maior que 2,5 faz o monitor reagir. Note que <span class="math inline">\(P(\tilde{e}_t&gt;2,5)\approx 0,994\)</span>, fazendo com que o monitor reaja apenas em casos extremos.</p></li>
+<li><p>Se <span class="math inline">\(d=2\)</span>, então <span class="math inline">\(d^2/2 -d\tilde{e}_t &lt; -2\Rightarrow e_t&gt;2\)</span>. Como <span class="math inline">\(P(\tilde{e}_t&gt;2)\approx 0,977\)</span>, sendo uma proposta mais sensível</p></li>
+<li><p>Se <span class="math inline">\(d=2\)</span>, então <span class="math inline">\(d^2/2 -d\tilde{e}_t &lt; -2\Rightarrow e_t&gt;2,1666...\)</span>. Como <span class="math inline">\(P(\tilde{e}_t&gt;2,1666...)\approx 0,984\)</span>, esta é outra proposta mais sensível que <span class="math inline">\(d=1\)</span>.</p></li>
+</ul>
+<p>Escolher <span class="math inline">\(d=2\)</span> ou 3 é a saída prática, uma vez que um valor de <span class="math inline">\(\tilde{e}_t\)</span> moderadamente grande gera evidência suficiente para gerar <span class="math inline">\(\log H_t&lt; -2\)</span>.</p>
+<p>O monitor é construído a partir de</p>
+<p><span class="math display">\[L_t=\min_{1\leq k\leq t} H_t (k),\]</span> onde valores pequenos de <span class="math inline">\(L_t\)</span> indicam que pelo menos uma anomalia ocorreu até o tempo <span class="math inline">\(t\)</span>. O valor <span class="math inline">\(l_t\)</span> é o índice de tempo que minimiza essa expressão, indicando a duração da sequência de observações que mais se afasta do modelo de referência. Definindo <span class="math inline">\(l_t\)</span> como sendo o valor que satisfaz <span class="math inline">\(L_t=H_t (l_t )\)</span>, temos uma variável que indica a persistência da anomalia. Portanto, para o tempo <span class="math inline">\(t\)</span>, se <span class="math inline">\(L_t&lt;τ\)</span>:</p>
+<ul>
+<li><p>Se <span class="math inline">\(l_t=1\)</span>, então <span class="math inline">\(y_t\)</span> será considerado um outlier sob o modelo <span class="math inline">\(M_0\)</span></p></li>
+<li><p>Se <span class="math inline">\(l_t&gt;1\)</span>, então diversas observações contribuíram para que a série se afastasse do modelo <span class="math inline">\(M_0\)</span>, com início provável no tempo <span class="math inline">\(t-l_t+1\)</span>. Nesse caso, o tempo <span class="math inline">\(t\)</span> é denominado ponto de intervenção. Um valor típico para <span class="math inline">\(\tau\)</span> é <span class="math inline">\(e^{-2}\)</span>.</p></li>
+</ul>
 
 
 </section>
@@ -793,13 +761,13 @@ y_t&amp;=\boldsymbol{E}_2'\boldsymbol{\theta}_t +\nu_t= \boldsymbol{E}_p'\boldsy
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./polinomial.html" class="pagination-link" aria-label="Modelo linear dinâmico polinomial">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Modelo linear dinâmico polinomial</span></span>
+      <a href="./regressao_dinamica.html" class="pagination-link" aria-label="Regresssão Dinâmica">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Regresssão Dinâmica</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./regressao_dinamica.html" class="pagination-link" aria-label="Regresssão Dinâmica">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Regresssão Dinâmica</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

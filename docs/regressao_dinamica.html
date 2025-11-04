@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Modelos lineares dinâmicos sazonais – Introdução aos modelos lineares dinâmicos</title>
+<title>9&nbsp; Regresssão Dinâmica – Introdução aos modelos lineares dinâmicos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./regressao_dinamica.html" rel="next">
-<link href="./polinomial.html" rel="prev">
+<link href="./intervencao.html" rel="next">
+<link href="./mld_sazonal.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -111,7 +111,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mld_sazonal.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./regressao_dinamica.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Regresssão Dinâmica</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -186,13 +186,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./mld_sazonal.html" class="sidebar-item-text sidebar-link active">
+  <a href="./mld_sazonal.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./regressao_dinamica.html" class="sidebar-item-text sidebar-link">
+  <a href="./regressao_dinamica.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Regresssão Dinâmica</span></span></a>
   </div>
 </li>
@@ -213,27 +213,15 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#modelos-tradicionais-no-domnínio-da-frequência" id="toc-modelos-tradicionais-no-domnínio-da-frequência" class="nav-link active" data-scroll-target="#modelos-tradicionais-no-domnínio-da-frequência"><span class="header-section-number">8.1</span> Modelos tradicionais no domnínio da frequência</a>
-  <ul class="collapse">
-  <li><a href="#o-modelo-de-fatores-sazonais" id="toc-o-modelo-de-fatores-sazonais" class="nav-link" data-scroll-target="#o-modelo-de-fatores-sazonais"><span class="header-section-number">8.1.1</span> O modelo de fatores sazonais</a></li>
-  <li><a href="#o-modelo-de-regressão-harmônica" id="toc-o-modelo-de-regressão-harmônica" class="nav-link" data-scroll-target="#o-modelo-de-regressão-harmônica"><span class="header-section-number">8.1.2</span> O modelo de regressão harmônica</a></li>
-  </ul></li>
-  <li><a href="#o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre" id="toc-o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre" class="nav-link" data-scroll-target="#o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre"><span class="header-section-number">8.2</span> O modelo linear dinâmico de fatores sazonais (forma livre)</a></li>
-  <li><a href="#o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier" id="toc-o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier" class="nav-link" data-scroll-target="#o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier"><span class="header-section-number">8.3</span> O modelo linear dinâmico sazonal com representação em série de Fourrier</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Regresssão Dinâmica</span></h1>
 </div>
 
 
@@ -250,146 +238,34 @@ window.Quarto = {
 </header>
 
 
-<section id="modelos-tradicionais-no-domnínio-da-frequência" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="modelos-tradicionais-no-domnínio-da-frequência"><span class="header-section-number">8.1</span> Modelos tradicionais no domnínio da frequência</h2>
-<p>Dizemos que a função real <span class="math inline">\(g(.)\)</span> é periódica, com período <span class="math inline">\(p&gt; 1\)</span>, se</p>
-<p><span class="math display">\[\begin{equation}
-        g(t)=g(t+kp),
-    \end{equation}\]</span> para todos os inteiros <span class="math inline">\(k,t\geq 0\)</span></p>
-<div id="exm-" class="alert alert-info theorem example">
-<p><span class="theorem-title"><strong>Example 8.1</strong></span> <strong>Função periódica.</strong> A função</p>
-<p><span class="math display">\[\begin{align}
-        g(t)= \left\{\begin{array}{ll}
-            -1,&amp;\;\;t=1,4,7,\ldots \\
-            0,&amp;\;\;t=2,5,8,\ldots \\
-            1,&amp;\;\;t=3,6,9,\ldots
-        \end{array}
-        \right.
-    \end{align}\]</span> é periódica com <span class="math inline">\(p=3\)</span>.</p>
-</div>
-<p>Pela definição, <span class="math inline">\(p\)</span> é interpretado como o tempo necessário para que o padrão recomece. Para qualquer <span class="math inline">\(g(.)\)</span> periódica e <span class="math inline">\(h\geq 0\)</span>, <span class="math display">\[\begin{equation}
-        \sum_{j=0}^{p-1}g(j+h) = c
-    \end{equation}\]</span> onde <span class="math display">\[\begin{equation}
-        c=\sum_{j=0}^{p-1}g(j),
-    \end{equation}\]</span> Portanto, para qualquer série <span class="math inline">\(\{y_t\}\)</span> podemos ter o análogo <span class="math inline">\(z_t=y_t-c\)</span> e assumir sem perda de generalidade que <span class="math display">\[\begin{equation}
-        \sum_{j=0}^{p-1}g(j+h) = 0.
-    \end{equation}\]</span></p>
-<section id="o-modelo-de-fatores-sazonais" class="level3" data-number="8.1.1">
-<h3 data-number="8.1.1" class="anchored" data-anchor-id="o-modelo-de-fatores-sazonais"><span class="header-section-number">8.1.1</span> O modelo de fatores sazonais</h3>
-<p>Considere uma série temporal com a seguinte estrutura: <span class="math display">\[\begin{equation}
-        y_t = g(t)+\varepsilon_t,
-    \end{equation}\]</span> onde <span class="math inline">\(g(.)\)</span> é uma função periódica de período <span class="math inline">\(p\)</span> e <span class="math inline">\(\varepsilon_t\sim \hbox{Normal}(0,\nu)\)</span>. Definimos um fator sazonal por <span class="math display">\[\begin{eqnarray}
-        \psi_j = g(j),\;\;j=0,\ldots,p-1,
-    \end{eqnarray}\]</span> onde <span class="math inline">\(\psi_{p-1}=-\sum_{j=0}^{p-2}\psi_j\)</span>. A função de verossimilhança é <span class="math display">\[\begin{equation}
-        f(y_1,\ldots,y_n|\boldsymbol{\psi},\nu)=\left(\frac{1}{2\pi\nu}\right)^{\frac{n}{2}}\exp\left\{-\frac{1}{2\nu}(\boldsymbol{y-\boldsymbol{F}\boldsymbol{\psi}})'(\boldsymbol{y-\boldsymbol{F}\boldsymbol{\psi}})\right\}
-    \end{equation}\]</span> onde <span class="math inline">\(\boldsymbol{F}\)</span> é a matriz que indica os fatores sazonais para cada tempo <span class="math inline">\(t\)</span>. Portanto, a análise deste modelo é a mesma de uma ANOVA com um fator. \end{frame}</p>
-</section>
-<section id="o-modelo-de-regressão-harmônica" class="level3" data-number="8.1.2">
-<h3 data-number="8.1.2" class="anchored" data-anchor-id="o-modelo-de-regressão-harmônica"><span class="header-section-number">8.1.2</span> O modelo de regressão harmônica</h3>
-<p>O harmônico 1 é definido por <span class="math display">\[\begin{equation}
-        g(t) = A\cos( 2\pi \omega t + \phi),
-    \end{equation}\]</span> onde <span class="math inline">\(\omega = 1/p\)</span> representa a frequência (número de ciclos por unidade de tempo). <span class="math inline">\(A\)</span> e <span class="math inline">\(\phi\)</span> são denominados amplitude e fase. É trivial mostrar que <span class="math display">\[\begin{equation}
-        g(t) = \underbrace{\left( \cos(2\pi \omega t) \;\; \sin(2\pi\omega t)\right)}_{\textbf{F}_t'}\underbrace{\left(\begin{array}{c}
-                \beta_1 \\ \beta_2
-            \end{array}\right)}_{\boldsymbol{\beta}},
-    \end{equation}\]</span> onde <span class="math display">\[\begin{align}
-        \beta_1&amp;= A\cos(\phi) \\
-        \beta_2&amp;=-A\sin(\phi).
-    \end{align}\]</span></p>
-<p>Além disso, sempre é possível obter <span class="math inline">\((A,\phi)\)</span> a partir de <span class="math inline">\(\boldsymbol{\beta}\)</span>. Em particular, <span class="math display">\[\begin{equation}
-        A= \sqrt{\beta_1^2 + \beta_2^2}.
-\end{equation}\]</span> Dado que estamos assumindo que <span class="math inline">\(p\)</span> é conhecido, o modelo linear resultante é denominado regressão harmônica (com um harmônico). É importante ressaltar que o modelo será identificável somente se <span class="math inline">\(\omega&lt; 1/2\)</span>. Isto implica que o menor período detectável é 3.</p>
-<p>Se <span class="math inline">\(p\)</span> for desconhecido existem duas estratégias comuns:</p>
+<p>Para <span class="math inline">\(y_t\)</span>, seja <span class="math inline">\(\boldsymbol{F}_t'=(x_{t,1},\ldots,x_{t,q})\)</span> o vetor de variáveis regressoras associadas. Então, o modelo linear dinâmico de regressão múltipla é definido pela quádrupla <span class="math inline">\(\{\boldsymbol{F}_t,\boldsymbol{I}_q,V_t,\boldsymbol{W}_t\}\)</span>.</p>
+<p>Para cada <span class="math inline">\(t\)</span>, as equações do modelo são:</p>
+<ul>
+<li><p>Equação das observações: <span class="math inline">\(y_t=\boldsymbol{F}_t'\boldsymbol{\theta}_t+v_t\)</span>, com <span class="math inline">\(v_t\sim\hbox{Normal}(0,V_t)\)</span></p></li>
+<li><p>Equação do sistema: <span class="math inline">\(\boldsymbol{\theta}_t=\boldsymbol{G}_t\boldsymbol{\theta}_{t-1}+\boldsymbol{w}_t\)</span>, com <span class="math inline">\(\boldsymbol{w}_t\sim\hbox{Normal}(\boldsymbol{0},\boldsymbol{W}_t)\)</span>.</p></li>
+</ul>
+<p>Note que esse modelo é uma generalização do modelo de regressão múltipla, que pode ser obtido fazendo <span class="math inline">\(\boldsymbol{W}_t=\boldsymbol{0}\)</span>.</p>
+<p>Assim como o modelo de regressão múltipla, sua versão dinâmica permite uma série de modelos particulares, como por exemplo:</p>
 <ol type="1">
-<li><p>Analisar o periodograma <span class="math display">\[\begin{equation}
-         I(\omega)=\frac{n}{2}\hat{A}(\omega)^2,
-     \end{equation}\]</span> onde <span class="math inline">\(\hat{A}(\omega)\)</span> é a amplitude estimada através dos estimadores de máxima verossimilhança para <span class="math inline">\(\beta_1\)</span> e <span class="math inline">\(\beta_2\)</span>. Em geral, observa-se um gráfico de <span class="math inline">\(\{\omega,I(\omega)\}\)</span>, com <span class="math inline">\(\omega = (1,\ldots,\lfloor (n-1)/2 \rfloor )/n\)</span>. Quanto maior for do valor de <span class="math inline">\(I(\omega')\)</span> maior é a evidências de que <span class="math inline">\(p=1/\omega'\)</span>.</p></li>
-<li><p>Considerar <span class="math inline">\(p\)</span> como um parâmetro desconhecido (o problema pode facilmente ser tratado com um amostrador de Gibbs).</p></li>
+<li><p>Regressão simples: nesse caso, <span class="math inline">\(\boldsymbol{F}_t'=(1,x_t)\)</span>, implicando nos estados <span class="math inline">\(\boldsymbol{\theta}_t=(\alpha_t,\beta_t)\)</span>, com <span class="math inline">\(\alpha_t\)</span> representando um intercepto que se comporta como um MLD polinomial de ordem 1 e um coeficiente de regressão dinâmica representado por <span class="math inline">\(\beta_t\)</span>.</p></li>
+<li><p>Regressão múltipla: nesse caso, <span class="math inline">\(\boldsymbol{F}_t'=(1,x_t,z_t)\)</span>, implicando nos estados <span class="math inline">\(\boldsymbol{\theta}_t=(\alpha_t,\beta_t,\gamma_t)\)</span>, com <span class="math inline">\(\alpha_t\)</span> interpretado como na regressão simples e dois coeficientes de regressão dinâmica <span class="math inline">\(\beta_t\)</span> e <span class="math inline">\(\gamma_t\)</span> associados à regressoras <span class="math inline">\(X\)</span> e <span class="math inline">\(Z\)</span>.</p></li>
+<li><p>Variáveis defasadas: é possível que uma variável <span class="math inline">\(X\)</span> possua poder preditivo para o tempo atual quanto para o futuro. Considerando uma defasagem <span class="math inline">\(k\)</span>, a média da equação das observações é dada por</p></li>
 </ol>
-<p>Vamos voltar a assumir que <span class="math inline">\(p\)</span> é conhecido. O harmônico 1 modela um comportamento sazonal que leva <span class="math inline">\(p\)</span> unidades de tempo para completar o padrão sazonal. Entretanto, é possível que existam componentes adicionais no comportamento sazonal com frequências maiores. Considere então as seguintes frequências de Fourrier: <span class="math display">\[\begin{equation}
-        \omega_j = \frac{j}{p},\;\;j=1,\ldots,q .
-    \end{equation}\]</span> onde <span class="math inline">\(q=\lfloor\frac{p}{2}\rfloor\)</span>. Definimos o <span class="math inline">\(j\)</span>-ésimo harmônico por <span class="math display">\[\begin{equation}
-        g_j(t) = \beta_{1,j}\cos(2\pi \omega_j t ) + \beta_{2,j}\sin(2\pi\omega),
-    \end{equation}\]</span> e o modelo de regressão harmônica é dado por <span class="math display">\[\begin{equation}
-        y_t = \sum_{j=1}^q\left[\beta_{1,j}\cos(2\pi \omega_j t ) + \beta_{2,j}\sin(2\pi\omega_j t)\right] + \varepsilon_t
-    \end{equation}\]</span> onde <span class="math inline">\(\varepsilon_t\sim \hbox{Normal}(0,\nu)\)</span>.</p>
-</section>
-</section>
-<section id="o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="o-modelo-linear-dinâmico-de-fatores-sazonais-forma-livre"><span class="header-section-number">8.2</span> O modelo linear dinâmico de fatores sazonais (forma livre)</h2>
-<p>Vimos anteriormente que os fatores sazonais são dados por <span class="math display">\[\psi_j=g(j),\;\;j=0,\ldots,p-1,\]</span> onde <span class="math inline">\(g(.)\)</span> é uma função periódica com período <span class="math inline">\(p\)</span>. Lembremos ainda que existem apenas <span class="math inline">\(p-1\)</span> fatores, por causa da restrição <span class="math display">\[\sum_{j=0}^{p-1}g(j)=0.\]</span></p>
-<p>Para construir um modelo dinâmico que comporte a estrutura de fatores, sem perda de generalidade considere que o tempo <span class="math inline">\(t-1\)</span> é representado pelo fator <span class="math inline">\(0\)</span> e seja <span class="math display">\[\boldsymbol{\theta}_{t-1}=\left(\begin{array}{c}
-                          \psi_{0} \\
-                          \psi_{1} \\
-                          \vdots \\
-                          \psi_{p-1}
-                          \end{array}\right)\]</span></p>
-<p>Seja <span class="math inline">\(\boldsymbol{E}'_p=(1,\boldsymbol{0}_{p-1}')\)</span>.</p>
-<p>Note que <span class="math inline">\(\boldsymbol{E}_{p}'\boldsymbol{\theta}_{t-1}=\psi_0\)</span>. Se quisermos que <span class="math inline">\(\boldsymbol{E}_{p}\)</span> seja a primeira componente da quádrupla do MLD, devemos escolher <span class="math inline">\(\boldsymbol{G}_t\)</span> tal que <span class="math display">\[\boldsymbol{\theta}_t=\boldsymbol{G}_t\boldsymbol{\theta}_{t-1}=\boldsymbol{G}_t\left(\begin{array}{c}
-        \psi_{0} \\
-        \psi_{1} \\
-        \vdots \\
-        \psi_{p-2}\\
-        \psi_{p-1}
-    \end{array}\right)_{t-1}=\left(\begin{array}{c}
-        \psi_{1} \\
-        \psi_{2} \\
-        \vdots \\
-        \psi_{p-1}\\
-        \psi_{0}
-    \end{array}\right)_t\]</span></p>
-<p>Isto pode ser feito utilizando a matriz de permutação</p>
-<p><span class="math display">\[\boldsymbol{P}=\left(\begin{array}{cc}
-    0 &amp; \boldsymbol{I}_{p-1} \\
-    1 &amp; \boldsymbol{0}_{p-1}'
-\end{array}\right).\]</span></p>
-<p>O MLD resultante é <span class="math inline">\(\{\boldsymbol{E}_p,\boldsymbol{P},.,\}\)</span> e a função de previsão é dada por</p>
-<p><span class="math display">\[f_t(h)=\boldsymbol{E}_p\boldsymbol{P}^h \boldsymbol{m}_t=m_{k,t},\]</span></p>
-<p>onde <span class="math display">\[k = (h+p\hbox{ mod }p) +1\]</span></p>
-<p>Como alternativa, podemos utilizar a matriz</p>
-<p><span class="math display">\[\boldsymbol{G}=\left(\begin{array}{cc}
-               \textbf{0}_{p-2} &amp; \textbf{I}_{p-2} \\
-               -1 &amp; -\textbf{1}_{p-2}
-               \end{array}\right),\]</span></p>
-<p>que também é uma matriz de permutação, com a restrição de soma nula já incorporada. É essa representação que está implementada no pacote </p>
-<div class="alert alert-info">
-<p><strong>Temperatura no Castelo de Nottinghan</strong></p>
-<p>Inserir o exemplo aqui</p>
-</div>
-</section>
-<section id="o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="o-modelo-linear-dinâmico-sazonal-com-representação-em-série-de-fourrier"><span class="header-section-number">8.3</span> O modelo linear dinâmico sazonal com representação em série de Fourrier</h2>
-<p>Quando a sazonalidade, de período <span class="math inline">\(p\)</span>, pode ser explicada por uma onda, vimos que podemos empregar o uso dos harmônicos: <span class="math display">\[g_j(t) = A_j\cos\left(\frac{2\pi j}{p}t + \phi\right)=b_{1,j}\cos\left(\frac{2\pi j}{p}t\right)+b_{2,j}\sin\left(\frac{2\pi j}{p}t\right).\]</span> onde $j=0,,p/2 $. Note que os fatores sazonais podem ser recuperados. Por exemplo, o <span class="math inline">\(i\)</span>-ésimo fator sazonal é descrito como</p>
-<p><span class="math display">\[\psi_i = \sum_{j=0}^{\lceil p/2 \rceil} g_j(i)=\sum_{j=0}^{\lceil p/2 \rceil}b_{1,j}\cos\left(\frac{2\pi j}{p}i\right)+b_{2,j}\sin\left(\frac{2\pi j}{p}i\right)\]</span></p>
-<p>Definindo o número de harmônicos como <span class="math inline">\(q\)</span>, onde <span class="math inline">\(1\leq q \leq \lceil p/2 \rceil\)</span>, procuramos por um modelo que satisfaz <span class="math display">\[y_t= \sum_{j=1}^q a_{t,j}\cos\left(\frac{2\pi j}{p}t\right)+b_{t,j}\sin\left(\frac{2\pi j}{p}t\right)+\nu_t,\]</span> ou seja, que tenha as componentes da regressão harmônica dinâmicas.</p>
-<p>As amplitudes dinâmicas (<span class="math inline">\(\alpha_{j,t}\)</span>) e as fases (<span class="math inline">\(\phi_{j,t}\)</span>) podem ser recuperadas usando <span class="math display">\[\alpha_{j,t} = \sqrt{a_{j,t}^2+b_{j,t}}^2\]</span> e <span class="math display">\[\phi_{j,t}=\cos^{-1}\left(\frac{a_{j,t}}{\alpha_{j,t}}\right)\]</span></p>
-<p>Para o harmônico <span class="math inline">\(j\)</span>, considere a quádrupla <span class="math inline">\(\{\boldsymbol{E}_2,\boldsymbol{G}_j,.,.\}\)</span> onde<br>
-<span class="math display">\[\begin{align*}
-\boldsymbol{G}_{j} = \left(\begin{array}{cc}
-                   \cos(\gamma_j) &amp; \sin(\gamma_j)\\
-                   -\sin(\gamma_j) &amp; \cos(\gamma_j)
-                   \end{array}\right).
-\end{align*}\]</span> e <span class="math inline">\(\gamma_j=2\pi j/p\)</span>. É sempre verdade que</p>
-<p><span class="math display">\[\boldsymbol{G}_{j}^t=\left(\begin{array}{cc}
-                     \cos(\gamma_jt) &amp; \sin(\gamma_jt)\\
-                     -\sin(\gamma_jt) &amp; \cos(\gamma_jt)
-                     \end{array}\right)\]</span></p>
-<p>Sem perda de generalidade, assuma que <span class="math inline">\(\boldsymbol{W}_t\)</span> é a matriz nula. Então</p>
-<p><span class="math display">\[\begin{align*}
-\boldsymbol{\theta}_{t}&amp;= \boldsymbol{G}_j\boldsymbol{\theta}_{t-1}=\cdots = \boldsymbol{G}_j^t\boldsymbol{\theta}_0
-\end{align*}\]</span> Então, <span class="math display">\[\begin{align*}
-y_t&amp;=\boldsymbol{E}_2'\boldsymbol{\theta}_t +\nu_t= \boldsymbol{E}_p'\boldsymbol{G}_j^t\boldsymbol{\theta}_0 +\nu_t\\
-&amp;=\theta_{0,1}\cos(\gamma_j t) + \theta_{0,2}\sin(\gamma_j t)+\nu,
-\end{align*}\]</span> ou seja, o modelo de regressão harmônica clássico com o <span class="math inline">\(j\)</span>-ésimo harmônico. Fazendo <span class="math inline">\(\boldsymbol{W}_t\)</span> diferente da matriz nula, temos que <span class="math inline">\(\boldsymbol{\theta}_t\)</span> são as componentes dinâmicas do modelo de regressão harmônica.</p>
-<p>O MLD resultante é dado por <span class="math inline">\(\{\boldsymbol{E}_2,\boldsymbol{G}_{2,j},.,\}\)</span>. Entretanto, este modelo compreende apenas o <span class="math inline">\(j\)</span>-ésimo harmônico. Considerando então que <span class="math inline">\(y_{i,h}\)</span> segue um MLD <span class="math inline">\(\{\boldsymbol{E}_2,\boldsymbol{G}_{2,h},.,.\}\)</span>, onde <span class="math inline">\(h=1,\ldots,q\)</span>, podemos aplicar o Teorema da superposição para mostrar que <span class="math inline">\(y_t=\sum_{j=1}^{q}y_{j,t}\)</span> é um MLD com quádrupla <span class="math inline">\(\{\boldsymbol{F},\boldsymbol{G},.,.\}\)</span> onde</p>
-<p><span class="math display">\[\boldsymbol{F}=\left(\boldsymbol{E}_2,\ldots,\boldsymbol{E}_2\right)\]</span> <span class="math display">\[\boldsymbol{G}=\hbox{Block diag}\left(\boldsymbol{G}_{2,1},\ldots,\boldsymbol{G}_{2,q}\right).\]</span></p>
-<p>Nota técnica: se <span class="math inline">\(j=p/2\)</span>, temos que trocar <span class="math inline">\(\boldsymbol{E}_2'\)</span> por (1,-1).</p>
-<div id="exm-" class="alert alert-info theorem example">
-<p><span class="theorem-title"><strong>Example 8.2</strong></span> <strong>Nascimentos em Nova York</strong></p>
-</div>
+<p><span class="math display">\[\mu_t=\boldsymbol{F}_t'\boldsymbol{\theta}_t=\sum_{j=0}^{k}\theta_{t,j+1}x_{t-j}\]</span></p>
+<ol start="4" type="1">
+<li>Superfícies de resposta dinâmicas: polinômios de ordens maiores podem ser acrescentados, gerando um modelo de superfície de resposta. Por exemplo, o modelo com média da equação das observações</li>
+</ol>
+<p><span class="math display">\[\mu_t=\beta_t x_t+\gamma_t z_t\]</span> pode ser expandido para incluir os termos quadráticos <span class="math inline">\(x_t^2\)</span> e <span class="math inline">\(z^2_t\)</span> e o produto cruzado <span class="math inline">\(x_t z_t\)</span>.</p>
+<ol start="5" type="1">
+<li>Variáveis classificadoras: variáveis classificadoras, ou fatores, podem ser incluídas utilizando variáveis binárias (<em>dummy</em>). Tais variáveis podem ser úteis para representar comportamentos atípicos mas esperados, como o volume de vendas em certos feriados para séries temporais diárias ou as falas de um presidente sobre alguma empresa na bolsa de valores e para a análise de intervenção (quando sabemos que a série é afetada por alguma causa nova).</li>
+</ol>
+<p>Para os fatores de descontos, é recomendado:</p>
+<ul>
+<li><p>Utilizar um fator de descontos para cada variável regressora</p></li>
+<li><p>Utilizar um único fator de descontos para variáveis com fatores de calssificação.</p></li>
+</ul>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -793,13 +669,13 @@ y_t&amp;=\boldsymbol{E}_2'\boldsymbol{\theta}_t +\nu_t= \boldsymbol{E}_p'\boldsy
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./polinomial.html" class="pagination-link" aria-label="Modelo linear dinâmico polinomial">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Modelo linear dinâmico polinomial</span></span>
+      <a href="./mld_sazonal.html" class="pagination-link" aria-label="Modelos lineares dinâmicos sazonais">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modelos lineares dinâmicos sazonais</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./regressao_dinamica.html" class="pagination-link" aria-label="Regresssão Dinâmica">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Regresssão Dinâmica</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./intervencao.html" class="pagination-link" aria-label="Monitoramento e intervenção">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Monitoramento e intervenção</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
