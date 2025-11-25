@@ -18,6 +18,7 @@ book:
     - mld_sazonal.qmd
     - regressao_dinamica.qmd
     - intervencao.qmd
+    - aplicacoes.qmd
     - references.qmd
 
 bibliography: references.bib
